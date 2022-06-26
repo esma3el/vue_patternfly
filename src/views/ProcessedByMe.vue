@@ -1,5 +1,5 @@
 <template>
-  <div>    
+  <div>
     <table
       class="pf-c-table pf-m-compact pf-m-grid-md"
       role="grid"
@@ -7,7 +7,6 @@
       id="table-basic"
     >
       <caption>
-        This is the table caption
       </caption>
       <thead>
         <tr role="row">
@@ -20,32 +19,51 @@
       </thead>
 
       <tbody role="rowgroup" v-if="$apollo.loading">
-        ...loading
+        <pf-spinner />
       </tbody>
       <tbody role="rowgroup" v-else>
         <tr role="row" v-for="process in processes">
           <td role="cell" data-label="Ticket ID">
-            <router-link v-if="process.tasks[0]" :to="`/${process.processid}/${process.id}/${process.tasks[0]?.name}/${process.tasks[0]?.id}`">{{process.businesskey}}</router-link>
-            <router-link v-else :to="`/${process.processid}/${process.id}`">{{process.businesskey}}</router-link>
+            <router-link
+              v-if="process.tasks[0]"
+              :to="`/${process.processid}/${process.id}/${process.tasks[0]?.name}/${process.tasks[0]?.id}`"
+              >{{ process.businesskey }}</router-link
+            >
+            <router-link v-else :to="`/${process.processid}/${process.id}`">{{
+              process.businesskey
+            }}</router-link>
           </td>
-          <td v-if="process.tasks[0]" role="cell" data-label="Ticket State"> {{process.tasks[0]?.referencename}}</td>
-          <td v-else role="cell" data-label="Ticket State"> Closed</td>
-          <td v-if="process.tasks[0]" role="cell" data-label="Handler"> {{process.tasks[0]?.tasks_potential_users[0]?.user_id}}</td>
+          <td v-if="process.tasks[0]" role="cell" data-label="Ticket State">
+            {{ process.tasks[0]?.referencename }}
+          </td>
+          <td v-else role="cell" data-label="Ticket State">Closed</td>
+          <td v-if="process.tasks[0]" role="cell" data-label="Handler">
+            {{ process.tasks[0]?.tasks_potential_users[0]?.user_id }}
+          </td>
           <td v-else role="cell" data-label="Handler"></td>
-          <td role="cell" data-label="Process Name">{{process.processname}}</td>
-          <td role="cell" data-label="Created">{{process.starttime}}</td>
+          <td role="cell" data-label="Process Name">
+            {{ process.processname }}
+          </td>
+          <td role="cell" data-label="Created">{{ process.starttime }}</td>
         </tr>
       </tbody>
     </table>
+    <pf-pagination
+      v-model:page="page"
+      v-model:per-page="perPage"
+      :count="processes_aggregate.aggregate.count"
+    />
+    
   </div>
+
 </template>
 
 <script>
 import gql from "graphql-tag";
 
 const GET_PENDING_DATA = gql`
-  query ($user: String!) {
-  processes(where: {tasks: {actualowner: {_eq: $user}}}) {
+  query ($user: String!, $limit: Int!, $offset: Int!) {
+  processes(where: {tasks: {actualowner: {_eq: $user}}}, limit: $limit, offset: $offset) {
     id
     processid
     businesskey
@@ -56,9 +74,14 @@ const GET_PENDING_DATA = gql`
       state
       name
       referencename
-      tasks_potential_users{
+      tasks_potential_users {
         user_id
       }
+    }
+  }
+  processes_aggregate (where: {tasks: {actualowner: {_eq: $user}}}) {
+    aggregate {
+      count
     }
   }
 }
@@ -66,12 +89,37 @@ const GET_PENDING_DATA = gql`
 export default {
   name: "ProcessedByMe",
   data() {
-    return {};
+    return {
+    perPage:4,
+    page:1,
+    offset:(this.page - 1) * this.perPage
+    };
+  },watch:{
+      page(){
+        this.offset = (this.page - 1) * this.perPage
+      }
+  },mounted(){
+    
   },
-  apollo: { processes:{
-    query:GET_PENDING_DATA,
-    variables:{user:JSON.parse(window.localStorage.getItem("userInfo"))?.username}
-  }  },
+  apollo: {
+    processes: {
+      query: GET_PENDING_DATA,
+      variables(){ return {
+        user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+        limit:this.perPage,
+        offset:this.offset
+      }}
+    },   
+   processes_aggregate: {
+      query: GET_PENDING_DATA,
+      variables(){ return {
+        user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+        limit:this.perPage,
+        offset:this.offset
+      }}
+    },   
+
+  },
 };
 </script>
 

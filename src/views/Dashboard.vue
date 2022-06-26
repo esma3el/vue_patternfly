@@ -26,8 +26,11 @@
     </div>
     <br /><br /><br />
     <pf-divider />
+    <!-- <pre>{{tickets_per_date_data}}</pre> -->
     <pre>{{ tickets_per_function_data[0][0] }}</pre>
     <pre>{{ tickets_per_employee_data[0][0] }}</pre>
+    <pre>{{ total_opened_tickets_data[0][0] }}</pre>
+    <!-- <pre>{{ tickets_per_date_data}}</pre> -->
     <div class="pf-l-grid" style="gap: 1em; margin-bottom: 1em">
       <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-5-col-on-xl">
         <fusioncharts
@@ -87,7 +90,7 @@
               </td>
             </tr>
           </tbody>
-        </table>                
+        </table>
       </div>
     </div>
   </div>
@@ -96,10 +99,6 @@
 <script>
 import FusionCharts from "fusioncharts";
 import gql from "graphql-tag";
-
-const mydata = [
-  
-];
 
 const schema = [
   {
@@ -131,6 +130,15 @@ const TICKETS_PER_FUNCTION = gql`
   }
 `;
 
+const TOTAL_OPEN_TICKETS = gql`
+  query {
+    total_opened_tickets {
+      count
+      processname
+    }
+  }
+`;
+
 const TICKETS_PER_DATE = gql`
   query {
     ticket_per_date {
@@ -142,7 +150,7 @@ const TICKETS_PER_DATE = gql`
 
 const dataSource1 = {
   chart: {
-    caption: "Market Share of Web Servers",
+    caption: "Total Opened Tickets",
     plottooltext: "<b>$percentValue</b> of web servers run on $label servers",
     showLegend: "1",
     showPercentValues: "1",
@@ -219,43 +227,49 @@ export default {
       type: "column2d",
       dataFormat: "json",
       dataSource: dataSource,
+      mydata:[]
     };
   },
-  mounted() {
-    const fusionTable = new FusionCharts.DataStore().createDataTable(
-      this.tickets_per_date_data,
-      schema
-    );
-    this.data1.dataSource.data = fusionTable;
-  },
   computed: {
+    total_opened_tickets_data() {
+      return (this.data.dataSource.data = this.total_opened_tickets.map((row) => ({
+        label: row.processname,
+        value: row.count,
+      })));
+    },
     tickets_per_function_data() {
-      return this.dataSource.data = this.tickets_per_function.map((row) => ({
+      return (this.dataSource.data = this.tickets_per_function.map((row) => ({
         label: row.domain,
-        value: row.count
-      }));
+        value: row.count,
+      })));
     },
     tickets_per_employee_data() {
-      return this.data.dataSource.data = this.totla_tickets_per_employess.map(row => ({
+      return (this.data.dataSource.data = this.totla_tickets_per_employess.map(
+        (row) => ({
           label: row.creator,
-          value: row.total
+          value: row.total,
         })
-      );
+      ));
     },
     tickets_per_date_data() {
-      return this.mydata = this.ticket_per_date.map(row => ([row.firstoccurtime,row.count]))
-    }
-  },methods:{
-    test(){
-      this.$apolloProvider.defaultClient.query({
-        query:TICKETS_PER_DATE
-      }).then(res => console.log('reeeeeeees',res)).catch(err=> console.log(err))
-    }
+      return this.ticket_per_date.map((row) => [
+        row.count,
+        row.firstoccurtime,
+      ]);
+    },
+  },
+  methods: {    
+    // test(){
+    //   this.$apolloProvider.defaultClient.query({
+    //     query:TICKETS_PER_DATE
+    //   }).then(res => console.log('reeeeeeees',res)).catch(err=> console.log(err))
+    // }
   },
   apollo: {
     tickets_per_function: TICKETS_PER_FUNCTION,
     totla_tickets_per_employess: TOTAL_TICKETS_PER_EMPLOYESS,
-    ticket_per_date: TICKETS_PER_DATE
+    ticket_per_date: TICKETS_PER_DATE,
+    total_opened_tickets: TOTAL_OPEN_TICKETS,
   },
 };
 </script>

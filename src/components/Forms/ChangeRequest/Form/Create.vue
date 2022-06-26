@@ -11,6 +11,39 @@ query {
   }
 }
 `
+const GET_REGION = gql`
+query {
+  region {
+    keycode
+  }
+}
+
+`;
+const GET_CHANGE_TYPE  = gql`
+query($type: String!){
+  change_type(where: {change_category: { keycode: {_eq: $type}}}) {
+    keycode
+  }
+}
+`;
+
+const GET_CHANGE_ITEM  = gql`
+query($type: String!){
+  change_item(where: {change_type: { keycode: {_eq: $type}}}) {
+    keycode
+  }
+}
+`;
+
+const GET_PRIORITY = gql`
+ query {
+  change_priority {
+    keycode
+  }
+}
+
+`;
+
 const SEARCH_QUERY = gql`
   query {
     region {
@@ -58,7 +91,11 @@ export default {
         owner: "hsm",
         owners: "hsm",
       },      
-      test:[]
+      changeCategorydata:[],
+      changeTypedata:[],
+      changeitemdata:[],
+      regiondata:[],
+      prioritydata:[],
     };
   },mounted(){    
                            
@@ -73,10 +110,32 @@ export default {
     },
   },
   methods: {
-    test1(){
+    getprioritydata(){
+      this.$apolloProvider.defaultClient.query({
+        query:GET_PRIORITY
+      }).then(res => this.prioritydata = res.data.change_priority.map(res=> res.keycode)); 
+    },
+    getregiondata(){
+      this.$apolloProvider.defaultClient.query({
+        query:GET_REGION
+      }).then(res => this.regiondata = res.data.region.map(res=> res.keycode)); 
+    },
+    getchangeitemdata(){
+      this.$apolloProvider.defaultClient.query({
+        query:GET_CHANGE_ITEM,
+          variables:{type:this.data.changeType}
+      }).then(res => this.changeitemdata = res.data.change_item.map(row=> row.keycode)); 
+    },
+    getchangetypedata(){
+      this.$apolloProvider.defaultClient.query({
+        query:GET_CHANGE_TYPE,
+          variables:{type:this.data.changeCategory}
+      }).then(res => this.changeTypedata = res.data.change_type.map(row=> row.keycode)); 
+    },
+    getchangeCategorydata(){
       this.$apolloProvider.defaultClient.query({        
           query:GET_CHANGE_CATEGORY          
-      }).then(res => this.test = res.data.change_category.map(row=> row.keycode)); 
+      }).then(res => this.changeCategorydata = res.data.change_category.map(row=> row.keycode)); 
     },
     async upload() {
       let formData = new FormData();
@@ -217,12 +276,10 @@ export default {
                   :onblur="check"
                   name=""
                   id=""   
-                  @click="test1"               
-                  @change=""
+                  @click="getchangeCategorydata"               
                 >
-                  <option value="" disabled ></option>
                   <option value="" v-if="$apollo.loading">...loading</option>                                    
-                  <option :value="item" v-else v-for="item in test">{{item}}</option>                  
+                  <option :value="item" v-else v-for="item in changeCategorydata">{{item}}</option>                  
                 </select>
               </div>
             </pf-form-group>
@@ -231,26 +288,51 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="Change Type" required field-id="changeType">
-              <pf-text-input
-                id="changeType_input"
-                name="changeType"
-                required
-                v-model="data.changeType"
-              />
+          <pf-form-group>
+            <div class="pf-c-form__group-label">
+              <label class="pf-c-form__label" for="Change Category">
+                <span class="pf-c-form__label-text">Change Type</span>
+              </label>
+            </div>
+              <div class="pf-c-form__group-control">
+                <select
+                  class="pf-c-form-control"
+                  v-model="data.changeType"
+                  required
+                  :onblur="check"
+                  name=""
+                  id=""   
+                  @click="getchangetypedata"               
+                >
+                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <option :value="item" v-else v-for="item in changeTypedata">{{item}}</option>                  
+                </select>
+              </div>
             </pf-form-group>
           </div>
           <!-- changeItem -->
-          <div
+           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="Change Item" required field-id="changeItem">
-              <pf-text-input
-                id="changeItem_input"
-                name="changeItem"
+          <pf-form-group>
+            <div class="pf-c-form__group-label">
+              <label class="pf-c-form__label" for="Change item">
+                <span class="pf-c-form__label-text">Change Item</span>
+              </label>
+            </div>
+              <div class="pf-c-form__group-control">
+                <select
                 required
-                v-model="data.changeItem"
-              />
+                  class="pf-c-form-control"
+                  v-model="data.changeItem"                                    
+                  name=""
+                  id=""   
+                  @click="getchangeitemdata"               
+                >
+                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <option :value="item" v-else v-for="item in changeitemdata">{{item}}</option>                  
+                </select>
+              </div>
             </pf-form-group>
           </div>
         </div>
@@ -318,16 +400,27 @@ export default {
         <div class="pf-l-grid">
           <!--  -->
           <!-- priority -->
-          <div
+         <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="Priority" required field-id="priority">
-              <pf-text-input
-                id="priority_input"
-                name="priority"
-                required
-                v-model="data.priority"
-              />
+          <pf-form-group>
+            <div class="pf-c-form__group-label">
+              <label class="pf-c-form__label" for="Change Category">
+                <span class="pf-c-form__label-text">Priority</span>
+              </label>
+            </div>
+              <div class="pf-c-form__group-control">
+                <select
+                  class="pf-c-form-control"
+                  v-model="data.priority"                                    
+                  name=""
+                  id=""   
+                  @click="getprioritydata"               
+                >
+                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <option :value="item" v-else v-for="item in prioritydata">{{item}}</option>                  
+                </select>
+              </div>
             </pf-form-group>
           </div>
           <!-- vendorId -->
@@ -345,41 +438,25 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group>
-              <label class="pf-c-form__group-label" for="">Region</label>
+          <pf-form-group>
+            <div class="pf-c-form__group-label">
+              <label class="pf-c-form__label" for="Change Category">
+                <span class="pf-c-form__label-text">Region</span>
+              </label>
+            </div>
               <div class="pf-c-form__group-control">
                 <select
-                  :class="err"
                   class="pf-c-form-control"
-                  v-model="data.region"
-                  required
-                  :onblur="check"
+                  v-model="data.region"                                    
                   name=""
-                  id=""
+                  id=""   
+                  @click="getregiondata"               
                 >
-                  <option value="" disabled></option>
-                  <option value="Kordofan">Kordofan</option>
-                  <option value="Central">Central</option>
-                  <option value="Eastern">Eastern</option>
-                  <option value="Gadaref">Gadaref</option>
-                  <option value="Khartoum">Khartoum</option>
-                  <option value="Red Sea">Red Sea</option>
-                  <option value="River Nile">River Nile</option>
-                  <option value="Blue Nile">Blue Nile</option>
-                  <option value="Other">Other</option>
-                  <option value="Darfor">Darfor</option>
-                  <option value="Kordofan">Kordofan</option>
+                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <option :value="item" v-else v-for="item in regiondata">{{item}}</option>                  
                 </select>
               </div>
             </pf-form-group>
-            <!-- <pf-form-group label="Region" required field-id="region">
-              <pf-text-input
-                id="region_input"
-                name="region"
-                v-model="data.region"
-                required
-              />
-            </pf-form-group> -->
           </div>
         </div>
         <!--startTimeForImpact-->
