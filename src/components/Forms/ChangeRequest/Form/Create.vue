@@ -1,9 +1,35 @@
 <script>
+import VueMultiselect from "vue-multiselect";
+import { useMutation, useQuery, useResult } from "@vue/apollo-composable";
+import gql from "graphql-tag";
+import VueUploadComponent from "vue-upload-component";
+
+const GET_CHANGE_CATEGORY = gql`
+query {
+  change_category {
+    keycode
+  }
+}
+`
+const SEARCH_QUERY = gql`
+  query {
+    region {
+      region_id_text
+    }
+  }
+`;
+
 export default {
   name: "Create",
+  components: { VueMultiselect, FileUpload: VueUploadComponent },
   data() {
-    return {            
-      token:window.localStorage.getItem('token'),
+    return {
+      files: [],
+      selected: [],
+      options: [],
+      isLoading: false,
+      token: window.localStorage.getItem("token"),
+      err: "",
       data: {
         ticketTitle: "",
         changeSource: "",
@@ -30,32 +56,84 @@ export default {
         implementer: "",
         implementers: "",
         owner: "hsm",
-        owners: "hsm"
-      }
+        owners: "hsm",
+      },      
+      test:[]
     };
-  },methods:{
-        async submitData(){
-          console.log(JSON.stringify({'data':this.data}))
-          const req = fetch('http://172.29.2.97:8080/api/changeRequests',
-          {            
-            headers:{              
-              'Content-Type': 'application/json',
-              'Authorization':'Bearer ' + this.token
-            },
-              method:'POST',
-              body: JSON.stringify({'data':this.data})
-          }).then(data => console.log(data)).error(err => console.log(err)) 
-        }
-      }
+  },mounted(){    
+                           
+  },
+  computed: {
+    
+    check() {
+      return (this.err = this.data.region && "pf-m-success");
+    },
+    useroptions() {
+      return this.region.map((row) => row.region_id_text);
+    },
+  },
+  methods: {
+    test1(){
+      this.$apolloProvider.defaultClient.query({        
+          query:GET_CHANGE_CATEGORY          
+      }).then(res => this.test = res.data.change_category.map(row=> row.keycode)); 
+    },
+    async upload() {
+      let formData = new FormData();
+      this.files.map((file) => {
+        formData.append(file.name, file);
+      });
+      const req = await fetch(
+        "http://172.29.2.97:8080/api/attachments",
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + this.token,
+          },
+        },
+      );
+      const res = await req.json();
+      console.log(res);
+    },
+    del_item(e) {
+      this.files = this.files.filter((name) => name != e);
+    },
+    async submitData() {
+      console.log(JSON.stringify({ data: this.data }));
+      const req = fetch("http://172.29.2.97:8080/api/changeRequests", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + this.token,
+        },
+        method: "POST",
+        body: JSON.stringify({ data: this.data }),
+      })
+        .then((data) => console.log(data))
+        .error((err) => console.log(err));
+    },
+  },
+  apollo: {
+    region: {
+      query: SEARCH_QUERY,
+    },
+  },
 };
 </script>
 
 <template>
-  <pf-form @submit.prevent="submitData" class="pf-l-grid">
+  <pf-form
+    @submit.prevent="submitData"
+    class="pf-l-grid"
+    v-if="$apollo.loading"
+  >
+    ...loading
+  </pf-form>
+  <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else>
     <div class="pf-l-grid">
-      <pre>{{token}}</pre>
       <!-- Row 1 -->
-      <!-- Title -->
+      <!-- Title -->            
       <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl">
         <pf-form-group label="Title" required field-id="form-title-group">
           <pf-text-input
@@ -125,17 +203,28 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group
-              label="Change Category"
-              required
-              field-id="changeCategory_group"
-            >
-              <pf-text-input
-                id="changeCategory_input"
-                name="changeCategory"
-                required
-                v-model="data.changeCategory"
-              />
+          <pf-form-group>
+            <div class="pf-c-form__group-label">
+              <label class="pf-c-form__label" for="Change Category">
+                <span class="pf-c-form__label-text">Change Category</span>
+              </label>
+            </div>
+              <div class="pf-c-form__group-control">
+                <select
+                  class="pf-c-form-control"
+                  v-model="data.changeCategory"
+                  required
+                  :onblur="check"
+                  name=""
+                  id=""   
+                  @click="test1"               
+                  @change=""
+                >
+                  <option value="" disabled ></option>
+                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <option :value="item" v-else v-for="item in test">{{item}}</option>                  
+                </select>
+              </div>
             </pf-form-group>
           </div>
           <!-- Change Type -->
@@ -256,14 +345,41 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="Region" required field-id="region">
+            <pf-form-group>
+              <label class="pf-c-form__group-label" for="">Region</label>
+              <div class="pf-c-form__group-control">
+                <select
+                  :class="err"
+                  class="pf-c-form-control"
+                  v-model="data.region"
+                  required
+                  :onblur="check"
+                  name=""
+                  id=""
+                >
+                  <option value="" disabled></option>
+                  <option value="Kordofan">Kordofan</option>
+                  <option value="Central">Central</option>
+                  <option value="Eastern">Eastern</option>
+                  <option value="Gadaref">Gadaref</option>
+                  <option value="Khartoum">Khartoum</option>
+                  <option value="Red Sea">Red Sea</option>
+                  <option value="River Nile">River Nile</option>
+                  <option value="Blue Nile">Blue Nile</option>
+                  <option value="Other">Other</option>
+                  <option value="Darfor">Darfor</option>
+                  <option value="Kordofan">Kordofan</option>
+                </select>
+              </div>
+            </pf-form-group>
+            <!-- <pf-form-group label="Region" required field-id="region">
               <pf-text-input
                 id="region_input"
                 name="region"
                 v-model="data.region"
                 required
               />
-            </pf-form-group>
+            </pf-form-group> -->
           </div>
         </div>
         <!--startTimeForImpact-->
@@ -312,7 +428,7 @@ export default {
               field-id="endTimeForImpact"
             >
               <pf-text-input
-              type="datetime-local"
+                type="datetime-local"
                 id="endTimeForImpact_input"
                 name="endTimeForImpact"
                 required
@@ -332,7 +448,7 @@ export default {
               field-id="plannedStartTime"
             >
               <pf-text-input
-              type="datetime-local"
+                type="datetime-local"
                 id="plannedStartTime_input"
                 name="plannedStartTime"
                 required
@@ -349,7 +465,7 @@ export default {
               field-id="plannedEndTime"
             >
               <pf-text-input
-              type="datetime-local"
+                type="datetime-local"
                 id="plannedEndTime_input"
                 name="plannedEndTime"
                 required
@@ -426,7 +542,7 @@ export default {
           <div class="pf-l-grid">
             <!--  -->
             <div
-              class="pf-l-grid__item pf-m-2-col pf-m-2-col-on-md pf-m-2-col-on-xl"
+              class="pf-l-grid__item pf-m-2-col pf-m-2-col-on-md pf-m-8-col-on-xl"
             >
               <pf-form-group
                 label="Attachment"
@@ -437,26 +553,69 @@ export default {
                   id="simple-form-name-01"
                   name="simple-form-name-01"
                 />
-                <pf-button variant="secondary">Attachment</pf-button>
+                <pf-button variant="secondary">
+                  <file-upload
+                    ref="upload"
+                    v-model="files"
+                    :multiple="true"
+                    post-action="/post.method"
+                    put-action="/put.method"
+                    @input-file="inputFile"
+                    @input-filter="inputFilter"
+                  >
+                    Attachment
+                  </file-upload>
+                </pf-button>
               </pf-form-group>
+            </div>
+          </div>
+          <div class="pf-l-grid">
+            <div
+              class="pf-l-grid__item pf-m-2-col pf-m-2-col-on-md pf-m-8-col-on-xl"
+            >
+              <pf-chip-group v-for="file in files">
+               <div class="pf-c-chip">
+                <span class="pf-c-chip__text" id="chip_one">{{file.name}}</span>
+                <button
+                @click="del_item(file)"
+                  class="pf-c-button pf-m-plain"
+                  type="button"
+                  aria-labelledby="remove_chip_one chip_one"
+                  aria-label="Remove"
+                  id="remove_chip_one"
+                >
+                  <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
+              </pf-chip-group>
+              <br>
+              <pf-button @click="upload"  variant="primary">Upload</pf-button>
+             
             </div>
           </div>
         </div>
         <!-- Row 11 -->
+        <div class="pf-l-grid"></div>
         <div class="pf-l-grid">
           <!--  -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
           >
-            <pf-form-group label="implementer" required field-id="implementer">
-              <pf-text-input
-                id="implementer"
-                name="implementer"
-                required
-                v-model="data.implementer"
-              />
+            <pf-form-group label="implementers" field-id="implementers">
+              <VueMultiselect
+                v-model="selected"
+                :multiple="true"
+                :options="useroptions"
+                id="ajax"
+                :searchable="true"
+                :loading="isLoading"
+                @search-change="searchfunc"
+              >
+              </VueMultiselect>
             </pf-form-group>
           </div>
+        </div>
+        <div class="pf-l-grid">
           <!--  -->
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
@@ -475,7 +634,6 @@ export default {
     </pf-card>
     <div class="pf-l-grid">
       <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl">
-        
         <pf-action-group>
           <pf-button type="submit" variant="primary">Submit</pf-button>
           <pf-button variant="link">Cancel</pf-button>
@@ -485,8 +643,11 @@ export default {
   </pf-form>
 </template>
 
-<style>
+<style src="vue-multiselect/dist/vue-multiselect.css">
 .pf-l-grid {
   gap: 2em;
+}
+.multiselect__tag {
+  background: #444548;
 }
 </style>

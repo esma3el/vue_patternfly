@@ -16,10 +16,11 @@ export default {
     <template #skeleton>
       <pf-page-header show-nav-toggle>
         <template #logo>
-          <pf-brand
+          <pf-brand            
             src="https://www.patternfly.org/assets/images/pf_logo.svg"
             style="height: 40px; filter: invert(1)"
-          />
+            
+          />         
         </template>
         <pf-page-header-tools>
           <pf-page-header-tools-group>
@@ -33,16 +34,18 @@ export default {
         <Nav />
       </pf-page-sidebar>
     </template>
-    <main>
-      <pf-page-section>
-        <router-view />
-      </pf-page-section>
-    </main>
+      <section class="pf-c-page__main-section pf-m-limit-width">
+        <div class="pf-c-page__main-body">
+          <router-view />
+          </div>
+      </section>
   </pf-page>
 </template>
 
-<style>
+<style lang="scss">
 @import "@patternfly/patternfly/patternfly.css";
+// @import "@carbon/styles/css/styles.css";
+// @import "@carbon/charts/styles.css";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -50,11 +53,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  font-size: small;
 }
-.side {
-  height: calc(100vh);
+.pf-c-page__main-section {
+  min-height: calc(100vh - 4.75rem);
+  height: 100%;
 }
-main {
-  overflow: hidden;
-}
+
 </style>

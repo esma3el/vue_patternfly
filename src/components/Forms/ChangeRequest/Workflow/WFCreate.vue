@@ -1,46 +1,17 @@
 <script>
 export default {
-  name: "Create",
+  name: "WFCreate",
   data() {
     return {
-      data: {
-        title: "",
-        change_request_source: "",
-        sourceTicketId: "",
-        changeIntention: "",
-        changeCategory: "",
-        changeType: "",
-        changeItem: "",
-        changeReason: "",
-        productId: "",
-        affectedNEType: "",
-        affectedNEId: "",
-        priority: "",
-        vendorId: "",
-        region: "",
-        startTimeForImpact: "",
-        endTimeForImpact: "",
-        affectedServiceId: "",
-        plannedEndTime: "",
-        plannedStartTime: "",
-        workPlan: "",
-        testResult: "",
-        changeDescription: "",
-        implementer: "",
-        implementers: "",
-        changeDescription: "",
-      }
-    };
-  },methods:{
-        async submitData(){
-          const req = fetch('')
-        }
-      }
+    }
+  },props:{
+    data:Array
+  }
 };
 </script>
 
 <template>
-  <pf-form @submit.prevent="submitData" class="pf-l-grid">
+<pf-form @submit.prevent="submitData" class="pf-l-grid">
     <div class="pf-l-grid">
       <!-- Row 1 -->
       <!-- Title -->
@@ -442,30 +413,10 @@ export default {
             </pf-form-group>
           </div>
           <!--  -->
-          <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
-          >
-            <pf-form-group label="implementers" field-id="implementers">
-              <pf-text-input
-                id="implementers"
-                name="implementers"
-                v-model="data.implementers"
-              />
-            </pf-form-group>
-          </div>
           <!--  -->
         </div>
       </pf-card-body>
-    </pf-card>
-    <div class="pf-l-grid">
-      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl">
-        
-        <pf-action-group>
-          <pf-button type="submit" variant="primary">Submit</pf-button>
-          <pf-button variant="link">Cancel</pf-button>
-        </pf-action-group>
-      </div>
-    </div>
+    </pf-card>  
   </pf-form>
 </template>
 

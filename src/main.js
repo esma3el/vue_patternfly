@@ -1,5 +1,5 @@
 import App from "./App.vue";
-import router from "./router"; // <---
+import router from "./router";
 import { createApp, h } from "vue";
 import {
   ApolloClient,
@@ -9,10 +9,25 @@ import {
 import { createApolloProvider } from "@vue/apollo-option";
 import VuePatternfly4 from '@vue-patternfly/core';
 
+import CarbonComponentsVue from '@carbon/vue';
+import chartsVue from "@carbon/charts-vue";
+import VueUploadComponent from 'vue-upload-component'
+
+import Multiselect from "vue-multiselect";
+
+
+import VueFusionCharts from 'vue-fusioncharts';
+import FusionCharts from 'fusioncharts';
+import Column2D from 'fusioncharts/fusioncharts.charts';
+import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import Charts from 'fusioncharts/fusioncharts.charts';
+import TimeSeries from 'fusioncharts/fusioncharts.timeseries';
+
+
 import Keycloak from 'keycloak-js';
 
 const initOptions = {
-    url: 'http://localhost:8480/auth/',
+    url: 'http://172.29.2.97:8480/auth/',
     realm: 'kogito',
     clientId: 'vue-demo'
 };
@@ -38,28 +53,37 @@ const apolloProvider = createApolloProvider({
 //   render: () => h(App),
 // });
 
-const _keycloak = new Keycloak(initOptions);
-_keycloak
-    .init({
-        onLoad: 'login-required',
-    }).then(async () => {
-        window.localStorage.setItem('token', _keycloak.token)
-        // const myprofile = await _keycloak.loadUserProfile()
-        _keycloak.loadUserProfile()
-        .then(function(profile) {
-            const myprofile = JSON.stringify(profile, null, "  ")
-            window.localStorage.setItem('userInfo', myprofile)
-        }).catch(function() {
-            alert('Failed to load user profile');
-        });
-        createApp({
-          render: () => h(App),
-        }).use(VuePatternfly4).use(apolloProvider).use(router).mount("#app");
-    });
+// const _keycloak = new Keycloak(initOptions);
+// _keycloak
+//     .init({
+//         onLoad: 'login-required',
+//     }).then(async () => {
+//         window.localStorage.setItem('token', _keycloak.token)
+//         // const myprofile = await _keycloak.loadUserProfile()
+//         _keycloak.loadUserProfile()
+//         .then(function(profile) {
+//             const myprofile = JSON.stringify(profile, null, "  ")
+//             window.localStorage.setItem('userInfo', myprofile)
+//           }).catch(function() {
+//             alert('Failed to load user profile');
+//           });
+//           createApp({
+//           render: () => h(App),
+//         }).component('file-upload', VueUploadComponent).component('multiselect', Multiselect).use(VuePatternfly4).use(apolloProvider).use(router).mount("#app");
+//     });
 
+const app = createApp({
+  render: () => h(App),
+});
 
+app.component('file-upload', VueUploadComponent);
+app.component('multiselect', Multiselect);
 
-// app.use(VuePatternfly4);
-// app.use(apolloProvider);
-// app.use(router);
-// app.mount("#app");
+app.use(VuePatternfly4);
+app.use(apolloProvider);
+// app.use(chartsVue);
+app.use(VueFusionCharts, FusionCharts, Charts, FusionTheme,TimeSeries);
+app.use(CarbonComponentsVue);
+app.use(router);
+
+app.mount("#app");
