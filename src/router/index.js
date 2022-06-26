@@ -73,6 +73,11 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: ()=> import('../views/Dashboard.vue'),
+  },
+  {
+    path: "/pendingformygroup",
+    name: "pendingformygroup",
+    component: ()=> import('../views/pendingformygroup.vue'),
   }
 ];
 
