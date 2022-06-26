@@ -13,8 +13,19 @@ export default {
     };
   },
   methods: {
-    submitData() {},
-  },
+ async submitData(){
+          console.log(JSON.stringify({'data':this.data}))
+          const req = fetch(`http://172.29.2.97:8080/api/changeRequests/${this.$route.params.id}/managerApprove/${this.$route.params.taskid}`,
+          {            
+            headers:{              
+              'Content-Type': 'application/json',
+              'Authorization':'Bearer ' + window.localStorage.getItem('token')
+            },
+              method:'POST',
+              body: JSON.stringify({'data':this.data})
+          }).then(data => console.log(data)).error(err => console.log(err)) 
+        }
+      }
 };
 </script>
 
@@ -24,7 +35,7 @@ export default {
       <div class="phase-action">
         <pf-card>
           <pf-card-body>
-            <pf-form class="pf-l-grid">
+            <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
@@ -42,7 +53,7 @@ export default {
                       type="radio"
                       name="operationmode"
                       value="Accept"
-                      v-model="data.handleOperationMode"
+                      v-model="data.authorizeManagerOperationMode"
                     />
                   </div>
                 </div>

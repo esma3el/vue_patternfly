@@ -17,7 +17,18 @@ export default {
     };
   },
   methods: {
-    submitData() {},
+     async submitData(){
+          console.log(JSON.stringify({'data':this.data}))
+          const req = fetch(`http://172.29.2.97:8080/api/changeRequests/${this.$route.params.id}/updatePlan/${this.$route.params.taskid}`,
+          {            
+            headers:{              
+              'Content-Type': 'application/json',
+              'Authorization':'Bearer ' + window.localStorage.getItem('token')
+            },
+              method:'POST',
+              body: JSON.stringify({'data':this.data})
+          }).then(data => console.log(data)).error(err => console.log(err)) 
+        }
   },
 };
 </script>
@@ -28,7 +39,7 @@ export default {
       <div class="phase-action">
         <pf-card>
           <pf-card-body>
-            <pf-form class="pf-l-grid">
+            <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
@@ -45,9 +56,7 @@ export default {
                       id="1"
                       type="radio"
                       name="operationmode"
-                      value="Accept"
-                      v-model="data.authorizeCabOperationMode"
-                      
+                      value="Accept"                                            
                     />
                   </div>
                 </div>
@@ -61,8 +70,7 @@ export default {
                       id="2"
                       type="radio"
                       name="operationmode"
-                      value="Reject"                      
-                      v-model="data.authorizeCabOperationMode"
+                      value="Reject"                                            
                     />
                   </div>
                 </div>
@@ -79,7 +87,7 @@ export default {
               <pf-text-input
                 id="startTimeForImpact_input"
                 name="startTimeForImpact"
-                
+                type="datetime-local"
                 v-model="data.startTimeForImpact"
               />
             </pf-form-group>
@@ -95,7 +103,7 @@ export default {
               <pf-text-input
                 id="endTimeForImpact_input"
                 name="endTimeForImpact"
-                
+                type="datetime-local"
                 v-model="data.endTimeForImpact"
               />
             </pf-form-group>
@@ -113,7 +121,7 @@ export default {
               <pf-text-input
                 id="plannedStartTime_input"
                 name="plannedStartTime"
-                
+                type="datetime-local"
                 v-model="data.plannedStartTime"
               />
             </pf-form-group>
@@ -129,7 +137,7 @@ export default {
               <pf-text-input
                 id="plannedEndTime_input"
                 name="plannedEndTime"
-                
+                type="datetime-local"
                 v-model="data.plannedEndTime"
               />
             </pf-form-group>
@@ -147,8 +155,7 @@ export default {
             >
               <pf-text-input
                 id="implementer_input"
-                name="implementer"
-                
+                name="implementer"                
                 v-model="data.implementer"
               />
             </pf-form-group>

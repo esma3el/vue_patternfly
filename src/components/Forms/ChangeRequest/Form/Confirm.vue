@@ -14,7 +14,18 @@ export default {
     };
   },
   methods: {
-    submitData() {},
+     async submitData(){
+          
+          const req = fetch(`http://172.29.2.97:8080/api/changeRequests/${this.$route.params.id}/confirm/${this.$route.params.taskid}`,
+          {            
+            headers:{              
+              'Content-Type': 'application/json',
+              'Authorization':'Bearer ' + window.localStorage.getItem('token')
+            },
+              method:'POST',
+              body: JSON.stringify({'data':this.data})
+          }).then(data => console.log(data)).error(err => console.log(err)) 
+        }
   },
 };
 </script>
@@ -25,7 +36,7 @@ export default {
       <div class="phase-action">
         <pf-card>
           <pf-card-body>
-            <pf-form class="pf-l-grid">
+            <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
@@ -36,13 +47,13 @@ export default {
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
-                    <label class="pf-c-radio__label" for="1">Accepted</label>
+                    <label class="pf-c-radio__label" for="1">Yes</label>
                     <input
                       class="pf-c-radio__input"
                       id="1"
                       type="radio"
                       name="operationmode"
-                      value="Accept"
+                      value="Yes"
                       v-model="data.confirmAccepted"
                     />
                   </div>
@@ -51,13 +62,13 @@ export default {
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
-                    <label class="pf-c-radio__label" for="2">Not Accepted</label>
+                    <label class="pf-c-radio__label" for="2">No</label>
                     <input
                       class="pf-c-radio__input"
                       id="2"
                       type="radio"
                       name="operationmode"
-                      value="Reject"
+                      value="No"
                       v-model="data.confirmAccepted"
                     />
                   </div>

@@ -2,11 +2,10 @@
 export default {
   name: "Create",
   data() {
-    return {            
-      token:window.localStorage.getItem('token'),
+    return {
       data: {
-        ticketTitle: "",
-        changeSource: "",
+        title: "",
+        change_request_source: "",
         sourceTicketId: "",
         changeIntention: "",
         changeCategory: "",
@@ -29,22 +28,12 @@ export default {
         changeDescription: "",
         implementer: "",
         implementers: "",
-        owner: "hsm",
-        owners: "hsm"
+        changeDescription: "",
       }
     };
   },methods:{
         async submitData(){
-          console.log(JSON.stringify({'data':this.data}))
-          const req = fetch('http://172.29.2.97:8080/api/changeRequests',
-          {            
-            headers:{              
-              'Content-Type': 'application/json',
-              'Authorization':'Bearer ' + this.token
-            },
-              method:'POST',
-              body: JSON.stringify({'data':this.data})
-          }).then(data => console.log(data)).error(err => console.log(err)) 
+          const req = fetch('')
         }
       }
 };
@@ -53,7 +42,6 @@ export default {
 <template>
   <pf-form @submit.prevent="submitData" class="pf-l-grid">
     <div class="pf-l-grid">
-      <pre>{{token}}</pre>
       <!-- Row 1 -->
       <!-- Title -->
       <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl">
@@ -62,7 +50,7 @@ export default {
             id="form-title-input"
             name="Title"
             required
-            v-model="data.ticketTitle"
+            v-model="data.title"
           />
         </pf-form-group>
       </div>
@@ -83,7 +71,7 @@ export default {
               <pf-text-input
                 id="change-request-source-input"
                 name="Change Request Source"
-                v-model="data.changeSource"
+                v-model="data.change_request_source"
               />
             </pf-form-group>
           </div>
@@ -293,7 +281,6 @@ export default {
               field-id="startTimeForImpact"
             >
               <pf-text-input
-                type="datetime-local"
                 id="startTimeForImpact_input"
                 name="startTimeForImpact"
                 required
@@ -312,7 +299,6 @@ export default {
               field-id="endTimeForImpact"
             >
               <pf-text-input
-              type="datetime-local"
                 id="endTimeForImpact_input"
                 name="endTimeForImpact"
                 required
@@ -332,7 +318,6 @@ export default {
               field-id="plannedStartTime"
             >
               <pf-text-input
-              type="datetime-local"
                 id="plannedStartTime_input"
                 name="plannedStartTime"
                 required
@@ -349,7 +334,6 @@ export default {
               field-id="plannedEndTime"
             >
               <pf-text-input
-              type="datetime-local"
                 id="plannedEndTime_input"
                 name="plannedEndTime"
                 required

@@ -1,37 +1,19 @@
 <template>
-  <div class="pf-l-grid pf-m-all-6-col-on-md pf-m-gutter">
-    <pf-card>
-      <pf-card-body>
-        <h1>1</h1>
-      </pf-card-body>
-    </pf-card>
-    <pf-card>
-      <pf-card-body>
-        <h1>1</h1>
-      </pf-card-body>
-    </pf-card>
-    <pf-card>
-      <pf-card-body>
-        <h1>1</h1>
-      </pf-card-body>
-    </pf-card>
-    <pf-card>
-      <pf-card-body>
-        </pf-card-body>
-    </pf-card>
-        <small>
-          <pre>{{ rows }}</pre>
-        </small>
-  </div>
+  <!-- <Dashboard /> -->
+<pre>{{userinfo.username}}</pre>
 </template>
 
 <script>
 import gql from "graphql-tag";
 
+
 export default {
   name: "Home",
+  components: { },
   data() {
-    return {};
+    return {
+      userinfo:JSON.parse(window.localStorage.getItem('userInfo'))
+    };
   },
   computed: {
     rows() {

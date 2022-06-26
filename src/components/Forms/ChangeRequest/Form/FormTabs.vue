@@ -31,6 +31,7 @@ const GET_TAB_FORM_DATA = gql`
       affectedserviceid
       affectedneid
       affectednetype
+      workplan
     }
   }
 `;
@@ -38,43 +39,11 @@ const GET_TAB_FORM_DATA = gql`
 export default {
   name: "FormTabs",
   data() {
-    return {
-      data: {
-        title: "",
-        change_request_source: "",
-        sourceTicketId: "",
-        changeIntention: "",
-        changeCategory: "",
-        changeType: "",
-        changeItem: "",
-        changeReason: "",
-        productId: "",
-        affectedNEType: "",
-        affectedNEId: "",
-        priority: "",
-        vendorId: "",
-        region: "",
-        startTimeForImpact: "",
-        endTimeForImpact: "",
-        affectedServiceId: [],
-        plannedEndTime: "",
-        plannedStartTime: "",
-        workPlan: "",
-        testResult: "",
-        changeDescription: "",
-        implementer: [],
-        implementers: [],
-        changeDescription: "",
-      },
-    };
-  },
-  mounted() {
-    console.log("hi");
+    return {};
   },
   props: {
     ticketid: String,
   },
-
   apollo: {
     requests: {
       query: GET_TAB_FORM_DATA,
@@ -89,9 +58,9 @@ export default {
 </script>
 
 <template>
-  <div class="main">
     <pf-card>
-      <pf-card-body>
+      <pf-card-body v-if="$apollo.loading"> ...loading</pf-card-body>
+      <pf-card-body v-else>
         <pf-tabs>
           <pf-tab title="General" :content-ref="$refs.tabGeneral" />
           <pf-tab title="More Details" :content-ref="$refs.tabModeDetails" />
@@ -114,20 +83,20 @@ export default {
               >
                 <pf-text-input
                   id="changeIntention_input"
-                  name="changeIntention"
-                  v-model="data.changeIntention"
+                  disabled name="changeIntention"
+                  :value="requests[0].changeintention"
                 />
               </pf-form-group>
             </div>
             <div
               class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
             >
-              <pf-form-group label="Change Type" required field-id="changeType">
+              <pf-form-group label="Change Type"  field-id="changeType">
                 <pf-text-input
                   id="changeType_input"
-                  name="changeType"
-                  required
-                  v-model="data.changeType"
+                  disabled name="changeType"
+                  
+                  :value="requests[0].changetype"
                 />
               </pf-form-group>
             </div>
@@ -141,8 +110,8 @@ export default {
               >
                 <pf-text-input
                   id="change-request-source-input"
-                  name="Change Request Source"
-                  v-model="data.change_request_source"
+                  disabled name="Change Request Source"
+                  :value="requests[0].changesource"
                 />
               </pf-form-group>
             </div>
@@ -154,14 +123,14 @@ export default {
               >
                 <pf-form-group
                   label="Change Category"
-                  required
+                  
                   field-id="changeCategory_group"
                 >
                   <pf-text-input
                     id="changeCategory_input"
-                    name="changeCategory"
-                    required
-                    v-model="data.changeCategory"
+                    disabled name="changeCategory"
+                    
+                    :value="requests[0].changecategory"
                   />
                 </pf-form-group>
               </div>
@@ -171,14 +140,14 @@ export default {
               >
                 <pf-form-group
                   label="Change Type"
-                  required
+                  
                   field-id="changeType"
                 >
                   <pf-text-input
                     id="changeType_input"
-                    name="changeType"
-                    required
-                    v-model="data.changeType"
+                    disabled name="changeType"
+                    
+                    :value="requests[0].changetype"
                   />
                   <!--  -->
                 </pf-form-group>
@@ -188,14 +157,14 @@ export default {
               >
                 <pf-form-group
                   label="Change Item"
-                  required
+                  
                   field-id="changeItem"
                 >
                   <pf-text-input
                     id="changeItem_input"
-                    name="changeItem"
-                    required
-                    v-model="data.changeItem"
+                    disabled name="changeItem"
+                    
+                    :value="requests[0].changeitem"
                   />
                 </pf-form-group>
               </div>
@@ -211,8 +180,8 @@ export default {
                 >
                   <pf-text-input
                     id="source_ticket_input"
-                    name="sourceTicketId"
-                    v-model="data.sourceTicketId"
+                    disabled name="sourceTicketId"
+                    :value="requests[0].sourceticketid"
                   />
                 </pf-form-group>
               </div>
@@ -222,13 +191,8 @@ export default {
               <div
                 class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
               >
-                <pf-form-group label="Region" required field-id="region">
-                  <pf-text-input
-                    id="region_input"
-                    name="region"
-                    v-model="data.region"
-                    required
-                  />
+                <pf-form-group label="Region"  field-id="region">
+                  <pf-text-input id="region_input" disabled name="region" />
                 </pf-form-group>
               </div>
               <!--  -->
@@ -236,12 +200,12 @@ export default {
               <div
                 class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
               >
-                <pf-form-group label="Priority" required field-id="priority">
+                <pf-form-group label="Priority"  field-id="priority">
                   <pf-text-input
                     id="priority_input"
-                    name="priority"
-                    required
-                    v-model="data.priority"
+                    disabled name="priority"
+                    
+                    :value="requests[0].priority"
                   />
                 </pf-form-group>
               </div>
@@ -255,8 +219,8 @@ export default {
                 <pf-form-group label="Vendor" field-id="vendorId">
                   <pf-text-input
                     id="vendorId_input"
-                    name="vendorId"
-                    v-model="data.vendorId"
+                    disabled name="vendorId"
+                    :value="requests[0].vendorid"
                   />
                 </pf-form-group>
               </div>
@@ -267,14 +231,14 @@ export default {
               >
                 <pf-form-group
                   label="Change Category"
-                  required
+                  
                   field-id="changeCategory_group"
                 >
                   <pf-text-input
                     id="changeCategory_input"
-                    name="changeCategory"
-                    required
-                    v-model="data.changeCategory"
+                    disabled name="changeCategory"
+                    
+                    :value="requests[0].changecategory"
                   />
                 </pf-form-group>
               </div>
@@ -288,8 +252,8 @@ export default {
                 <pf-form-group label="AffectedNEType" field-id="affectedNEType">
                   <pf-text-input
                     id="affectedNEType_inout"
-                    name="affectedNEType"
-                    v-model="data.affectedNEType"
+                    disabled name="affectedNEType"
+                    :value="requests[0].affectednetype"
                   />
                 </pf-form-group>
               </div>
@@ -301,8 +265,8 @@ export default {
                 <pf-form-group label="AffectedNEId" field-id="affectedNEId">
                   <pf-text-input
                     id="affectedNEId_input"
-                    name="affectedNEId"
-                    v-model="data.affectedNEId"
+                    disabled name="affectedNEId"
+                    :value="requests[0].affectedneid"
                   />
                 </pf-form-group>
               </div>
@@ -315,14 +279,14 @@ export default {
               >
                 <pf-form-group
                   label="Planned Start Time"
-                  required
+                  
                   field-id="plannedStartTime"
                 >
                   <pf-text-input
                     id="plannedStartTime_input"
-                    name="plannedStartTime"
-                    required
-                    v-model="data.plannedStartTime"
+                    disabled name="plannedStartTime"
+                    
+                    :value="requests[0].plannedstarttime"
                   />
                 </pf-form-group>
               </div>
@@ -333,14 +297,14 @@ export default {
               >
                 <pf-form-group
                   label="Planned End Time"
-                  required
+                  
                   field-id="plannedEndTime"
                 >
                   <pf-text-input
                     id="plannedEndTime_input"
-                    name="plannedEndTime"
-                    required
-                    v-model="data.plannedEndTime"
+                    disabled name="plannedEndTime"
+                    
+                    :value="requests[0].plannedendtime"
                   />
                 </pf-form-group>
               </div>
@@ -353,14 +317,14 @@ export default {
               >
                 <pf-form-group
                   label="Start Time For Impact"
-                  required
+                  
                   field-id="startTimeForImpact"
                 >
                   <pf-text-input
                     id="startTimeForImpact_input"
-                    name="startTimeForImpact"
-                    required
-                    v-model="data.startTimeForImpact"
+                    disabled name="startTimeForImpact"
+                    
+                    :value="requests[0].starttimeforimpact"
                   />
                 </pf-form-group>
               </div>
@@ -371,14 +335,14 @@ export default {
               >
                 <pf-form-group
                   label="End Time For Impact"
-                  required
+                  
                   field-id="endTimeForImpact"
                 >
                   <pf-text-input
                     id="endTimeForImpact_input"
-                    name="endTimeForImpact"
-                    required
-                    v-model="data.endTimeForImpact"
+                    disabled name="endTimeForImpact"
+                    
+                    :value="requests[0].endtimeforimpact"
                   />
                 </pf-form-group>
               </div>
@@ -397,12 +361,11 @@ export default {
               class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
             >
               <pf-form-group label="Reason for Change" field-id="changeReason">
-                <pf-text-area
+                <pf-textarea
                   id="changeReason_input"
-                  name="changeReason"
-                  v-model="data.changeReason"
+                  disabled name="changeReason"
+                  :value="requests[0].changereason"
                 />
-                <pf-textarea />
               </pf-form-group>
             </div>
           </div>
@@ -419,8 +382,8 @@ export default {
               >
                 <pf-textarea
                   id="changeDescription_input"
-                  name="changeDescription"
-                  v-model="data.changeDescription"
+                  disabled name="changeDescription"
+                  :value="requests[0].changedescription"
                 />
               </pf-form-group>
             </div>
@@ -435,8 +398,8 @@ export default {
               <pf-form-group label="AffectedNEType" field-id="affectedNEType">
                 <pf-text-input
                   id="affectedNEType_inout"
-                  name="affectedNEType"
-                  v-model="data.affectedNEType"
+                  disabled name="affectedNEType"
+                  :value="requests[0].affectednetype"
                 />
               </pf-form-group>
             </div>
@@ -446,14 +409,14 @@ export default {
             >
               <pf-form-group
                 label="Affected ServiceId"
-                required
+                
                 field-id="affectedServiceId"
               >
                 <pf-text-input
                   id="affectedServiceId_input"
-                  name="affectedServiceId"
-                  required
-                  v-model="data.affectedServiceId"
+                  disabled name="affectedServiceId"
+                  
+                  :value="requests[0].affectedserviceid"
                 />
               </pf-form-group>
             </div>
@@ -464,8 +427,8 @@ export default {
               <pf-form-group label="AffectedNEId" field-id="affectedNEId">
                 <pf-text-input
                   id="affectedNEId_input"
-                  name="affectedNEId"
-                  v-model="data.affectedNEId"
+                  disabled name="affectedNEId"
+                  :value="requests[0].affectedneid"
                 />
               </pf-form-group>
             </div>
@@ -476,14 +439,14 @@ export default {
               >
                 <pf-form-group
                   label="Planned Start Time"
-                  required
+                  
                   field-id="plannedStartTime"
                 >
                   <pf-text-input
                     id="plannedStartTime_input"
-                    name="plannedStartTime"
-                    required
-                    v-model="data.plannedStartTime"
+                    disabled name="plannedStartTime"
+                    
+                    :value="requests[0].plannedstarttime"
                   />
                 </pf-form-group>
               </div>
@@ -494,14 +457,14 @@ export default {
               >
                 <pf-form-group
                   label="Planned End Time"
-                  required
+                  
                   field-id="plannedEndTime"
                 >
                   <pf-text-input
                     id="plannedEndTime_input"
-                    name="plannedEndTime"
-                    required
-                    v-model="data.plannedEndTime"
+                    disabled name="plannedEndTime"
+                    
+                    :value="requests[0].plannedendtime"
                   />
                 </pf-form-group>
               </div>
@@ -513,14 +476,14 @@ export default {
               >
                 <pf-form-group
                   label="Start Time For Impact"
-                  required
+                  
                   field-id="startTimeForImpact"
                 >
                   <pf-text-input
                     id="startTimeForImpact_input"
-                    name="startTimeForImpact"
-                    required
-                    v-model="data.startTimeForImpact"
+                    disabled name="startTimeForImpact"
+                    
+                    :value="requests[0].starttimeforimpact"
                   />
                 </pf-form-group>
               </div>
@@ -531,14 +494,14 @@ export default {
               >
                 <pf-form-group
                   label="End Time For Impact"
-                  required
+                  
                   field-id="endTimeForImpact"
                 >
                   <pf-text-input
                     id="endTimeForImpact_input"
-                    name="endTimeForImpact"
-                    required
-                    v-model="data.endTimeForImpact"
+                    disabled name="endTimeForImpact"
+                    
+                    :value="requests[0].endtimeforimpact"
                   />
                 </pf-form-group>
               </div>
@@ -551,8 +514,8 @@ export default {
                 <pf-form-group label="Work Plan" field-id="workPlan">
                   <pf-textarea
                     id="workPlan_input"
-                    name="workPlan"
-                    v-model="data.workPlan"
+                    disabled name="workPlan"
+                    :value="requests[0].workplan"
                   />
                 </pf-form-group>
               </div>
@@ -563,8 +526,8 @@ export default {
                 <pf-form-group label="Test Result" field-id="testResult">
                   <pf-textarea
                     id="testResult_input"
-                    name="testResult"
-                    v-model="data.testResult"
+                    disabled name="testResult"
+                    :value="requests[0].testresult"
                   />
                 </pf-form-group>
               </div>
@@ -581,14 +544,14 @@ export default {
             >
               <pf-form-group
                 label="Planned Start Time"
-                required
+                
                 field-id="plannedStartTime"
               >
                 <pf-text-input
                   id="plannedStartTime_input"
-                  name="plannedStartTime"
-                  required
-                  v-model="data.plannedStartTime"
+                  disabled name="plannedStartTime"
+                  
+                  :value="requests[0].plannedstarttime"
                 />
               </pf-form-group>
             </div>
@@ -599,14 +562,14 @@ export default {
             >
               <pf-form-group
                 label="Planned End Time"
-                required
+                
                 field-id="plannedEndTime"
               >
                 <pf-text-input
                   id="plannedEndTime_input"
-                  name="plannedEndTime"
-                  required
-                  v-model="data.plannedEndTime"
+                  disabled name="plannedEndTime"
+                  
+                  :value="requests[0].plannedendtime"
                 />
               </pf-form-group>
             </div>
@@ -623,8 +586,8 @@ export default {
                 >
                   <pf-textarea
                     id="changeDescription_input"
-                    name="changeDescription"
-                    v-model="data.changeDescription"
+                    disabled name="changeDescription"
+                    :value="requests[0].region"
                   />
                 </pf-form-group>
               </div>
@@ -654,8 +617,8 @@ export default {
                 >
                   <pf-textarea
                     id="changeDescription_input"
-                    name="changeDescription"
-                    v-model="data.changeDescription"
+                    disabled name="changeDescription"
+                    :value="requests[0].changedescription"
                   />
                 </pf-form-group>
               </div>
@@ -665,7 +628,6 @@ export default {
         <pf-tab-content ref="tabTime">ChangePlan tabTime</pf-tab-content>
       </pf-card-body>
     </pf-card>
-  </div>
 </template>
 
 <style>
@@ -678,4 +640,5 @@ export default {
   justify-content: space-between;
   width: 100%;
 }
+
 </style>

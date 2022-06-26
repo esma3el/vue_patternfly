@@ -13,13 +13,24 @@ export default {
         approver: "",
         approvers: "",
         analyst: "",
-        analysts: "",
+        analysts: "hsm",
       },
     };
   },
   methods: {
-    submitData() {},
-  },
+   async submitData(){
+          console.log(JSON.stringify({'data':this.data}))
+          const req = fetch(`http://172.29.2.97:8080/api/changeRequests/${this.$route.params.id}/handle/${this.$route.params.taskid}`,
+          {            
+            headers:{              
+              'Content-Type': 'application/json',
+              'Authorization':'Bearer ' + window.localStorage.getItem('token')
+            },
+              method:'POST',
+              body: JSON.stringify({'data':this.data})
+          }).then(data => console.log(data)).error(err => console.log(err)) 
+        }
+      }
 };
 </script>
 
@@ -29,11 +40,12 @@ export default {
       <div class="phase-action">
         <pf-card>
           <pf-card-body>
-            <pf-form class="pf-l-grid">
+            <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
+                <pre>{{$route.params.task}}</pre>
                   <label>Operation Mode</label>
                 </div>
                 <div
@@ -72,7 +84,7 @@ export default {
                   <div class="pf-c-form__group-control">
                     <select class="pf-c-form-control" name="" id="" v-model="data.changeRequestCategory"
 >
-                      <option value="pre-approve">PreApprove</option>
+                      <option value="Pre-Approved">Pre-Approved</option>
                       <option value="Standard">Standard</option>
                       <option value="Normal">Normal</option>
                     </select>

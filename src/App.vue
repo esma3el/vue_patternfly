@@ -3,6 +3,11 @@ import Nav from "./components/Nav";
 export default {
   name: "App",
   components: { Nav },
+  data() {
+    return {
+      userinfo: JSON.parse(window.localStorage.getItem("userInfo")),
+    };
+  },
 };
 </script>
 
@@ -19,7 +24,7 @@ export default {
         <pf-page-header-tools>
           <pf-page-header-tools-group>
             <pf-page-header-tools-item visibility-xs="hidden">
-              header-tools
+              {{ userinfo.username }}
             </pf-page-header-tools-item>
           </pf-page-header-tools-group>
         </pf-page-header-tools>
@@ -30,11 +35,7 @@ export default {
     </template>
     <main>
       <pf-page-section>
-        <pf-card>
-          <pf-card-body>
-            <router-view />
-          </pf-card-body>
-        </pf-card>
+        <router-view />
       </pf-page-section>
     </main>
   </pf-page>

@@ -18,7 +18,18 @@ export default {
     };
   },
   methods: {
-    submitData() {},
+     async submitData(){
+         
+          const req = fetch(`http://172.29.2.97:8080/api/changeRequests/${this.$route.params.id}/implement/${this.$route.params.taskid}`,
+          {            
+            headers:{              
+              'Content-Type': 'application/json',
+              'Authorization':'Bearer ' + window.localStorage.getItem('token')
+            },
+              method:'POST',
+              body: JSON.stringify({'data':this.data})
+          }).then(data => console.log(data)).error(err => console.log(err)) 
+        }
   },
 };
 </script>
@@ -29,7 +40,7 @@ export default {
       <div class="phase-action">
         <pf-card>
           <pf-card-body>
-            <pf-form class="pf-l-grid">
+            <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
@@ -42,7 +53,7 @@ export default {
                     <pf-text-input
                       id="ImplementationStartTime_input"
                       name="ImplementationStartTime"
-                      
+                      type="datetime-local"
                       v-model="data.implementationStartTime"
                     />
                   </pf-form-group>
@@ -58,7 +69,7 @@ export default {
                     <pf-text-input
                       id="ImplementationEndTime_input"
                       name="ImplementationEndTime"
-                      
+                      type="datetime-local"     
                       v-model="data.implementationEndTime"
                     />
                   </pf-form-group>
