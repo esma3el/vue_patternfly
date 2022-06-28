@@ -1,6 +1,23 @@
 <script>
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
+import gql from 'graphql-tag';
+
+const Q2 = gql`
+  query ($user: String!, $id: String!, $task_id: String!) {
+    tasks(
+      where: {
+        id: { _eq: $task_id }
+        state: { _eq: "Ready" }
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+        process: { id: { _eq: $id } }
+      }
+    ) {
+      id
+    }
+  }
+`;
 
 export default {
   name: "Handle",
@@ -14,10 +31,21 @@ export default {
         approver: "",
         approvers: "",
         analyst: "",
-        analysts: "hsm",
+        analysts: "",        
       },
+      info:window.localStorage.getItem("userInfo")
     };
-  },
+  },apollo: {
+    tasks:{
+      query:Q2,
+      variables(){
+        return{
+          user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+          id:this.$route.params.id,
+          task_id:this.$route.params.taskid
+        }
+      }      
+  }},
   methods: {
     async submitData() {
       console.log(JSON.stringify({ data: this.data }));
@@ -31,153 +59,164 @@ export default {
           method: "POST",
           body: JSON.stringify({ data: this.data }),
         }
-      )
-        .then((data) => console.log(data))
-        .error((err) => console.log(err));
+      ).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})
+                 
     },
+    async Notification(variant="",title="",msg=""){
+        this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
+        if(variant != 'danger'){
+        setTimeout(()=>{
+          this.$store.commit('delNotifications')
+        },5000)
+        setTimeout(()=>{
+        this.$router.push({name:'Home'})
+        },1000)
+        }
+    } ,    
+    clear_alarm(){
+      this.$store.commit('delNotifications')
+    }
   },
 };
 </script>
 
 <template>
-      <div class="pf-l-grid pf-m-gutter">
-        <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl"
-        >
-          <div class="phase-action">
-            <pf-card>
-              <pf-card-title> Handle CR </pf-card-title>
-              <pf-divider />
-              <pf-card-body>
-                <pf-form @submit.prevent="submitData" class="pf-l-grid">
-                  <div class="pf-l-grid">
-                    <div
-                      class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
-                    >
-                      <!-- <pre>{{$route.params.task}}</pre> -->
-                      <label>Operation Mode</label>
-                    </div>
-                    <div
-                      class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                    >
-                      <div class="pf-c-radio">
-                        <label class="pf-c-radio__label" for="1">Accept</label>
-                        <input
-                          class="pf-c-radio__input"
-                          id="1"
-                          type="radio"
-                          name="operationmode"
-                          value="Accept"
-                          v-model="data.handleOperationMode"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                    >
-                      <div class="pf-c-radio">
-                        <label class="pf-c-radio__label" for="2">Reject</label>
-                        <input
-                          class="pf-c-radio__input"
-                          id="2"
-                          type="radio"
-                          name="operationmode"
-                          value="Reject"
-                          v-model="data.handleOperationMode"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="pf-l-grid">
-                    <pf-form-group>
-                      <div class="pf-c-form__group-control">
-                        <select
-                          class="pf-c-form-control"
-                          name=""
-                          id=""
-                          v-model="data.changeRequestCategory"
+  <div class="pf-l-grid pf-m-gutter">
+    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
+      <div class="phase-action">
+        <pf-card>
+          <pf-card-title> Handle CR </pf-card-title>
+          <pf-divider />          
+          <pf-card-body>
+           <pre v-if="$apollo.loading">..loading</pre>
+            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
+                <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                >
+                  <pf-form-group>
+                    <div class="pf-c-form__group-label">
+                      <label class="pf-c-form__label" for="Change Category">
+                        <span class="pf-c-form__label-text"
+                          >Operation Mode</span
                         >
-                          <option value="Pre-Approved">Pre-Approved</option>
-                          <option value="Standard">Standard</option>
-                          <option value="Normal">Normal</option>
-                        </select>
-                      </div>
-                      <!-- search from -->
-                    </pf-form-group>
-                  </div>
-
-                  <div class="pf-l-grid">
-                    <div
-                      class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
-                    >
-                      <pf-form-group
-                        label="CR Analyst"
-                        required
-                        field-id="CR_analyst"
-                      >
-                        <pf-text-input
-                          id="analyst"
-                          name="CR_analyst"
-                          required
-                          v-model="data.analyst"
-                        />
-                      </pf-form-group>
+                      </label>
                     </div>
-                  </div>
-
-                  <div class="pf-l-grid">
-                    <!--  -->
-                    <div
-                      class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
-                    >
-                      <pf-form-group
-                        label="Description"
-                        field-id="changeDescription_group"
+                    <div class="pf-c-form__group-control">
+                      <select
+                        class="pf-c-form-control"
+                        v-model="data.handleOperationMode"
+                        name=""
+                        id=""
                       >
-                        <pf-textarea
-                          id="changeDescription_input"
-                          name="changeDescription"
-                          v-model="data.handleDescription"
-                        />
-                      </pf-form-group>
+                        <option value="Accept">Accept</option>
+                        <option value="Reject">Reject</option>
+                      </select>
                     </div>
+                  </pf-form-group>
+                </div>
+                <pf-form-group>
+                  <label class="pf-c-form__label" for="Change Category">
+                        <span class="pf-c-form__label-text"
+                          >Change Category</span
+                        >
+                      </label>
+                  <div class="pf-c-form__group-control">
+                    <select
+                      class="pf-c-form-control"
+                      name=""
+                      id=""
+                      v-model="data.changeRequestCategory"
+                    >
+                      <option value="Pre-Approved">Pre-Approved</option>
+                      <option value="Standard">Standard</option>
+                      <option value="Normal">Normal</option>
+                    </select>
                   </div>
-                  <div
-                    class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+                  <!-- search from -->
+                </pf-form-group>
+
+                <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                >
+                  <pf-form-group
+                    label="CR Analyst"
+                    required
+                    field-id="CR_analyst"
                   >
-                    <pf-action-group>
-                      <pf-button type="submit" variant="primary"
-                        >Submit</pf-button
-                      >
-                      <pf-button variant="link">Cancel</pf-button>
-                    </pf-action-group>
-                  </div>
-                </pf-form>
-              </pf-card-body>
-            </pf-card>
-          </div>
-        </div>
-        <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-7-col-on-xl"
-        >
-          <div class="side">
-            <pf-card>
-              <pf-card-body>
-                <pf-tabs>
-                  <pf-tab title="Ticket Information">
-                    <br>
-                    <form-tabs :ticketid="$route.params.id" />
-                  </pf-tab>
-                  <pf-tab title="WorkFlow Details">
-                    <br>
-                    <WorkFlow :ticketid="$route.params.id" />
-                  </pf-tab>
-                </pf-tabs>
-              </pf-card-body>
-            </pf-card>
-          </div>
-        </div>
+                    <pf-text-input
+                      id="analyst"
+                      name="CR_analyst"
+                      required
+                      v-model="data.analyst"
+                    />
+                  </pf-form-group>
+                </div>
+                
+                <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                >
+                  <pf-form-group
+                    label="CR approver"
+                    required
+                    field-id="CR_approver"
+                  >
+                    <pf-text-input
+                      id="approver"
+                      name="CR_approver"
+                      required
+                      v-model="data.approver"
+                    />
+                  </pf-form-group>
+                </div>
+
+                <!--  -->
+                <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                >
+                  <pf-form-group
+                    label="Description"
+                    field-id="changeDescription_group"
+                  >
+                    <pf-textarea
+                      id="changeDescription_input"
+                      name="changeDescription"
+                      v-model="data.handleDescription"
+                    />
+                  </pf-form-group>
+              </div>
+              <div
+                class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+              >
+                <pf-action-group>
+                  <pf-button type="submit" variant="primary">Submit</pf-button>
+                  <pf-button variant="link">Cancel</pf-button>
+                </pf-action-group>
+              </div>
+            </pf-form>
+          </pf-card-body>
+        </pf-card>
       </div>
+    </div>
+    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-7-col-on-xl">
+      <div class="side">
+        <pf-card>
+          <pf-card-body>
+            <pf-tabs>
+              <pf-tab title="Ticket Information">
+                <br />
+                <form-tabs :ticketid="$route.params.id" />
+              </pf-tab>
+              <pf-tab title="WorkFlow Details">
+                <br />
+                <WorkFlow :ticketid="$route.params.id" />
+              </pf-tab>
+            </pf-tabs>
+          </pf-card-body>
+        </pf-card>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style>
@@ -188,5 +227,9 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+.test{
+  pointer-events: none;
+  opacity: .5;
 }
 </style>
