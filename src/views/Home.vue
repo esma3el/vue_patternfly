@@ -6,9 +6,7 @@
       aria-label="This is a simple table example"
       id="table-basic"
     >
-      <caption>
-        <button @click="refreshdata">refresh</button>
-      </caption>
+      <caption></caption>
       <thead>
         <tr role="row">
           <th role="columnheader" scope="col">Ticket ID</th>
@@ -22,7 +20,9 @@
       <tbody role="rowgroup" v-if="$apollo.loading">
         ...loading
       </tbody>
+      
       <tbody role="rowgroup" v-else>
+        
         <tr role="row" v-for="task in tasks">
           <td role="cell" data-label="Ticket ID">
             <router-link
@@ -47,7 +47,7 @@
     <pf-pagination
       v-model:page="page"
       v-model:per-page="perPage"
-      :count="processes_aggregate?.aggregate?.count"
+      :count="tasks_aggregate?.aggregate?.count"
     />
   </div>
 </template>
@@ -56,52 +56,62 @@
 import gql from "graphql-tag";
 
 const GET_PENDING_DATA = gql`
-  query ($user: String!) {
-    tasks(
-      where: {
-        tasks_potential_users: { user_id: { _eq: $user } }
-        _and: { state: { _eq: "Ready" } }
-      }
-    ) {
+query ($user: String!, $limit: Int!, $offset: Int!) {
+  tasks(where: {tasks_potential_users: {user_id: {_eq: $user}}, _and: {state: {_eq: "Ready"}}}, limit: $limit, offset: $offset ,order_by: {process: {starttime: desc}}) {
+    id
+    name
+    referencename
+    tasks_potential_users {
+      user_id
+    }
+    process {
       id
-      name
-      referencename
-      tasks_potential_users {
-        user_id
-      }
-      process {
-        id
-        processid
-        businesskey
-        processname
-        starttime
-      }
+      processid
+      businesskey
+      processname
+      starttime
     }
   }
+  tasks_aggregate(where: {tasks_potential_users: {user_id: {_eq: $user}}, _and: {state: {_eq: "Ready"}}}) {
+    aggregate {
+      count
+    }
+  }
+}
+
 `;
 export default {
   name: "Home",
   data() {
     return {
-      perPage: 4,
+      perPage: 10,
       page: 1,
       offset: (this.page - 1) * this.perPage,
-      num:0
     };
-  }
-  ,
+  },
   watch: {
     page() {
       this.offset = (this.page - 1) * this.perPage;
     },
-
   },
   apollo: {
     tasks: {
       query: GET_PENDING_DATA,
-      variables: {
+      variables(){
+      return {
         user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
-      },
+        limit: this.perPage,
+        offset: this.offset,
+      }},
+    },
+    tasks_aggregate: {
+      query: GET_PENDING_DATA,
+      variables(){
+      return {
+        user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+        limit: this.perPage,
+        offset: this.offset,
+      }},
     },
   },
 };

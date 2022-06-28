@@ -244,8 +244,9 @@ export default {
           this.$store.commit('delNotifications')
         },5000)
         setTimeout(()=>{
-        this.$router.push({name:'Home'})
-        },1000)
+        // this.$router.push({name:'Home'})
+        window.location.href = '/';
+        },500)
         }
     } ,    
     clear_alarm(){
@@ -365,8 +366,7 @@ export default {
                           :value="item"
                           v-else
                           v-for="item in changeCategorydata"
-                        >
-                          {{ item }}
+                        >         
                         </option>
                       </select>
                     </div>
