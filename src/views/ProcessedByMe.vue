@@ -90,7 +90,7 @@ export default {
   name: "ProcessedByMe",
   data() {
     return {
-    perPage:4,
+    perPage:10,
     page:1,
     offset:(this.page - 1) * this.perPage
     };
