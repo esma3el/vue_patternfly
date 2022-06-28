@@ -29,11 +29,11 @@ import Keycloak from 'keycloak-js';
 const initOptions = {
     url: 'http://172.29.2.97:8480/auth/',
     realm: 'kogito',
-    clientId: 'vue-demo'
+    clientId: 'sdm-frontend'
 };
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:8580/v1/graphql",
+  uri: "http://172.29.2.97:8580/v1/graphql",
   headers: {
     "content-type": "application/json",
     "x-hasura-admin-secret": "hasura",
@@ -53,37 +53,37 @@ const apolloProvider = createApolloProvider({
 //   render: () => h(App),
 // });
 
-// const _keycloak = new Keycloak(initOptions);
-// _keycloak
-//     .init({
-//         onLoad: 'login-required',
-//     }).then(async () => {
-//         window.localStorage.setItem('token', _keycloak.token)
-//         // const myprofile = await _keycloak.loadUserProfile()
-//         _keycloak.loadUserProfile()
-//         .then(function(profile) {
-//             const myprofile = JSON.stringify(profile, null, "  ")
-//             window.localStorage.setItem('userInfo', myprofile)
-//           }).catch(function() {
-//             alert('Failed to load user profile');
-//           });
-//           createApp({
-//           render: () => h(App),
-//         }).component('file-upload', VueUploadComponent).component('multiselect', Multiselect).use(VuePatternfly4).use(apolloProvider).use(router).mount("#app");
-//     });
+const _keycloak = new Keycloak(initOptions);
+_keycloak
+    .init({
+        onLoad: 'login-required',
+    }).then(async () => {
+        window.localStorage.setItem('token', _keycloak.token)
+        // const myprofile = await _keycloak.loadUserProfile()
+        _keycloak.loadUserProfile()
+        .then(function(profile) {
+            const myprofile = JSON.stringify(profile, null, "  ")
+            window.localStorage.setItem('userInfo', myprofile)
+          }).catch(function() {
+            alert('Failed to load user profile');
+          });
+          createApp({
+          render: () => h(App),
+        }).component('file-upload', VueUploadComponent).component('multiselect', Multiselect).use(VuePatternfly4).use(apolloProvider).use(router).mount("#app");
+    });
 
-const app = createApp({
-  render: () => h(App),
-});
+// const app = createApp({
+//   render: () => h(App),
+// });
 
-app.component('file-upload', VueUploadComponent);
-app.component('multiselect', Multiselect);
+// app.component('file-upload', VueUploadComponent);
+// app.component('multiselect', Multiselect);
 
-app.use(VuePatternfly4);
-app.use(apolloProvider);
-// app.use(chartsVue);
-app.use(VueFusionCharts, FusionCharts, Charts, FusionTheme,TimeSeries);
-app.use(CarbonComponentsVue);
-app.use(router);
+// app.use(VuePatternfly4);
+// app.use(apolloProvider);
+// // app.use(chartsVue);
+// app.use(VueFusionCharts, FusionCharts, Charts, FusionTheme,TimeSeries);
+// app.use(CarbonComponentsVue);
+// app.use(router);
 
-app.mount("#app");
+// app.mount("#app");
