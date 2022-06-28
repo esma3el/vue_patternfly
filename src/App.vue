@@ -1,4 +1,5 @@
 <script>
+import { handleError } from "vue";
 import Nav from "./components/Nav";
 export default {
   name: "App",
@@ -8,7 +9,24 @@ export default {
       userinfo: JSON.parse(window.localStorage.getItem("userInfo")),
     };
   },
-};
+  mounted() {
+    // window.localStorage.setItem("userInfo",JSON.stringify({"username":"hsm"}))
+  },methods:{
+      async Notification(){
+        this.$store.commit('setNotifications',{'variant':'','title':''})   
+        setTimeout(()=>{
+          this.$store.commit('delNotifications')
+        },5000)
+        setTimeout(()=>{
+        this.$router.push({name:'Home'})
+        },1000)
+    } ,    
+    clear_alarm(){
+      this.$store.commit('delNotifications')
+    }
+    
+  }
+    }      
 </script>
 
 <template>
@@ -16,16 +34,15 @@ export default {
     <template #skeleton>
       <pf-page-header show-nav-toggle>
         <template #logo>
-          <pf-brand            
+          <pf-brand
             src="https://www.patternfly.org/assets/images/pf_logo.svg"
             style="height: 40px; filter: invert(1)"
-            
-          />         
+          />
         </template>
         <pf-page-header-tools>
           <pf-page-header-tools-group>
             <pf-page-header-tools-item visibility-xs="hidden">
-              {{ userinfo.username }}
+              {{ userinfo?.username }}
             </pf-page-header-tools-item>
           </pf-page-header-tools-group>
         </pf-page-header-tools>
@@ -33,12 +50,26 @@ export default {
       <pf-page-sidebar nav-open class="side">
         <Nav />
       </pf-page-sidebar>
-    </template>
-      <section class="pf-c-page__main-section pf-m-limit-width">
-        <div class="pf-c-page__main-body">
-          <router-view />
-          </div>
-      </section>
+    </template>   
+    <section class="pf-c-page__main-section pf-m-limit-width">   
+
+      <div class="alert" v-for="item in $store.state.Notifications">
+      <pf-alert
+        inline
+        :variant="item.variant"
+        :title="item.title"
+        close
+        @close="clear_alarm"        
+      >
+        <p>
+          {{item.msg}}
+        </p>
+      </pf-alert>
+      </div>
+      <div class="pf-c-page__main-body">
+        <router-view />
+      </div>
+    </section>
   </pf-page>
 </template>
 
@@ -59,5 +90,14 @@ export default {
   min-height: calc(100vh - 4.75rem);
   height: 100%;
 }
-
+.hide_unauthorized {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.alert{
+  width: 30%;
+  position: fixed;
+  bottom: 0;;
+  right: 0;
+}
 </style>

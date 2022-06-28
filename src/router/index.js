@@ -20,52 +20,52 @@ const routes = [
     component: About,
   },
   {
-    path: "/requests/create",
+    path: "/changeRequests/create",
     name: "create_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Create.vue'),
   },
   {
-    path: "/requests/:id",
+    path: "/changeRequests/:id",
     name: "home_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Home.vue'),
   },
   {
-    path: "/requests/:id/handle/:taskid",
+    path: "/changeRequests/:id/handle/:taskid",
     name: "handle_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Handle.vue'),
   },
   {
-    path: "/requests/:id/analyze/:taskid",
+    path: "/changeRequests/:id/analyze/:taskid",
     name: "analyze_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Analyze.vue'),
   },
   {
-    path: "/requests/:id/managerApprove/:taskid",
+    path: "/changeRequests/:id/managerApprove/:taskid",
     name: "manager_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Manager.vue'),
   },
   {
-    path: "/requests/:id/cabApprove/:taskid",
+    path: "/changeRequests/:id/cabApprove/:taskid",
     name: "cab_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Cab.vue'),
   },
   {
-    path: "/requests/:id/customerApprove/:taskid",
+    path: "/changeRequests/:id/customerApprove/:taskid",
     name: "customer_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Customer.vue'),
   },
   {
-    path: "/requests/:id/updatePlan/:taskid",
+    path: "/changeRequests/:id/updatePlan/:taskid",
     name: "update_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Update.vue'),
   },
   {
-    path: "/requests/:id/implement/:taskid",
+    path: "/changeRequests/:id/implement/:taskid",
     name: "implement_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Implement.vue'),
   },
   {
-    path: "/requests/:id/confirm/:taskid",
+    path: "/changeRequests/:id/confirm/:taskid",
     name: "confirm_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Confirm.vue'),
   },
@@ -193,6 +193,16 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: ()=> import('../views/Dashboard.vue'),
+  },
+  {
+    path: "/pendingformygroup",
+    name: "pendingformygroup",
+    component: ()=> import('../views/pendingformygroup.vue'),
+  },
+  {
+    path: "/search",
+    name: "search",
+    component: ()=> import('../views/Search.vue'),
   }
 ];
 

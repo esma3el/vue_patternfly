@@ -1,6 +1,8 @@
 import App from "./App.vue";
 import router from "./router";
 import { createApp, h } from "vue";
+import { createStore } from 'vuex'
+
 import {
   ApolloClient,
   createHttpLink,
@@ -49,9 +51,24 @@ const apolloProvider = createApolloProvider({
   defaultClient: apolloClient,
 });
 
-// const app = createApp({
-//   render: () => h(App),
-// });
+const store = createStore({
+  state () {
+    return {
+      Notifications:[]
+    }
+  },
+  mutations: {
+    setNotifications(state,item){
+      state.Notifications = [...state.Notifications,item]
+    },
+    delNotifications (state) {
+      state.Notifications = []
+    },
+    redirect(){
+        this.$route.push()
+    }
+  }
+})
 
 const _keycloak = new Keycloak(initOptions);
 _keycloak
@@ -69,7 +86,10 @@ _keycloak
           });
           createApp({
           render: () => h(App),
-        }).component('file-upload', VueUploadComponent).component('multiselect', Multiselect).use(VuePatternfly4).use(apolloProvider).use(router).mount("#app");
+        }).component('file-upload', VueUploadComponent).component('multiselect', Multiselect).use(VuePatternfly4).use(apolloProvider).use(router)
+        .use(VueFusionCharts, FusionCharts, Charts, FusionTheme,TimeSeries)
+        .use(store)
+        .mount("#app");
     });
 
 // const app = createApp({
@@ -81,7 +101,7 @@ _keycloak
 
 // app.use(VuePatternfly4);
 // app.use(apolloProvider);
-// // app.use(chartsVue);
+// app.use(chartsVue);
 // app.use(VueFusionCharts, FusionCharts, Charts, FusionTheme,TimeSeries);
 // app.use(CarbonComponentsVue);
 // app.use(router);

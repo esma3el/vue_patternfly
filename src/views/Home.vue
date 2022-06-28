@@ -1,5 +1,5 @@
 <template>
-  <div>    
+  <div>
     <table
       class="pf-c-table pf-m-compact pf-m-grid-md"
       role="grid"
@@ -7,7 +7,7 @@
       id="table-basic"
     >
       <caption>
-        This is the table caption
+        <button @click="refreshdata">refresh</button>
       </caption>
       <thead>
         <tr role="row">
@@ -25,14 +25,30 @@
       <tbody role="rowgroup" v-else>
         <tr role="row" v-for="task in tasks">
           <td role="cell" data-label="Ticket ID">
-          <router-link :to="`/${task.process.processid}/${task.process.id}/${task.name}/${task.id}`"> {{task.process.businesskey}} </router-link></td>
-          <td role="cell" data-label="Ticket State"> {{task.referencename}}</td>
-          <td role="cell" data-label="Handler">{{task.tasks_potential_users[0].user_id}}</td>
-          <td role="cell" data-label="Process Name">{{task.process.processname}}</td>
-          <td role="cell" data-label="Created">{{task.process.starttime}}</td>
+            <router-link
+              :to="`/${task.process.processid}/${task.process.id}/${task.name}/${task.id}`"
+            >
+              {{ task.process.businesskey }}
+            </router-link>
+          </td>
+          <td role="cell" data-label="Ticket State">
+            {{ task.referencename }}
+          </td>
+          <td role="cell" data-label="Handler">
+            {{ task.tasks_potential_users[0].user_id }}
+          </td>
+          <td role="cell" data-label="Process Name">
+            {{ task.process.processname }}
+          </td>
+          <td role="cell" data-label="Created">{{ task.process.starttime }}</td>
         </tr>
       </tbody>
     </table>
+    <pf-pagination
+      v-model:page="page"
+      v-model:per-page="perPage"
+      :count="processes_aggregate?.aggregate?.count"
+    />
   </div>
 </template>
 
@@ -47,15 +63,15 @@ const GET_PENDING_DATA = gql`
         _and: { state: { _eq: "Ready" } }
       }
     ) {
-    id
-    name
+      id
+      name
       referencename
       tasks_potential_users {
         user_id
       }
       process {
-      id
-      processid
+        id
+        processid
         businesskey
         processname
         starttime
@@ -66,12 +82,28 @@ const GET_PENDING_DATA = gql`
 export default {
   name: "Home",
   data() {
-    return {};
+    return {
+      perPage: 4,
+      page: 1,
+      offset: (this.page - 1) * this.perPage,
+      num:0
+    };
+  }
+  ,
+  watch: {
+    page() {
+      this.offset = (this.page - 1) * this.perPage;
+    },
+
   },
-  apollo: { tasks:{
-    query:GET_PENDING_DATA,
-    variables:{user:JSON.parse(window.localStorage.getItem("userInfo"))?.username}
-  }  },
+  apollo: {
+    tasks: {
+      query: GET_PENDING_DATA,
+      variables: {
+        user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+      },
+    },
+  },
 };
 </script>
 
