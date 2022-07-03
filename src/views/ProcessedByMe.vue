@@ -51,7 +51,7 @@
     <pf-pagination
       v-model:page="page"
       v-model:per-page="perPage"
-      :count="processes_aggregate.aggregate.count"
+      :count="processes_aggregate?.aggregate.count"
     />
     
   </div>

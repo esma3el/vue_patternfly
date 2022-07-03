@@ -2,109 +2,48 @@
 export default {
   name: "WFHandle",
   data() {
-    return {
-    }
-  },props:{
-    data:Array
-  }
+    return {};
+  },
+  props: {
+    data: Array,
+  },
 };
 </script>
 
 <template>
-    <div>
-        <pf-card>
-          <pf-card-body>
-            <pf-form @submit.prevent="submitData" class="pf-l-grid">
-              <div class="pf-l-grid">
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
-                >
-                <!-- <pre>{{$route.params.task}}</pre> -->
-                  <label>Operation Mode</label>
-                </div>
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                >
-                  <div class="pf-c-radio">
-                    <label class="pf-c-radio__label" for="1">Accept</label>
-                    <input
-                      class="pf-c-radio__input"
-                      id="1"
-                      type="radio"
-                      name="operationmode"
-                      value="Accept"
-                      v-model="data.handleOperationMode"
-                    />
-                  </div>
-                </div>
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                >
-                  <div class="pf-c-radio">
-                    <label class="pf-c-radio__label" for="2">Reject</label>
-                    <input
-                      class="pf-c-radio__input"
-                      id="2"
-                      type="radio"
-                      name="operationmode"
-                      value="Reject"
-                      v-model="data.handleOperationMode"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="pf-l-grid">
-                <pf-form-group>
-                  <div class="pf-c-form__group-control">
-                    <select class="pf-c-form-control" name="" id="" v-model="data.changeRequestCategory"
->
-                      <option value="Pre-Approved">Pre-Approved</option>
-                      <option value="Standard">Standard</option>
-                      <option value="Normal">Normal</option>
-                    </select>
-                  </div>
-                  <!-- search from -->
-                </pf-form-group>
-              </div>
-              
-              <div class="pf-l-grid">
-                <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+  <div>
+    <pf-card>
+      <pf-card-body>
+        <div class="pf-l-grid">
+          <div
+            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
           >
             <pf-form-group
-              label="CR Analyst"
+              label="Operation Mode"
+              field-id="handleOperationMode"
               required
-              field-id="CR_analyst"
             >
               <pf-text-input
-                id="analyst"
-                name="CR_analyst"
+                id="handleOperationMode_input"
+                name="handleOperationMode"
                 required
-                v-model="data.analyst"
+                v-model="data.handleOperationMode"
               />
             </pf-form-group>
           </div>
-              </div>
-
-              <div class="pf-l-grid">
-                <!--  -->
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
-                >
-                  <pf-form-group
-                    label="Description"
-                    field-id="changeDescription_group"
-                  >
-                    <pf-textarea
-                      id="changeDescription_input"
-                      name="changeDescription"
-                      v-model="data.handleDescription"
-                    />
-                  </pf-form-group>
-                </div>
-              </div>              
-            </pf-form>
-          </pf-card-body>
-        </pf-card>        
-    </div>
+          <div
+            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+          >
+            <pf-form-group label="Description" field-id="handleDescription">
+              <pf-textarea
+                id="handleDescription_input"
+                name="handleDescription"
+                v-model="data.handleDescription"
+              />
+            </pf-form-group>
+          </div>
+        </div>
+      </pf-card-body>
+    </pf-card>
+  </div>
 </template>

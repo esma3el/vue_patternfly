@@ -80,9 +80,24 @@ export default {
           body: JSON.stringify({ data: this.data }),
         }
       )
-        .then((data) => console.log(data))
-        .error((err) => console.log(err));
+       .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})        
     },
+    async Notification(variant="",title="",msg=""){
+        this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
+        if(variant != 'danger'){
+        setTimeout(()=>{
+          this.$store.commit('delNotifications')
+        },5000)
+        setTimeout(()=>{
+        // this.$router.push({name:'Home'})
+        window.location.href = '/';
+        },500)
+        }
+    } ,    
+    clear_alarm(){
+      this.$store.commit('delNotifications')
+    }
   },
 };
 </script>

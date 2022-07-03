@@ -6,6 +6,7 @@ export default {
   components: { Nav },
   data() {
     return {
+      counter:0,
       userinfo: JSON.parse(window.localStorage.getItem("userInfo")),
     };
   },
@@ -23,8 +24,7 @@ export default {
     } ,    
     clear_alarm(){
       this.$store.commit('delNotifications')
-    }
-    
+    }    
   }
     }      
 </script>
@@ -42,7 +42,7 @@ export default {
         <pf-page-header-tools>
           <pf-page-header-tools-group>
             <pf-page-header-tools-item visibility-xs="hidden">
-              {{ userinfo?.username }}
+              {{$store.state.userinfo.username }}
             </pf-page-header-tools-item>
           </pf-page-header-tools-group>
         </pf-page-header-tools>
