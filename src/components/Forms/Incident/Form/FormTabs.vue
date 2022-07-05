@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 const GET_TAB_FORM_DATA = gql`
   query ($id: String!) {
     incidents(where: { id: { _eq: $id } }) {
-    id
+        id
     alarmid
     alarmname
     clusterid
@@ -26,18 +26,12 @@ const GET_TAB_FORM_DATA = gql`
     nodeid
     originator
     probablecause
-    processcompletetime
     processdescription
     resultflag
-    reviewdescription
     sitedown
     siteid
     solution
     source
-    incidentsupportcategory
-    supportrequestcategory
-    supportrequestitem
-    supportrequesttype
     title
     zoneid
     }
@@ -53,7 +47,7 @@ export default {
     ticketid: String,
   },
   apollo: {
-    fieldsupport: {
+    incidents: {
       query: GET_TAB_FORM_DATA,
       variables() {
         return {
@@ -69,7 +63,7 @@ export default {
       <div v-if="$apollo.loading"> ...loading</div>
       <div v-else>
         <pf-tabs secondary>
-          <pf-tab title="Support Request" :content-ref="$refs.supportRequest" />
+          <pf-tab title="Incident Ticket" :content-ref="$refs.supportRequest" />
           <pf-tab title="Fault Alarm" :content-ref="$refs.faultAlarm" />
         </pf-tabs>
         <pf-tab-content ref="supportRequest">
@@ -77,58 +71,7 @@ export default {
           <div class="pf-l-grid">
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Originator">
-                <pf-text-input disabled v-model="fieldsupport[0].originator"/>
-              </pf-form-group>
-            </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
-              <pf-form-group label="Incident Support Category">
-                <pf-text-input disabled v-model="fieldsupport[0].incidentSupportGroup"/>
-              </pf-form-group>
-            </div>
-            <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
-            >
-              <pf-form-group label="Support Request Category">
-                <pf-text-input disabled
-                  v-model="fieldsupport[0].supportrequestcategory"
-                />
-              </pf-form-group>
-            </div>
-            <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
-            >
-              <pf-form-group label="Support Request Type">
-                <pf-text-input disabled
-                  v-model="fieldsupport[0].supportrequesttype"
-                />
-              </pf-form-group>
-            </div>
-            <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
-            >
-              <pf-form-group label="Support Request Item">
-                <pf-text-input disabled
-                  v-model="fieldsupport[0].supportrequestitem"
-                />
-              </pf-form-group>
-            </div>
-            <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
-            >
-              <pf-form-group label="Support Request Description">
-                <pf-textarea
-                  disabled
-                  v-model="fieldsupport[0].createdescription"
-                />
-              </pf-form-group>
-            </div>
-            <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
-            >
-              <pf-form-group label="Support Complete Time">
-                <pf-text-input disabled
-                  v-model="fieldsupport[0].processcompletetime"
-                />
+                <pf-text-input disabled v-model="incidents[0].originator"/>
               </pf-form-group>
             </div>
             </div>
@@ -138,52 +81,52 @@ export default {
           <div class="pf-l-grid">
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Fault Level">
-                <pf-text-input disabled v-model="fieldsupport[0].faultlevel"/>
+                <pf-text-input disabled v-model="incidents[0].faultlevel"/>
               </pf-form-group>
             </div>
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Domain">
-                <pf-text-input disabled v-model="fieldsupport[0].domain"/>
+                <pf-text-input disabled v-model="incidents[0].domain"/>
               </pf-form-group>
             </div>
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Network type">
-                <pf-text-input disabled v-model="fieldsupport[0].networktype"/>
+                <pf-text-input disabled v-model="incidents[0].networktype"/>
               </pf-form-group>
             </div>
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Alarm ID">
-                <pf-text-input disabled v-model="fieldsupport[0].alarmid"/>
+                <pf-text-input disabled v-model="incidents[0].alarmid"/>
               </pf-form-group>
             </div>
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Alarm Name">
-                <pf-text-input disabled v-model="fieldsupport[0].alarmname"/>
+                <pf-text-input disabled v-model="incidents[0].alarmname"/>
               </pf-form-group>
             </div>
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="First Occur Time">
-                <pf-text-input disabled v-model="fieldsupport[0].firstoccurtime"/>
+                <pf-text-input disabled v-model="incidents[0].firstoccurtime"/>
               </pf-form-group>
             </div>
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Site ID">
-                <pf-text-input disabled v-model="fieldsupport[0].siteid"/>
+                <pf-text-input disabled v-model="incidents[0].siteid"/>
               </pf-form-group>
             </div>
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Cluster ID">
-                <pf-text-input disabled v-model="fieldsupport[0].clusterid"/>
+                <pf-text-input disabled v-model="incidents[0].clusterid"/>
               </pf-form-group>
             </div>
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Zone ID">
-                <pf-text-input disabled v-model="fieldsupport[0].zoneid"/>
+                <pf-text-input disabled v-model="incidents[0].zoneid"/>
               </pf-form-group>
             </div>
             <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Device ID">
-                <pf-text-input disabled v-model="fieldsupport[0].deviceid"/>
+                <pf-text-input disabled v-model="incidents[0].deviceid"/>
               </pf-form-group>
             </div>
           </div>

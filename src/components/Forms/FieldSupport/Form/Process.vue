@@ -17,7 +17,7 @@ export default {
     async submitData() {
       console.log(JSON.stringify({ data: this.data }));
       const req = fetch(
-        `http://172.29.2.97:8080/api/fieldSupport/${this.$route.params.id}/process/${this.$route.params.taskid}`,
+        `http://localhost:8080/api/fieldSupport/${this.$route.params.id}/process/${this.$route.params.taskid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export default {
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
           <div class="phase-action">
             <pf-card>
-              <pf-card-title>Process Support Request</pf-card-title>
+              <pf-card-title>Process Field Support Request</pf-card-title>
               <pf-divider />
               <pf-card-body>
                 <pf-form @submit.prevent="submitData">

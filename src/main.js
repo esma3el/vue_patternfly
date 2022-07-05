@@ -29,13 +29,13 @@ import TimeSeries from 'fusioncharts/fusioncharts.timeseries';
 import Keycloak from 'keycloak-js';
 
 const initOptions = {
-    url: 'http://172.29.2.97:8480/auth/',
+    url: 'http://localhost:8480/auth/',
     realm: 'kogito',
     clientId: 'sdm-frontend'
 };
 
 const httpLink = createHttpLink({
-  uri: "http://172.29.2.97:8580/v1/graphql",
+  uri: "http://localhost:8580/v1/graphql",
   headers: {
     "content-type": "application/json",
     "x-hasura-admin-secret": "hasura",
@@ -105,5 +105,5 @@ _keycloak
 // app.use(VueFusionCharts, FusionCharts, Charts, FusionTheme,TimeSeries);
 // app.use(CarbonComponentsVue);
 // app.use(router);
-
+// app.use(store)
 // app.mount("#app");

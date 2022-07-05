@@ -90,7 +90,7 @@ export default {
     async submitData() {
       console.log(JSON.stringify({ data: this.data }));
       const req = fetch(
-        `http://172.29.2.97:8080/api/workOrders`,
+        `http://localhost:8080/api/workOrders`,
         {
           headers: {
             "Content-Type": "application/json",

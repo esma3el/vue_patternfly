@@ -45,7 +45,7 @@ export default {
   methods: {
   async submitData(){
       console.log(JSON.stringify({'data':this.data}))
-      const req = fetch(`http://172.29.2.97:8080/api/changeRequests/${this.$route.params.id}/customerApprove/${this.$route.params.taskid}`,
+      const req = fetch(`http://localhost:8080/api/changeRequests/${this.$route.params.id}/customerApprove/${this.$route.params.taskid}`,
       {            
         headers:{              
           'Content-Type': 'application/json',
