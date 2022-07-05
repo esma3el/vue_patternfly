@@ -24,7 +24,7 @@ export default {
     };
   },computed:{
     getdata(){
-        return this.tasks[0].process.workflows.map(row => row)
+        return this.tasks[0]?.process.workflows.map(row => row)
     }
   },
   apollo: {
@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<template>
+<template>  
   <pre v-if="$apollo.loading">..loading</pre>
   <ol v-else class="pf-c-progress-stepper">    
     <li

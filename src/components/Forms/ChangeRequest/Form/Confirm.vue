@@ -29,7 +29,6 @@ export default {
         confirmDescription: "",
         confirmSatisfactionDegree: "",
       },
-      info:window.localStorage.getItem('userInfo')
 
     };
   },apollo: {
@@ -37,9 +36,9 @@ export default {
       query:Q2,
       variables(){
         return{
-          user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
-          id:this.$route.params.id,
-          task_id:this.$route.params.taskid
+          user: this.$store.state.userinfo.username,
+          task_id:this.$route.params.id,
+          id:this.$route.params.taskid
         }
       }      
   }},
@@ -50,7 +49,7 @@ export default {
           {            
             headers:{              
               'Content-Type': 'application/json',
-              'Authorization':'Bearer ' + window.localStorage.getItem('token')
+              'Authorization':'Bearer ' + this.$store.state._keycloak.token
             },
               method:'POST',
               body: JSON.stringify({'data':this.data})
@@ -84,7 +83,7 @@ export default {
         <pf-card>
           <pf-card-body>
             <pre v-if="$apollo.loading">..loading</pre>
-            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
+            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                  <div
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
                 >

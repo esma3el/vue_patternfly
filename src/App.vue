@@ -7,11 +7,9 @@ export default {
   data() {
     return {
       counter:0,
-      userinfo: JSON.parse(window.localStorage.getItem("userInfo")),
     };
   },
   mounted() {
-    // window.localStorage.setItem("userInfo",JSON.stringify({"username":"hsm"}))
   },methods:{
       async Notification(){
         this.$store.commit('setNotifications',{'variant':'','title':''})   
@@ -97,7 +95,7 @@ export default {
 .alert{
   width: 30%;
   position: fixed;
-  bottom: 0;;
-  right: 0;
+  top:10%;
+  right: 0%;
 }
 </style>

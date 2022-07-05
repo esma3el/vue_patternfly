@@ -57,6 +57,7 @@ export default {
               processname:this.search.processname,
               limit: this.perPage,
               offset: this.offset,
+              start: this.search.startTime
             }
           
         })
@@ -213,7 +214,12 @@ export default {
     </tbody>
     <tbody role="rowgroup" v-else>
       <tr v-for="item in data">
-        <td>{{ item.id }}</td>
+        <td>
+          <router-link              
+              :to="`/${item.process.processid}/${item.process.id}/${item.name}/${item.id}`"
+              >{{ item.process.businesskey }}</router-link
+            >
+        </td>
         <td>{{ item.name }}</td>
         <td>{{ item.tasks_potential_users[0]?.user_id }}</td>
         <td>{{ item.process?.processname }}</td>

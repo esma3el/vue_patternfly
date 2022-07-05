@@ -40,7 +40,7 @@ export default {
       query:Q2,
       variables(){
         return{
-          user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+          user: this.$store.state.userinfo.username,
           id:this.$route.params.id,
           task_id:this.$route.params.taskid
         }
@@ -54,7 +54,7 @@ export default {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
+            Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
           body: JSON.stringify({ data: this.data }),
