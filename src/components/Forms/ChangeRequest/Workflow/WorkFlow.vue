@@ -134,8 +134,10 @@ export default {
 </template>
 
 <style>
-.wf-style ,.wf-style input{
-    font-size: .7vw;
+.wf-style form{
+  font-size: .7vw;
   opacity: .8;
+  pointer-events: none;
+
 }
 </style>

@@ -24,7 +24,7 @@ const FilePond = vueFilePond(
 );
 setOptions({
     server: {
-        url:"http://localhost:5000",
+        url:"http://172.29.2.97:8080/api/attachments",
       
         // revert: './revert',
         // restore: './restore/',
@@ -1080,7 +1080,7 @@ export default {
               </pf-card-body>
             </pf-card>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
+              class="pf-l-grid__item pf-m-4-col pf-m-12-col-on-md pf-m-8-col-on-xl"
             >
               <pf-action-group>
                 <pf-button type="submit" variant="primary">Submit</pf-button>

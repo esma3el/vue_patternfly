@@ -36,8 +36,8 @@ export default {
       variables(){
         return{
           user: this.$store.state.userinfo.username,
-          task_id:this.$route.params.id,
-          id:this.$route.params.taskid
+          id:this.$route.params.id,
+          task_id:this.$route.params.taskid
         }
       }      
   }},

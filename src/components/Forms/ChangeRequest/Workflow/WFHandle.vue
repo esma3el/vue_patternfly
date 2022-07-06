@@ -33,6 +33,7 @@ export default {
                       type="radio"
                       name="operationmode"
                       value="Accept"
+                      readonly
                       v-model="data.handleOperationMode"
                     />
                   </div>
@@ -56,8 +57,8 @@ export default {
               <div class="pf-l-grid">
                 <pf-form-group>
                   <div class="pf-c-form__group-control">
-                    <select class="pf-c-form-control" name="" id="" v-model="data.changeRequestCategory"
->
+                    <select class="pf-c-form-control" name="" id="" readonly v-model="data.changeRequestCategory">
+                        
                       <option value="Pre-Approved">Pre-Approved</option>
                       <option value="Standard">Standard</option>
                       <option value="Normal">Normal</option>
@@ -73,13 +74,13 @@ export default {
           >
             <pf-form-group
               label="CR Analyst"
-              required
+              readonly
               field-id="CR_analyst"
             >
               <pf-text-input
                 id="analyst"
                 name="CR_analyst"
-                required
+                readonly
                 v-model="data.analyst"
               />
             </pf-form-group>
@@ -98,6 +99,7 @@ export default {
                     <pf-textarea
                       id="changeDescription_input"
                       name="changeDescription"
+                      readonly
                       v-model="data.handleDescription"
                     />
                   </pf-form-group>

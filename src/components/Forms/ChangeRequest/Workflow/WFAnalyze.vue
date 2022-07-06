@@ -23,7 +23,7 @@ export default {
                     <pf-text-input
                       id="priority_input"
                       name="priority"
-                      
+                      readonly     
                       v-model="data.priority"
                     />
                   </pf-form-group>
@@ -51,6 +51,7 @@ export default {
                 <pf-textarea
                   id="testResult_input"
                   name="testResult"
+                  readonly
                   v-model="data.testResult"
                 />
               </pf-form-group>
@@ -63,6 +64,7 @@ export default {
             >
               <pf-form-group label="rollback" field-id="rollback">
                 <pf-textarea
+                readonly
                   id="rollback_input"
                   name="rollback"
                   v-model="data.rollbackPlan"

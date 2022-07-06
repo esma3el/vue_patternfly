@@ -16,11 +16,11 @@ export default {
       <!-- Row 1 -->
       <!-- Title -->
       <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl">
-        <pf-form-group label="Title" required field-id="form-title-group">
+        <pf-form-group label="Title" readonly field-id="form-title-group">
           <pf-text-input
             id="form-title-input"
             name="Title"
-            required
+            readonly
             v-model="data.title"
           />
         </pf-form-group>
@@ -42,6 +42,7 @@ export default {
               <pf-text-input
                 id="change-request-source-input"
                 name="Change Request Source"
+                readonly
                 v-model="data.change_request_source"
               />
             </pf-form-group>
@@ -57,6 +58,7 @@ export default {
               <pf-text-input
                 id="source_ticket_input"
                 name="sourceTicketId"
+                readonly
                 v-model="data.sourceTicketId"
               />
             </pf-form-group>
@@ -72,6 +74,7 @@ export default {
               <pf-text-input
                 id="changeIntention_input"
                 name="changeIntention"
+                readonly
                 v-model="data.changeIntention"
               />
             </pf-form-group>
@@ -86,13 +89,12 @@ export default {
           >
             <pf-form-group
               label="Change Category"
-              required
               field-id="changeCategory_group"
             >
               <pf-text-input
                 id="changeCategory_input"
                 name="changeCategory"
-                required
+                readonly
                 v-model="data.changeCategory"
               />
             </pf-form-group>
@@ -101,11 +103,11 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="Change Type" required field-id="changeType">
+            <pf-form-group label="Change Type" field-id="changeType">
               <pf-text-input
                 id="changeType_input"
                 name="changeType"
-                required
+                readonly
                 v-model="data.changeType"
               />
             </pf-form-group>
@@ -114,11 +116,11 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="Change Item" required field-id="changeItem">
+            <pf-form-group label="Change Item" field-id="changeItem">
               <pf-text-input
                 id="changeItem_input"
                 name="changeItem"
-                required
+                readonly
                 v-model="data.changeItem"
               />
             </pf-form-group>
@@ -132,15 +134,9 @@ export default {
           >
             <pf-form-group
               label="Reason for Change"
-              required
               field-id="changeReason"
             >
-              <pf-text-area
-                id="changeReason_input"
-                name="changeReason"
-                v-model="data.changeReason"
-              />
-              <pf-textarea />
+              <pf-text-area id="changeReason_input" name="changeReason" v-model="data.changeReason" />              
             </pf-form-group>
           </div>
         </div>
@@ -150,11 +146,11 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="Change Product" required field-id="productId">
+            <pf-form-group label="Change Product" readonly field-id="productId">
               <pf-text-input
                 id="productId_input"
                 name="productId"
-                required
+                readonly
                 v-model="data.productId"
               />
             </pf-form-group>
@@ -167,6 +163,7 @@ export default {
               <pf-text-input
                 id="affectedNEType_inout"
                 name="affectedNEType"
+                readonly
                 v-model="data.affectedNEType"
               />
             </pf-form-group>
@@ -179,6 +176,7 @@ export default {
               <pf-text-input
                 id="affectedNEId_input"
                 name="affectedNEId"
+                readonly
                 v-model="data.affectedNEId"
               />
             </pf-form-group>
@@ -191,11 +189,11 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="Priority" required field-id="priority">
+            <pf-form-group label="Priority" readonly field-id="priority">
               <pf-text-input
                 id="priority_input"
                 name="priority"
-                required
+                readonly
                 v-model="data.priority"
               />
             </pf-form-group>
@@ -208,6 +206,7 @@ export default {
               <pf-text-input
                 id="vendorId_input"
                 name="vendorId"
+                readonly
                 v-model="data.vendorId"
               />
             </pf-form-group>
@@ -215,12 +214,12 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="Region" required field-id="region">
+            <pf-form-group label="Region" field-id="region">
               <pf-text-input
                 id="region_input"
                 name="region"
                 v-model="data.region"
-                required
+                readonly
               />
             </pf-form-group>
           </div>
@@ -232,13 +231,13 @@ export default {
           >
             <pf-form-group
               label="Affected ServiceId"
-              required
+              readonly
               field-id="affectedServiceId"
             >
               <pf-text-input
                 id="affectedServiceId_input"
                 name="affectedServiceId"
-                required
+                readonly
                 v-model="data.affectedServiceId"
               />
             </pf-form-group>
@@ -247,14 +246,13 @@ export default {
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
-              label="Start Time For Impact"
-              required
+              label="Start Time For Impact"              
               field-id="startTimeForImpact"
             >
               <pf-text-input
                 id="startTimeForImpact_input"
                 name="startTimeForImpact"
-                required
+                readonly
                 v-model="data.startTimeForImpact"
               />
             </pf-form-group>
@@ -265,14 +263,13 @@ export default {
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
-              label="End Time For Impact"
-              required
+              label="End Time For Impact"              
               field-id="endTimeForImpact"
             >
               <pf-text-input
                 id="endTimeForImpact_input"
                 name="endTimeForImpact"
-                required
+                readonly
                 v-model="data.endTimeForImpact"
               />
             </pf-form-group>
@@ -284,14 +281,13 @@ export default {
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
-              label="Planned Start Time"
-              required
+              label="Planned Start Time"              
               field-id="plannedStartTime"
             >
               <pf-text-input
                 id="plannedStartTime_input"
                 name="plannedStartTime"
-                required
+                readonly
                 v-model="data.plannedStartTime"
               />
             </pf-form-group>
@@ -300,14 +296,13 @@ export default {
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
-              label="Planned End Time"
-              required
+              label="Planned End Time"              
               field-id="plannedEndTime"
             >
               <pf-text-input
                 id="plannedEndTime_input"
                 name="plannedEndTime"
-                required
+                readonly
                 v-model="data.plannedEndTime"
               />
             </pf-form-group>
@@ -333,6 +328,7 @@ export default {
                 id="workPlan_input"
                 name="workPlan"
                 v-model="data.workPlan"
+                readonly
               />
             </pf-form-group>
           </div>
@@ -355,6 +351,7 @@ export default {
                   id="testResult_input"
                   name="testResult"
                   v-model="data.testResult"
+                  readonly
                 />
               </pf-form-group>
             </div>
@@ -372,30 +369,13 @@ export default {
                 <pf-textarea
                   id="changeDescription_input"
                   name="changeDescription"
+                  readonly
                   v-model="data.changeDescription"
                 />
               </pf-form-group>
             </div>
           </div>
-          <!--  -->
-          <div class="pf-l-grid">
-            <!--  -->
-            <div
-              class="pf-l-grid__item pf-m-2-col pf-m-2-col-on-md pf-m-2-col-on-xl"
-            >
-              <pf-form-group
-                label="Attachment"
-                required
-                field-id="simple-form-name-01"
-              >
-                <pf-text-area
-                  id="simple-form-name-01"
-                  name="simple-form-name-01"
-                />
-                <pf-button variant="secondary">Attachment</pf-button>
-              </pf-form-group>
-            </div>
-          </div>
+          <!--  -->          
         </div>
         <!-- Row 11 -->
         <div class="pf-l-grid">
@@ -403,11 +383,11 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
-            <pf-form-group label="implementer" required field-id="implementer">
+            <pf-form-group label="implementer" field-id="implementer">
               <pf-text-input
                 id="implementer"
                 name="implementer"
-                required
+                readonly
                 v-model="data.implementer"
               />
             </pf-form-group>
