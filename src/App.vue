@@ -39,8 +39,13 @@ export default {
         </template>
         <pf-page-header-tools>
           <pf-page-header-tools-group>
-            <pf-page-header-tools-item visibility-xs="hidden">              
+            <pf-page-header-tools-item visibility-xs="hidden">           
+              <div style="display:flex;">
               {{$store.state.userinfo.username }}
+              <pf-button class="btn">
+              <img src="./logout.svg" />
+              </pf-button>
+              </div>
             </pf-page-header-tools-item>
           </pf-page-header-tools-group>
         </pf-page-header-tools>
@@ -81,8 +86,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  font-size: small;
+  color: #2c3e50;  
 }
 .pf-c-page__main-section {
   min-height: calc(100vh - 4.75rem);
@@ -97,5 +101,13 @@ export default {
   position: fixed;
   top:10%;
   right: 0%;
+}
+img{
+  width: 25px;
+  height: 25px;
+  background-color: white;  
+}
+.btn{
+  width: 25px;
 }
 </style>
