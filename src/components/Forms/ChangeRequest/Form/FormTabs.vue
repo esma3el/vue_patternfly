@@ -49,7 +49,8 @@ export default {
       query: GET_TAB_FORM_DATA,
       variables() {
         return {
-          id: this.ticketid,
+          // id: this.ticketid,
+          id: this.$route.params.id,
         };
       },
     },

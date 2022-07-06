@@ -99,7 +99,7 @@ export default {
       query: GET_PENDING_DATA,
       variables(){
       return {
-        user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+        user: this.$store.state.userinfo.username,
         limit: this.perPage,
         offset: this.offset,
       }},
@@ -108,7 +108,7 @@ export default {
       query: GET_PENDING_DATA,
       variables(){
       return {
-        user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+        user: this.$store.state.userinfo.username,
         limit: this.perPage,
         offset: this.offset,
       }},

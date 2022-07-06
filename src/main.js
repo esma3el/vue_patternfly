@@ -86,16 +86,16 @@ store.state._keycloak
         onLoad: 'login-required',
     }).then(async () => {
         // window.localStorage.setItem('token', _keycloak.token)
-        store.commit('set_userinfo',await store.state._keycloak.loadUserProfile()
-        )
+        store.commit('set_userinfo',await store.state._keycloak.loadUserProfile())
 
-        store.state._keycloak.loadUserProfile()
-        .then(function(profile) {
-            const myprofile = JSON.stringify(profile, null, "  ")
-            window.localStorage.setItem('userInfo', myprofile)
-          }).catch(function() {
-            alert('Failed to load user profile');
-          });
+        // store.state._keycloak.loadUserProfile()
+        // .then(function(profile) {
+        //     const myprofile = JSON.stringify(profile, null, "  ")
+        //     window.localStorage.setItem('userInfo', myprofile)
+        //   }
+        //   ).catch(function() {
+        //     alert('Failed to load user profile');
+        //   });
            createApp({
             render: () => h(App),
                   });

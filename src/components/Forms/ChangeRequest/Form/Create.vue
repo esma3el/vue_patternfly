@@ -3,6 +3,37 @@ import VueMultiselect from "vue-multiselect";
 import gql from "graphql-tag";
 import VueUploadComponent from "vue-upload-component";
 
+import vueFilePond,{setOptions } from "vue-filepond";
+
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+
+// Import FilePond plugins
+// Please note that you need to install these plugins separately
+
+// Import image preview plugin styles
+// import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+
+// Import image preview and file type validation plugins
+// import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+// import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+
+const FilePond = vueFilePond(
+  // FilePondPluginFileValidateType,
+  // FilePondPluginImagePreview
+);
+setOptions({
+    server: {
+        url:"http://172.29.2.97:8080/api/attachments",
+      
+        // revert: './revert',
+        // restore: './restore/',
+        // load: './load/',
+        // fetch: './fetch/'      
+      }
+      
+});
+
 const USER_TEMPLATE = gql`
   query ($user: String!) {
     template_create(where: { user: { _eq: $user } }) {
@@ -156,7 +187,7 @@ const GET_AFFECTED_SERVICE = gql`
 
 export default {
   name: "Create",
-  components: { VueMultiselect, FileUpload: VueUploadComponent },
+  components: { VueMultiselect, FileUpload: VueUploadComponent ,FilePond },
   data() {
     return {
       f: "",
@@ -164,7 +195,7 @@ export default {
       selected: [],
       options: [],
       isLoading: false,
-      token: window.localStorage.getItem("token"),
+      token: this.$store.state._keycloak.token,
       err: "",
       data: {
         ticketTitle: "",
@@ -214,6 +245,9 @@ export default {
     },
   },
   methods: {
+    handleProcessFile: function(error, file) {
+            console.log(file);
+        },
     load_template(e){
       this.data.affectedServiceId = [];
       this.data.implementer = [];
@@ -290,19 +324,32 @@ export default {
             source_ticket_id: this.data.sourceTicketId,
             test_result: this.data.testResult,
             start_time_for_impact: this.data.startTimeForImpact,
-            user: "hsm",
+            user: this.$store.state.userinfo.username,
             vendor: this.data.vendorId,
             work_plan: this.data.workPlan,
           },
         })
-        .then((res) => console.log(res));
+        .then((res) => {
+          this.Notification(
+            "info",
+            "Saved Successfuly",
+            `Template Saved Successfuly.`
+          );
+        })
+        .catch((err) => {
+          this.Notification(
+            "danger",
+            "Unknown Error",
+            `Unknown error , ${new Date().toLocaleString()}.`
+          );
+        });
     },
     get_user_template() {
       this.$apolloProvider.defaultClient
         .query({
           query: USER_TEMPLATE,
           variables: {
-            user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+            user: this.$store.state.userinfo.username,
           },
         })
         .then((res) => { this.user_templates = res.data.template_create.map(row => row)});
@@ -389,11 +436,12 @@ export default {
       let formData = new FormData();
       this.files.map((file) => {
         formData.append(file.name, file);
+        console.log(file.name)
       });
 
       const req = await fetch(
-        // "http://localhost:8080/api/attachments",
-        "http://localhost:5000/",
+        // "http://172.29.2.97:8080/api/attachments",
+        "http://localhost:5000",
         {
           method: "POST",
           contentType: false,
@@ -993,29 +1041,24 @@ export default {
                   class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
                 ></div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-2-col-on-xl"
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
                 >
                   <pf-form-group
                     label="Attachment"
                     required
                     field-id="simple-form-name-01"
-                  >
-                    <pf-button variant="secondary">
-                      <file-upload
-                        ref="upload"
-                        v-model="files"
-                        :multiple="true"
-                        post-action="/post.method"
-                        put-action="/put.method"
-                        @input-file="inputFile"
-                        @input-filter="inputFilter"
-                      >
-                        Attachment
-                      </file-upload>
-                    </pf-button>
+                  >                   
+                    <file-pond
+                    name="fileupload"
+                    ref="pond"
+                    label-idle="Click or Drop..."
+                    v-bind:allow-multiple="true"
+                    accepted-file-types="image/jpeg, image/png"
+                    v-on:processfile="handleProcessFile"
+                    />                  
                   </pf-form-group>
 
-                  <pf-chip-group v-for="file in files">
+                  <!-- <pf-chip-group v-for="file in files">
                     <div class="pf-c-chip">
                       <span class="pf-c-chip__text" id="chip_one">{{
                         file.name
@@ -1031,19 +1074,13 @@ export default {
                         <i class="fas fa-times" aria-hidden="true"></i>
                       </button>
                     </div>
-                  </pf-chip-group>
-                  <br />
-                  <pf-button
-                    v-bind:disabled="files.length == 0"
-                    @click="upload"
-                    variant="primary"
-                    >Upload</pf-button
-                  >
+                  </pf-chip-group> -->
+                  <br />                  
                 </div>
               </pf-card-body>
             </pf-card>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
+              class="pf-l-grid__item pf-m-4-col pf-m-12-col-on-md pf-m-8-col-on-xl"
             >
               <pf-action-group>
                 <pf-button type="submit" variant="primary">Submit</pf-button>

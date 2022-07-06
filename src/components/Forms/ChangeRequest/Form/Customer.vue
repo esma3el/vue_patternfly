@@ -2,6 +2,7 @@
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from "graphql-tag";
+import Stepper from './Stepper.vue'
 
 const Q2 = gql`
   query ($user: String!, $id: String!, $task_id: String!) {
@@ -21,22 +22,20 @@ const Q2 = gql`
 
 export default {
   name: "Customer",
-  components: { FormTabs ,WorkFlow},
+  components: { FormTabs ,WorkFlow ,Stepper},
   data() {
     return {
       data: {
         authorizeCustomerDescription: "",
         authorizeCustomerOperationMode: "",
       },
-    info:window.localStorage.getItem('userInfo')
-
     };
   },apollo: {
     tasks:{
       query:Q2,
       variables(){
         return{
-          user: JSON.parse(window.localStorage.getItem("userInfo"))?.username,
+          user: this.$store.state.userinfo.username,
           id:this.$route.params.id,
           task_id:this.$route.params.taskid
         }
@@ -49,7 +48,7 @@ export default {
       {            
         headers:{              
           'Content-Type': 'application/json',
-          'Authorization':'Bearer ' + window.localStorage.getItem('token')
+          'Authorization':'Bearer ' + this.$store.state._keycloak.token
         },
           method:'POST',
           body: JSON.stringify({'data':this.data})
@@ -78,12 +77,19 @@ export default {
 
 <template>
  <div class="pf-l-grid pf-m-gutter">
+  <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+      <pf-card>
+        <pf-card-body>
+           <Stepper />     
+          </pf-card-body>
+      </pf-card>
+    </div>
     <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
       <div class="phase-action">
         <pf-card>
           <pf-card-body>
             <pre v-if="$apollo.loading">..loading</pre>
-            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
+            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
                 >
