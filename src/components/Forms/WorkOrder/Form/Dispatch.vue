@@ -29,9 +29,24 @@ export default {
           body: JSON.stringify({ data: this.data }),
         }
       )
-        .then((data) => console.log(data))
-        .error((err) => console.log(err));
+        .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})        
     },
+    async Notification(variant="",title="",msg=""){
+        this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
+        if(variant != 'danger'){
+        setTimeout(()=>{
+          this.$store.commit('delNotifications')
+        },5000)
+        setTimeout(()=>{
+        // this.$router.push({name:'Home'})
+        window.location.href = '/';
+        },500)
+        }
+    } ,    
+    clear_alarm(){
+      this.$store.commit('delNotifications')
+    }
   },
 };
 </script>
@@ -45,7 +60,8 @@ export default {
               <pf-card-title>Dispatch Work Order</pf-card-title>
               <pf-divider />
               <pf-card-body>
-                <pf-form @submit.prevent="submitData">
+                <pre v-if="$apollo.loading">..loading</pre>
+            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Description" field-id="dispatchDescription">

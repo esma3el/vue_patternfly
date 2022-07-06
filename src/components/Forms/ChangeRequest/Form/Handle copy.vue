@@ -2,7 +2,6 @@
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from 'graphql-tag';
-import Stepper from './Stepper.vue'
 
 const Q2 = gql`
   query ($user: String!, $id: String!, $task_id: String!) {
@@ -22,7 +21,7 @@ const Q2 = gql`
 
 export default {
   name: "Handle",
-  components: { FormTabs, WorkFlow ,Stepper},
+  components: { FormTabs, WorkFlow },
   data() {
     return {
       data: {
@@ -46,13 +45,12 @@ export default {
           task_id:this.$route.params.taskid
         }
       }      
-  }
-  },
+  }},
   methods: {
     async submitData() {
       console.log(JSON.stringify({ data: this.data }));
       const req = fetch(
-        `http://localhost:8080/api/changeRequests/${this.$route.params.id}/handle/${this.$route.params.taskid}`,
+        `http://172.29.2.97:8080/api/changeRequests/${this.$route.params.id}/handle/${this.$route.params.taskid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -86,13 +84,6 @@ export default {
 
 <template>
   <div class="pf-l-grid pf-m-gutter">
-    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
-      <pf-card>
-        <pf-card-body>
-           <Stepper />     
-          </pf-card-body>
-      </pf-card>
-    </div>
     <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
       <div class="phase-action">
         <pf-card>

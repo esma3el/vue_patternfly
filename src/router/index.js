@@ -2,7 +2,9 @@ import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import ProcessedByMe from "../views/ProcessedByMe.vue";
 import About from "../views/About.vue";
+// import store from "../store/store.js";
 
+// store.commit('set_keycloak')
 const routes = [
   {
     path: "/",
@@ -210,5 +212,23 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+
+
+  
+// router.afterEach((to, from, next) => {
+//   setTimeout(()=>{
+//   store.state._keycloak.updateToken(70).then((refreshed) => {
+//     if (refreshed) {
+//       Vue.$log.info('Token refreshed' + refreshed);
+//     } else {
+//       Vue.$log.warn('Token not refreshed, valid for '
+//         + Math.round(store.state._keycloak.tokenParsed.exp + store.state._keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+//     }
+//   }).catch(() => {
+//     Vue.$log.error('Failed to refresh token');
+//   });
+// },100)
+// })
 
 export default router;

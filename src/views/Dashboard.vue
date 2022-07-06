@@ -1,6 +1,6 @@
 <template>
   <div class="pf-l-grid">
-    <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl">
+    <!-- <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl">
       <pf-card>
         <pf-card-title>Total Breached</pf-card-title>
         <pf-card-body> 1 </pf-card-body>
@@ -23,13 +23,13 @@
         <pf-card-title>Total Breached</pf-card-title>
         <pf-card-body> 1 </pf-card-body>
       </pf-card>
-    </div>
+    </div> -->
     <br /><br /><br />
     <pf-divider />
     <!-- <pre>{{tickets_per_date_data}}</pre> -->
-    <pre>{{ tickets_per_function_data[0][0] }}</pre>
+    <pre>{{ tickets_per_function_data[0][0] || null }}</pre>
     <pre>{{ tickets_per_employee_data[0][0] }}</pre>
-    <pre>{{ total_opened_tickets_data[0][0] }}</pre>
+    <pre>{{ total_opened_tickets_data[0][0] || null }}</pre>
     <!-- <pre>{{ tickets_per_date_data}}</pre> -->
     <div class="pf-l-grid" style="gap: 1em; margin-bottom: 1em">
       <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-5-col-on-xl">
@@ -244,7 +244,7 @@ export default {
       })));
     },
     tickets_per_employee_data() {
-      return (this.data.dataSource.data = this.totla_tickets_per_employess.map(
+      return (this.data.dataSource.data = this.totla_tickets_per_employess?.map(
         (row) => ({
           label: row.creator,
           value: row.total,

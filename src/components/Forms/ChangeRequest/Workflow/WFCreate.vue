@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-<pf-form @submit.prevent="submitData" class="pf-l-grid">
+<pf-form @submit.prevent="submitData" class="pf-l-grid wf-style">
     <div class="pf-l-grid">
       <!-- Row 1 -->
       <!-- Title -->
@@ -423,5 +423,10 @@ export default {
 <style>
 .pf-l-grid {
   gap: 2em;
+}
+
+.wf-style ,.wf-style input{
+  font-size: .7vw;
+  opacity: .8;
 }
 </style>

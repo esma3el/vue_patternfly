@@ -1,7 +1,7 @@
 import App from "./App.vue";
 import router from "./router";
-import { createApp, h  } from "vue";
-// import { createStore } from 'vuex'
+import { createApp, h } from "vue";
+import { createStore } from 'vuex'
 
 import {
   ApolloClient,
@@ -25,7 +25,6 @@ import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import Charts from 'fusioncharts/fusioncharts.charts';
 import TimeSeries from 'fusioncharts/fusioncharts.timeseries';
 
-import store from "./store/store.js"
 
 import Keycloak from 'keycloak-js';
 
@@ -52,53 +51,39 @@ const apolloProvider = createApolloProvider({
   defaultClient: apolloClient,
 });
 
-// const store = createStore({
-//   state () {
-//     return {
-//       _keycloak : Object,
-//       userinfo:Object,
-//       Notifications:[]
-//     }
-//   },
-//   mutations: {
-//     setNotifications(state,item){
-//       state.Notifications = [...state.Notifications,item]
-//     },
-//     delNotifications (state) {
-//       state.Notifications = []
-//     },
-//     redirect(){
-//         this.$route.push()
-//     },
-//     set_userinfo(state,value){
-//       state.userinfo = value
-//     },
-//     set_keycloak(state){
-//       state._keycloak = new Keycloak(initOptions)
-//     }
-//   }
-// })
+const store = createStore({
+  state () {
+    return {
+      Notifications:[]
+    }
+  },
+  mutations: {
+    setNotifications(state,item){
+      state.Notifications = [...state.Notifications,item]
+    },
+    delNotifications (state) {
+      state.Notifications = []
+    },
+    redirect(){
+        this.$route.push()
+    }
+  }
+})
 
-// const _keycloak = new Keycloak(initOptions);
-// store.commit('set_keycloak')
-store.state._keycloak
+const _keycloak = new Keycloak(initOptions);
+_keycloak
     .init({
         onLoad: 'login-required',
     }).then(async () => {
-        // window.localStorage.setItem('token', _keycloak.token)
-        store.commit('set_userinfo',await store.state._keycloak.loadUserProfile()
-        )
-
-        store.state._keycloak.loadUserProfile()
+        window.localStorage.setItem('token', _keycloak.token)
+        // const myprofile = await _keycloak.loadUserProfile()
+        _keycloak.loadUserProfile()
         .then(function(profile) {
             const myprofile = JSON.stringify(profile, null, "  ")
             window.localStorage.setItem('userInfo', myprofile)
           }).catch(function() {
             alert('Failed to load user profile');
           });
-           createApp({
-            render: () => h(App),
-                  });
           createApp({
           render: () => h(App),
         }).component('file-upload', VueUploadComponent).component('multiselect', Multiselect).use(VuePatternfly4).use(apolloProvider).use(router)
@@ -107,20 +92,6 @@ store.state._keycloak
         .mount("#app");
     });
 
-
-    router.afterEach((to, from, next) => {
-      store.state._keycloak.updateToken(70).then((refreshed) => {
-        if (refreshed) {
-          console.log('Token refreshed ' + refreshed);
-        } else {
-          console.log('Token not refreshed, valid for '
-            + Math.round(store.state._keycloak.tokenParsed.exp + store.state._keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-        }
-      }).catch(() => {
-        console.log('Failed to refresh token ');
-      });
-    })
-    
 // const app = createApp({
 //   render: () => h(App),
 // });
@@ -137,4 +108,3 @@ store.state._keycloak
 // app.use(router);
 
 // app.mount("#app");
-export default store;

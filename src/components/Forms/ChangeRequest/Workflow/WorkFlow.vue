@@ -49,7 +49,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="wf-style">
     <pf-accordion v-if="$apollo.loading">loading...</pf-accordion>
     <pf-accordion v-else v-for="(item, index) in workflow_data">
 
@@ -132,3 +132,10 @@ export default {
 
   </div>
 </template>
+
+<style>
+.wf-style ,.wf-style input{
+    font-size: .7vw;
+  opacity: .8;
+}
+</style>

@@ -21,9 +21,9 @@
           <pf-nav-item item-id="link6" :to="{name:'ProcessedByMe'}" :active="activeLink == 'link6'">
             Processed By Me
           </pf-nav-item>
-          <!-- <pf-nav-item item-id="link7" :to="{name:'Search'}" :active="activeLink == 'link7'">
-            Search
-          </pf-nav-item> -->
+          <pf-nav-item item-id="link7" :to="{name:'search'}" :active="activeLink == 'link7'">
+           Advanced Search
+          </pf-nav-item>
         </pf-nav-group>
       </pf-nav-list>
     </pf-nav>

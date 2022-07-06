@@ -59,7 +59,7 @@ export default {
 
 <template>
       <div v-if="$apollo.loading"> ...loading</div>
-      <div v-else>
+      <div class="adjust-font" v-else>
         <pf-tabs secondary>
           <pf-tab title="General" :content-ref="$refs.tabGeneral" />
           <pf-tab title="More Details" :content-ref="$refs.tabModeDetails" />
@@ -82,7 +82,7 @@ export default {
               >
                 <pf-text-input
                   id="changeIntention_input"
-                  disabled name="changeIntention"
+                  readonly name="changeIntention"
                   :value="requests[0].changeintention"
                 />
               </pf-form-group>
@@ -93,7 +93,7 @@ export default {
               <pf-form-group label="Change Type"  field-id="changeType">
                 <pf-text-input
                   id="changeType_input"
-                  disabled name="changeType"
+                  readonly name="changeType"
                   
                   v-model="requests[0].changetype"
                 />
@@ -109,7 +109,7 @@ export default {
               >
                 <pf-text-input
                   id="change-request-source-input"
-                  disabled name="Change Request Source"
+                  readonly name="Change Request Source"
                   :value="requests[0].changesource"
                 />
               </pf-form-group>
@@ -127,7 +127,7 @@ export default {
                 >
                   <pf-text-input
                     id="changeCategory_input"
-                    disabled name="changeCategory"
+                    readonly name="changeCategory"
                     
                     :value="requests[0].changecategory"
                   />
@@ -144,7 +144,7 @@ export default {
                 >
                   <pf-text-input
                     id="changeType_input"
-                    disabled name="changeType"
+                    readonly name="changeType"
                     
                     :value="requests[0].changetype"
                   />
@@ -161,7 +161,7 @@ export default {
                 >
                   <pf-text-input
                     id="changeItem_input"
-                    disabled name="changeItem"
+                    readonly name="changeItem"
                     
                     :value="requests[0].changeitem"
                   />
@@ -177,7 +177,7 @@ export default {
                 >
                   <pf-text-input
                     id="source_ticket_input"
-                    disabled name="sourceTicketId"
+                    readonly name="sourceTicketId"
                     :value="requests[0].sourceticketid"
                   />
                 </pf-form-group>
@@ -189,7 +189,7 @@ export default {
                 class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group label="Region"  field-id="region">
-                  <pf-text-input id="region_input" disabled name="region" />
+                  <pf-text-input id="region_input" readonly name="region" />
                 </pf-form-group>
               </div>
               <!--  -->
@@ -200,7 +200,7 @@ export default {
                 <pf-form-group label="Priority"  field-id="priority">
                   <pf-text-input
                     id="priority_input"
-                    disabled name="priority"
+                    readonly name="priority"
                     
                     :value="requests[0].priority"
                   />
@@ -213,7 +213,7 @@ export default {
                 <pf-form-group label="Vendor" field-id="vendorId">
                   <pf-text-input
                     id="vendorId_input"
-                    disabled name="vendorId"
+                    readonly name="vendorId"
                     :value="requests[0].vendorid"
                   />
                 </pf-form-group>
@@ -230,7 +230,7 @@ export default {
                 >
                   <pf-text-input
                     id="changeCategory_input"
-                    disabled name="changeCategory"
+                    readonly name="changeCategory"
                     
                     :value="requests[0].changecategory"
                   />
@@ -245,7 +245,7 @@ export default {
                 <pf-form-group label="AffectedNEType" field-id="affectedNEType">
                   <pf-text-input
                     id="affectedNEType_inout"
-                    disabled name="affectedNEType"
+                    readonly name="affectedNEType"
                     :value="requests[0].affectednetype"
                   />
                 </pf-form-group>
@@ -258,7 +258,7 @@ export default {
                 <pf-form-group label="AffectedNEId" field-id="affectedNEId">
                   <pf-text-input
                     id="affectedNEId_input"
-                    disabled name="affectedNEId"
+                    readonly name="affectedNEId"
                     :value="requests[0].affectedneid"
                   />
                 </pf-form-group>
@@ -276,7 +276,7 @@ export default {
                 >
                   <pf-text-input
                     id="plannedStartTime_input"
-                    disabled name="plannedStartTime"
+                    readonly name="plannedStartTime"
                     
                     :value="requests[0].plannedstarttime"
                   />
@@ -294,7 +294,7 @@ export default {
                 >
                   <pf-text-input
                     id="plannedEndTime_input"
-                    disabled name="plannedEndTime"
+                    readonly name="plannedEndTime"
                     
                     :value="requests[0].plannedendtime"
                   />
@@ -313,7 +313,7 @@ export default {
                 >
                   <pf-text-input
                     id="startTimeForImpact_input"
-                    disabled name="startTimeForImpact"
+                    readonly name="startTimeForImpact"
                     
                     :value="requests[0].starttimeforimpact"
                   />
@@ -331,7 +331,7 @@ export default {
                 >
                   <pf-text-input
                     id="endTimeForImpact_input"
-                    disabled name="endTimeForImpact"
+                    readonly name="endTimeForImpact"
                     
                     :value="requests[0].endtimeforimpact"
                   />
@@ -354,7 +354,7 @@ export default {
               <pf-form-group label="Reason for Change" field-id="changeReason">
                 <pf-textarea
                   id="changeReason_input"
-                  disabled name="changeReason"
+                  readonly name="changeReason"
                   :value="requests[0].changereason"
                 />
               </pf-form-group>
@@ -374,7 +374,7 @@ export default {
               >
                 <pf-textarea
                   id="changeDescription_input"
-                  disabled name="changeDescription"
+                  readonly name="changeDescription"
                   :value="requests[0].changedescription"
                 />
               </pf-form-group>
@@ -391,7 +391,7 @@ export default {
               <pf-form-group label="AffectedNEType" field-id="affectedNEType">
                 <pf-text-input
                   id="affectedNEType_inout"
-                  disabled name="affectedNEType"
+                  readonly name="affectedNEType"
                   :value="requests[0].affectednetype"
                 />
               </pf-form-group>
@@ -407,7 +407,7 @@ export default {
               >
                 <pf-text-input
                   id="affectedServiceId_input"
-                  disabled name="affectedServiceId"
+                  readonly name="affectedServiceId"
                   
                   :value="requests[0].affectedserviceid"
                 />
@@ -420,7 +420,7 @@ export default {
               <pf-form-group label="AffectedNEId" field-id="affectedNEId">
                 <pf-text-input
                   id="affectedNEId_input"
-                  disabled name="affectedNEId"
+                  readonly name="affectedNEId"
                   :value="requests[0].affectedneid"
                 />
               </pf-form-group>
@@ -435,7 +435,7 @@ export default {
                 >
                   <pf-text-input
                     id="plannedStartTime_input"
-                    disabled name="plannedStartTime"
+                    readonly name="plannedStartTime"
                     
                     :value="requests[0].plannedstarttime"
                   />
@@ -453,7 +453,7 @@ export default {
                 >
                   <pf-text-input
                     id="plannedEndTime_input"
-                    disabled name="plannedEndTime"
+                    readonly name="plannedEndTime"
                     
                     :value="requests[0].plannedendtime"
                   />
@@ -470,7 +470,7 @@ export default {
                 >
                   <pf-text-input
                     id="startTimeForImpact_input"
-                    disabled name="startTimeForImpact"
+                    readonly name="startTimeForImpact"
                     
                     :value="requests[0].starttimeforimpact"
                   />
@@ -488,7 +488,7 @@ export default {
                 >
                   <pf-text-input
                     id="endTimeForImpact_input"
-                    disabled name="endTimeForImpact"
+                    readonly name="endTimeForImpact"
                     
                     :value="requests[0].endtimeforimpact"
                   />
@@ -502,7 +502,7 @@ export default {
                 <pf-form-group label="Work Plan" field-id="workPlan">
                   <pf-textarea
                     id="workPlan_input"
-                    disabled name="workPlan"
+                    readonly name="workPlan"
                     :value="requests[0].workplan"
                   />
                 </pf-form-group>
@@ -514,7 +514,7 @@ export default {
                 <pf-form-group label="Test Result" field-id="testResult">
                   <pf-textarea
                     id="testResult_input"
-                    disabled name="testResult"
+                    readonly name="testResult"
                     :value="requests[0].testresult"
                   />
                 </pf-form-group>
@@ -537,7 +537,7 @@ export default {
               >
                 <pf-text-input
                   id="plannedStartTime_input"
-                  disabled name="plannedStartTime"
+                  readonly name="plannedStartTime"
                   
                   :value="requests[0].plannedstarttime"
                 />
@@ -555,7 +555,7 @@ export default {
               >
                 <pf-text-input
                   id="plannedEndTime_input"
-                  disabled name="plannedEndTime"
+                  readonly name="plannedEndTime"
                   
                   :value="requests[0].plannedendtime"
                 />
@@ -571,7 +571,7 @@ export default {
                 >
                   <pf-textarea
                     id="changeDescription_input"
-                    disabled name="changeDescription"
+                    readonly name="changeDescription"
                     :value="requests[0].region"
                   />
                 </pf-form-group>
@@ -592,5 +592,15 @@ export default {
   justify-content: space-between;
   width: 100%;
 } */
+.adjust-font,.pf-c-form-control{
+  font-size: .7vw;
+  opacity: .8;
+  
+}
+.adjust-font input,.adjust-font textarea{
+    pointer-events: none;
+
+}
+
 
 </style>
