@@ -2,6 +2,8 @@
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from "graphql-tag";
+import Stepper from './Stepper.vue'
+
 
 const Q2 = gql`
   query ($user: String!, $id: String!, $task_id: String!) {
@@ -21,7 +23,7 @@ const Q2 = gql`
 
 export default {
   name: "Implement",
-  components: { FormTabs,WorkFlow },
+  components: { FormTabs,WorkFlow ,Stepper},
   data() {
     return {
       data: {
@@ -81,6 +83,13 @@ export default {
 
 <template>
  <div class="pf-l-grid pf-m-gutter">
+  <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+      <pf-card>
+        <pf-card-body>
+           <Stepper />     
+          </pf-card-body>
+      </pf-card>
+    </div>
     <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
       <div class="phase-action">
         <pf-card>
@@ -100,6 +109,8 @@ export default {
                       name="ImplementationStartTime"
                       type="datetime-local"
                       v-model="data.implementationStartTime"
+                      :auto-validate="false"
+
                     />
                   </pf-form-group>
                 </div>
@@ -116,6 +127,7 @@ export default {
                       name="ImplementationEndTime"
                       type="datetime-local"     
                       v-model="data.implementationEndTime"
+                      :auto-validate="false"
                     />
                   </pf-form-group>
                 </div>
@@ -132,6 +144,7 @@ export default {
                       id="implementationQualityApprove_input"
                       name="implementationQualityApprove"
                       v-model="data.implementationQualityApprove"
+                      :auto-validate="false"
                     />
                   </pf-form-group>
                 </div>
@@ -146,6 +159,7 @@ export default {
                       id="osTicketForDb_input"
                       name="osTicketForDb"
                       v-model="data.osTicketForDb"
+                      :auto-validate="false"
                     />
                   </pf-form-group>
                 </div>
@@ -163,6 +177,7 @@ export default {
                       id="Implementation_input"
                       name="Implementation"
                       v-model="data.implementationDescription"
+                      :auto-validate="false"
                     />
                   </pf-form-group>
                 </div>
@@ -181,6 +196,7 @@ export default {
                       id="Implementationresult_input"
                       name="Implementationresult"
                       v-model="data.implementationResult"
+                      
                     />
                   </pf-form-group>
                 </div>

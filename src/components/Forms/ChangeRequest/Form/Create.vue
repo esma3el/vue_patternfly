@@ -227,7 +227,7 @@ export default {
         workPlan: "",
         testResult: "",
         changeDescription: "",
-        implementer: ["hsm", "ismail"],
+        implementer: "hsm",
         implementers: "",
         owner: this.$store.state.userinfo.username,
         owners: this.$store.state.userinfo.username,

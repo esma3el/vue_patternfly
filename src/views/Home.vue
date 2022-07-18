@@ -57,7 +57,7 @@
 import gql from "graphql-tag";
 
 const GET_PENDING_DATA = gql`
-query ($user: String!, $limit: Int!, $offset: Int!) {
+subscription ($user: String!, $limit: Int!, $offset: Int!) {
   tasks(where: {tasks_potential_users: {user_id: {_eq: $user}}, _and: {state: {_eq: "Ready"}}}, limit: $limit, offset: $offset ,order_by: {process: {starttime: desc}}) {
     id
     name

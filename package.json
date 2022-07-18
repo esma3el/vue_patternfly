@@ -17,6 +17,7 @@
     "@vue/apollo-composable": "^4.0.0-alpha.17",
     "@vue/apollo-option": "^4.0.0-alpha.17",
     "@vue/apollo-util": "^4.0.0-alpha.17",
+    "apollo-link-ws": "^1.0.20",
     "carbon-components": "^10.56.0",
     "d3": "^7.4.4",
     "filepond": "^4.30.4",

@@ -44,7 +44,7 @@
           <td role="cell" data-label="Process Name">
             {{ process.processname }}
           </td>
-          <td role="cell" data-label="Created">{{ process.starttime }}</td>
+          <td role="cell" data-label="Created">{{ process.starttime.slice(0,16).replace("T"," ") }}</td>
         </tr>
       </tbody>
     </table>

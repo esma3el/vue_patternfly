@@ -7,6 +7,7 @@ import {
   ApolloClient,
   createHttpLink,
   InMemoryCache,
+  split
 } from "@apollo/client/core";
 import { createApolloProvider } from "@vue/apollo-option";
 import VuePatternfly4 from '@vue-patternfly/core';
@@ -29,6 +30,9 @@ import store from "./store/store.js"
 
 import Keycloak from 'keycloak-js';
 
+import { WebSocketLink } from 'apollo-link-ws'
+import { getMainDefinition } from '@apollo/client/utilities'
+
 const initOptions = {
     url: 'http://localhost:8480/auth/',
     realm: 'kogito',
@@ -43,8 +47,26 @@ const httpLink = createHttpLink({
   },
 });
 
+const wsLink = new WebSocketLink({
+  uri: 'ws://localhost:8580/v1/graphql',
+  options: {
+    reconnect: true,
+  },
+})
+
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+    return definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+  },
+  wsLink,
+  httpLink
+)
+
 const apolloClient = new ApolloClient({
-  link: httpLink,
+  link: link,
   cache: new InMemoryCache(),
 });
 

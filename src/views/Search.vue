@@ -3,68 +3,50 @@ import gql from "graphql-tag";
 
 const QUERY = gql`
   query (
-    $id: String!
     $businesskey: String!
-    $state: String!
+    $state: [Int!]
     $processname: String!
     $limit: Int!
     $offset: Int!
     $from: timestamp!
     $to: timestamp
   ) {
-    tasks(
+    processes_aggregate(
       where: {
-        id: { _iregex: $id }
-        _and: {
-          process: { businesskey: { _iregex: $businesskey } }
-          _and: {
-            process: {
-              processname: { _iregex: $processname }
-              _and: {
-                starttime: { _gte: $from }
-                _and: { starttime: { _lte: $to } }
-              }
-            }
-          }
-        }
-        state: { _iregex: $state }
+        businesskey: { _iregex: $businesskey }
+        starttime: { _gte: $from, _lt: $to }
+        processname: { _iregex: $processname }
+        state: { _in: $state }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    processes(
+      where: {
+        businesskey: { _iregex: $businesskey }
+        starttime: { _gte: $from, _lt: $to }
+        processname: { _iregex: $processname }
+        state: { _in: $state }
       }
       limit: $limit
       offset: $offset
     ) {
       id
-      name
-      referencename
-      tasks_potential_users {
-        user_id
-      }
-      process {
-        id
-        processid
-        businesskey
-        processname
-        starttime
-      }
+      processid
+      businesskey
+      processname
+      starttime
       state
-    }
-    tasks_aggregate(
-      where: {
-        id: { _iregex: $id }
-        process: { businesskey: { _iregex: $businesskey } }
-        state: { _iregex: $state }
-        _and: {
-          process: {
-            processname: { _iregex: $processname }
-            _and: {
-              starttime: { _gte: $from }
-              _and: { starttime: { _lte: $to } }
-            }
-          }
+      tasks {
+        id
+        state
+        name
+        referencename
+        tasks_potential_users {
+          user_id
         }
-      }
-    ) {
-      aggregate {
-        count
       }
     }
   }
@@ -76,12 +58,13 @@ export default {
     return {
       data: [],
       count: 0,
+      selected: [],
       search: {
         id: "",
         title: "",
-        state: "",
+        state: 1,
         startTime: "",
-        endTime: new Date().toLocaleDateString(),
+        endTime: "",
         processname: "",
       },
       perPage: 10,
@@ -90,10 +73,14 @@ export default {
     };
   },
   methods: {
-    setdate(e){
+    onselect(e) {
+      console.log(e);
+    },
+    setdate(e) {
+      let zone = new Date().getTimezoneOffset() * 60 * 1000;
       let d = new Date();
       let minus = 0;
-      switch(parseInt(e.target.id)){
+      switch (parseInt(e.target.id)) {
         case 7:
           minus = 7;
           break;
@@ -101,12 +88,14 @@ export default {
           minus = 30;
           break;
         default:
-           minus = 2;
+          minus = 1;
       }
-      d.setDate(d.getDate() -minus);
-      this.search.startTime = d.toLocaleDateString();
-      this.search.endTime = new Date().toLocaleDateString();
-      },
+      d.setDate(d.getDate() - minus);
+      this.search.startTime = new Date(d - zone).toISOString().slice(0, 16);
+      this.search.endTime = new Date(new Date() - zone)
+        .toISOString()
+        .slice(0, 16);
+    },
     reset() {
       this.perPage = 10;
       this.page = 1;
@@ -128,8 +117,8 @@ export default {
           },
         })
         .then((result) => {
-          this.data = result.data.tasks.map((row) => row);
-          this.count = result.data.tasks_aggregate?.aggregate?.count;
+          this.data = result.data.processes.map((row) => row);
+          this.count = result.data.processes_aggregate?.aggregate?.count;
         });
     },
   },
@@ -141,11 +130,12 @@ export default {
     perPage() {
       this.searchdata();
     },
-  },computed:{
-    end(){
-      return new Date(this.search.endTime)
-    }
-  }
+  },
+  computed: {
+    end() {
+      return new Date(this.search.endTime);
+    },
+  },
 };
 </script>
 
@@ -235,7 +225,7 @@ export default {
               v-model="search.startTime"
               :auto-validate="false"
             />
-            <small>{{search.startTime}}</small>
+            <small>{{ search.startTime }}</small>
           </pf-form-group>
         </div>
         <div
@@ -249,7 +239,7 @@ export default {
               v-model="search.endTime"
               :auto-validate="false"
             />
-            <small>{{search.endTime}}</small>
+            <!-- <small>{{search.endTime}}</small> -->
           </pf-form-group>
         </div>
         <div
@@ -304,15 +294,23 @@ export default {
       <tr v-for="item in data">
         <td>
           <router-link
-            :to="`/${item.process.processid}/${item.process.id}/${item.name}/${item.id}`"  target="_blank"
-            >{{ item.process.businesskey }}</router-link
+            target="_blank"
+            v-if="item.tasks[0]"
+            :to="`/${item.processid}/${item.id}/${item.tasks[0]?.name}/${item.tasks[0]?.id}`"
+            >{{ item.businesskey }}</router-link
+          >
+          <router-link
+            v-else
+            :to="`/${item.processid}/${item.id}`"
+            target="_blank"
+            >{{ item.businesskey }}</router-link
           >
         </td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.tasks_potential_users[0]?.user_id }}</td>
-        <td>{{ item.process?.processname }}</td>
+        <td>{{ item.tasks[0]?.referencename }}</td>
+        <td>{{ item.tasks[0]?.tasks_potential_users[0]?.user_id }}</td>
+        <td>{{ item.processname }}</td>
         <td>{{ item.state }}</td>
-        <td>{{ item.process?.starttime }}</td>
+        <td>{{ item.starttime }}</td>
       </tr>
     </tbody>
   </table>
@@ -331,11 +329,10 @@ export default {
   display: flex;
   flex-direction: row;
   padding-top: 40px;
-  font-size: .7em;
+  font-size: 0.7em;
   align-items: flex-start;
 }
-.search-date a{
+.search-date a {
   margin-left: 1em;
 }
-
 </style>

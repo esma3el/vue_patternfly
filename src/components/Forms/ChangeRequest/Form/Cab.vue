@@ -121,7 +121,7 @@ export default {
                       id=""
                     >
                       <option value="Accept">Accept</option>
-                      <option value="Reject">No</option>
+                      <option value="Reject">Reject</option>
                     </select>
                   </div>
                 </pf-form-group>
