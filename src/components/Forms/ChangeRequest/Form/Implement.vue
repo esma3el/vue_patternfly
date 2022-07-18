@@ -57,8 +57,8 @@ export default {
               method:'POST',
               body: JSON.stringify({'data':this.data})
           })
-          .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})
+         .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
     },
     async Notification(variant="",title="",msg=""){
         this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   

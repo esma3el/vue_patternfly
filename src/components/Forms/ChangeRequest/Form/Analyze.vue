@@ -1,6 +1,9 @@
 <script>
 import FormTabs from "./FormTabs.vue";
 import gql from 'graphql-tag';
+import Stepper from './Stepper.vue'
+import WorkFlow from "../Workflow/WorkFlow.vue";
+
 
 const Q2 = gql`
   query ($user: String!, $id: String!, $task_id: String!) {
@@ -20,7 +23,7 @@ const Q2 = gql`
 
 export default {
   name: "Analyze",
-  components: { FormTabs },
+  components: { FormTabs ,Stepper ,WorkFlow},
   data() {
     return {
       data: {
@@ -44,7 +47,7 @@ export default {
   methods: {
       async submitData(){
           console.log(JSON.stringify({'data':this.data}))
-          const req = fetch(`http://localhost:8080/api/changeRequests/${this.$route.params.id}/analyze/${this.$route.params.taskid}`,
+          const req = await fetch(`http://localhost:8080/api/changeRequests/${this.$route.params.id}/analyze/${this.$route.params.taskid}`,
           {            
             headers:{              
               'Content-Type': 'application/json',
@@ -52,9 +55,8 @@ export default {
             },
               method:'POST',
               body: JSON.stringify({'data':this.data})
-          })
-         .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})                   
+          }).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
     },
     async Notification(variant="",title="",msg=""){
         this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
@@ -79,6 +81,13 @@ export default {
 
 <template>
    <div class="pf-l-grid pf-m-gutter">
+    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+      <pf-card>
+        <pf-card-body>
+           <Stepper />     
+          </pf-card-body>
+      </pf-card>
+    </div>
     <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
       <div class="phase-action">
         <pf-card>

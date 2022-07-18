@@ -6,7 +6,8 @@
       aria-label="This is a simple table example"
       id="table-basic"
     >
-      <caption></caption>
+      <caption>
+      </caption>
       <thead>
         <tr role="row">
           <th role="columnheader" scope="col">Ticket ID</th>

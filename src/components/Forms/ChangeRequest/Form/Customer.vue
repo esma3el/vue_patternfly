@@ -44,7 +44,7 @@ export default {
   methods: {
   async submitData(){
       console.log(JSON.stringify({'data':this.data}))
-      const req = fetch(`http://localhost:8080/api/changeRequests/${this.$route.params.id}/customerApprove/${this.$route.params.taskid}`,
+      const req = await fetch(`http://localhost:8080/api/changeRequests/${this.$route.params.id}/customerApprove/${this.$route.params.taskid}`,
       {            
         headers:{              
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export default {
           body: JSON.stringify({'data':this.data})
       })
       .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})                 
+        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})                 
     },
     async Notification(variant="",title="",msg=""){
         this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   

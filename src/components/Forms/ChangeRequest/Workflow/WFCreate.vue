@@ -21,7 +21,7 @@ export default {
             id="form-title-input"
             name="Title"
             readonly
-            v-model="data.title"
+            v-model="data.ticketTitle"
           />
         </pf-form-group>
       </div>
@@ -43,7 +43,7 @@ export default {
                 id="change-request-source-input"
                 name="Change Request Source"
                 readonly
-                v-model="data.change_request_source"
+                v-model="data.changeSource"
               />
             </pf-form-group>
           </div>
