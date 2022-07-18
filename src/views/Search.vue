@@ -141,7 +141,11 @@ export default {
     perPage() {
       this.searchdata();
     },
-  },
+  },computed:{
+    end(){
+      return new Date(this.search.endTime)
+    }
+  }
 };
 </script>
 

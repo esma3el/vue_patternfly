@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  vue-frontend:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    command: 'sh -c "npm rebuild esbuild && yarn dev"'
