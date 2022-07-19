@@ -179,7 +179,7 @@ export default {
       this.data.faultAlarm.deviceId = this.incidents[0].deviceid,
       console.log(JSON.stringify({ data: this.data }));
       const req = fetch(
-        `http://localhost:8080/api/incidents/${this.$route.params.id}/review/${this.$route.params.taskid}`,
+        `http://172.29.2.97:8080/api/incidents/${this.$route.params.id}/review/${this.$route.params.taskid}`,
         {
           headers: {
             "Content-Type": "application/json",

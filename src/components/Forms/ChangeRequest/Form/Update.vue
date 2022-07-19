@@ -56,7 +56,7 @@ export default {
       this.data.plannedEndTime = this.requests[0].plannedendtime;
       this.data.implementer = this.requests[0].implementer;
       const req = fetch(
-        `http://localhost:8080/api/changeRequests/${this.$route.params.id}/updatePlan/${this.$route.params.taskid}`,
+        `http://172.29.2.97:8080/api/changeRequests/${this.$route.params.id}/updatePlan/${this.$route.params.taskid}`,
         {
           headers: {
             "Content-Type": "application/json",

@@ -5,6 +5,9 @@
         <pf-nav-group title="">
           <pf-nav-item item-id="Home" :to="{name:'create_cr'}"  :active="activeLink == 'Link1'">
             New Change Request
+          </pf-nav-item>
+          <pf-nav-item item-id="incidents" :to="{name:'new_incident'}"  :active="activeLink == 'Link2'">
+            New Incident
           </pf-nav-item>          
           <pf-nav-item item-id="link3" :to="{name:'Dashboard'}" :active="activeLink == 'link3'">
             Dashboard

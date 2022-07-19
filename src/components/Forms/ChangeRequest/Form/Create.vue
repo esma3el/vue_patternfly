@@ -441,7 +441,7 @@ export default {
 
       const req = await fetch(
         // "http://172.29.2.97:8080/api/attachments",
-        "http://localhost:5000",
+        "http://172.29.2.97:5000",
         {
           method: "POST",
           contentType: false,
@@ -464,7 +464,7 @@ export default {
       this.data.affectedServiceId = this.data.affectedServiceId.join(", ");
       this.data.implementer = this.data.implementer.join(", ");
       
-      const req = await fetch("http://localhost:8080/api/changeRequests", {
+      const req = await fetch("http://172.29.2.97:8080/api/changeRequests", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + this.token,

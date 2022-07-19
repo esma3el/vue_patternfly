@@ -39,7 +39,7 @@ export default {
     async submitData() {
       console.log(JSON.stringify({ data: this.data }));
       const req = fetch(
-        `http://localhost:8080/api/fieldSupport/${this.$route.params.id}/create/${this.$route.params.taskid}`,
+        `http://172.29.2.97:8080/api/fieldSupport/${this.$route.params.id}/create/${this.$route.params.taskid}`,
         {
           headers: {
             "Content-Type": "application/json",
