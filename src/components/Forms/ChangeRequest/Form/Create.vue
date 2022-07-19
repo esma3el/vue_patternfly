@@ -3,10 +3,11 @@ import VueMultiselect from "vue-multiselect";
 import gql from "graphql-tag";
 import VueUploadComponent from "vue-upload-component";
 
-import vueFilePond,{setOptions } from "vue-filepond";
+import vueFilePond, { setOptions } from "vue-filepond";
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
+import SearchVue from "../../../../views/Search.vue";
 
 // Import FilePond plugins
 // Please note that you need to install these plugins separately
@@ -18,119 +19,108 @@ import "filepond/dist/filepond.min.css";
 // import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 // import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 
-const FilePond = vueFilePond(
-  // FilePondPluginFileValidateType,
-  // FilePondPluginImagePreview
-);
+const FilePond = vueFilePond();
+// FilePondPluginFileValidateType,
+// FilePondPluginImagePreview
 setOptions({
-    server: {
-        url:"http://172.29.2.97:8080/api/attachments",
-      
-        // revert: './revert',
-        // restore: './restore/',
-        // load: './load/',
-        // fetch: './fetch/'      
-      }
-      
+  server: {
+    url: "http://localhost:8080/api/attachments",
+
+    // revert: './revert',
+    // restore: './restore/',
+    // load: './load/',
+    // fetch: './fetch/'
+  },
 });
 
 const USER_TEMPLATE = gql`
-  query ($user: String!) {
-    template_create(where: { user: { _eq: $user } }) {
-      id
-      title
+    query ($user: String!,$type:String!) {
+    template_create1(where: { user: { _eq: $user },_and:{type:{_eq:$type}} }) {
+			template_name   
     }
   }
 `;
 
-const GET_TEMPLATE_DATA = gql`query($title:String!){
-  template_create(where: {title: {_eq: $title}}) {
-    title
-    affectedNEType
-    affectedNEId
-    affected_serviceID
-    change_category
-    change_intention
-    change_item
-    change_product
-    change_request_source
-    change_type
-    description
-    end_time_for_impact
-    implementer
-    planned_end_time
-    planned_start_time
-    priority
-    reason_for_change
-    region
-    source_ticket_id
-    start_time_for_impact
-    test_result
-    user
-    vendor
-    work_plan
-  }
-}
-`;
-const SAVE_TEMPLATE = gql`
-  mutation (
-    $title: String!
-    $affectedNEId: String!
-    $affectedNEType: String!
-    $affected_serviceID: String!
-    $change_category: String!
-    $change_intention: String!
-    $change_item: String!
-    $change_product: String!
-    $change_request_source: String!
-    $change_type: String!
-    $description: String!
-    $end_time_for_impact: String!
-    $implementer: String!
-    $planned_end_time: String!
-    $planned_start_time: String!
-    $priority: String!
-    $reason_for_change: String!
-    $region: String!
-    $source_ticket_id: String!
-    $test_result: String!
-    $start_time_for_impact: String!
-    $user: String!
-    $vendor: String!
-    $work_plan: String!
-  ) {
-    insert_template_create_one(
-      object: {
-        title: $title
-        affectedNEId: $affectedNEId
-        affectedNEType: $affectedNEType
-        affected_serviceID: $affected_serviceID
-        change_category: $change_category
-        change_intention: $change_intention
-        change_item: $change_item
-        change_product: $change_product
-        change_request_source: $change_request_source
-        change_type: $change_type
-        description: $description
-        end_time_for_impact: $end_time_for_impact
-        implementer: $implementer
-        planned_end_time: $planned_end_time
-        planned_start_time: $planned_start_time
-        priority: $priority
-        reason_for_change: $reason_for_change
-        region: $region
-        source_ticket_id: $source_ticket_id
-        test_result: $test_result
-        start_time_for_impact: $start_time_for_impact
-        user: $user
-        vendor: $vendor
-        work_plan: $work_plan
-      }
+const GET_TEMPLATE_DATA = gql`
+  query ($user: String!, $type: String!,$template_name:String!) {
+    template_create1(
+      where: { user: { _eq: $user }, _and: { type: { _eq: $type },_and:{template_name:{_eq:$template_name}} } }
     ) {
-      title
+      user
+      template_name
+      type
+      template
     }
   }
 `;
+const SAVE_TEMPLATE1 = gql`
+  mutation ($type: String!, $template: json!, $user: String!, $template_name : String!) {
+    insert_template_create1_one(
+      object: { type: $type, user: $user, template: $template ,template_name:$template_name }
+    ) {
+      template
+    }
+  }
+`;
+// const SAVE_TEMPLATE = gql`
+//   mutation (
+//     $title: String!
+//     $affectedNEId: String!
+//     $affectedNEType: String!
+//     $affected_serviceID: String!
+//     $change_category: String!
+//     $change_intention: String!
+//     $change_item: String!
+//     $change_product: String!
+//     $change_request_source: String!
+//     $change_type: String!
+//     $description: String!
+//     $end_time_for_impact: String!
+//     $implementer: String!
+//     $planned_end_time: String!
+//     $planned_start_time: String!
+//     $priority: String!
+//     $reason_for_change: String!
+//     $region: String!
+//     $source_ticket_id: String!
+//     $test_result: String!
+//     $start_time_for_impact: String!
+//     $user: String!
+//     $vendor: String!
+//     $work_plan: String!
+//   ) {
+//     insert_template_create_one(
+//       object: {
+//         title: $title
+//         affectedNEId: $affectedNEId
+//         affectedNEType: $affectedNEType
+//         affected_serviceID: $affected_serviceID
+//         change_category: $change_category
+//         change_intention: $change_intention
+//         change_item: $change_item
+//         change_product: $change_product
+//         change_request_source: $change_request_source
+//         change_type: $change_type
+//         description: $description
+//         end_time_for_impact: $end_time_for_impact
+//         implementer: $implementer
+//         planned_end_time: $planned_end_time
+//         planned_start_time: $planned_start_time
+//         priority: $priority
+//         reason_for_change: $reason_for_change
+//         region: $region
+//         source_ticket_id: $source_ticket_id
+//         test_result: $test_result
+//         start_time_for_impact: $start_time_for_impact
+//         user: $user
+//         vendor: $vendor
+//         work_plan: $work_plan
+//       }
+//     ) {
+//       title
+//     }
+//   }
+// `;
 const GET_CHANGE_CATEGORY = gql`
   query {
     change_category {
@@ -184,12 +174,29 @@ const GET_AFFECTED_SERVICE = gql`
     }
   }
 `;
+const GET_AFFECTED_NE_TYPE = gql`
+  query {
+    affected_ne_type {
+      keycode
+    }
+  }
+`;
+
+const GET_PORDUCT_ID = gql`
+  query {
+    change_product {
+      keycode
+    }
+  }
+`;
 
 export default {
   name: "Create",
-  components: { VueMultiselect, FileUpload: VueUploadComponent ,FilePond },
+  components: { VueMultiselect, FileUpload: VueUploadComponent, FilePond },
   data() {
     return {
+      template_name:"",
+      open1: false,
       f: "",
       files: [],
       selected: [],
@@ -207,7 +214,7 @@ export default {
         changeItem: "",
         changeReason: "",
         productId: "",
-        affectedNEType: "",
+        affectedNEType: [],
         affectedNEId: "",
         priority: "",
         vendorId: "",
@@ -220,10 +227,10 @@ export default {
         workPlan: "",
         testResult: "",
         changeDescription: "",
-        implementer: [],
+        implementer: "hsm",
         implementers: "",
-        owner: "hsm, test",
-        owners: "hsm",
+        owner: this.$store.state.userinfo.username,
+        owners: this.$store.state.userinfo.username,
       },
       changeCategorydata: [],
       changeTypedata: [],
@@ -231,8 +238,10 @@ export default {
       regiondata: [],
       prioritydata: [],
       affectedservicedata: [],
+      affectedNETypeydata: [],
       user_templates: [],
-      loaded_template_data:[]
+      productservicedata: [],
+      loaded_template_data: [],
     };
   },
   mounted() {},
@@ -245,91 +254,42 @@ export default {
     },
   },
   methods: {
-    handleProcessFile: function(error, file) {
-            console.log(file);
-        },
-    load_template(e){
-      this.data.affectedServiceId = [];
+    handleProcessFile: function (error, file) {
+      console.log(file);
+    },
+
+    load_template(search) {
+      console.log(search)
       this.data.implementer = [];
+      this.data.affectedServiceId = [];
+      this.data.affectedNEType = [];
       this.$apolloProvider.defaultClient
         .query({
           query: GET_TEMPLATE_DATA,
-          variables:{
-            title: e.target.value
-          }
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "changeRequest",
+            template_name: search
+          },
         })
-        .then(res => res.data.template_create.map(row => {  
-          console.log(row)                
-         this.data.ticketTitle = row.title
-           this.data.affectedNEId = row.affectedNEId
-           this.data.affectedNEType = row.affectedNEType
-           if(this.data.affectedServiceId != null)
-           {
-              this.data.affectedServiceId.push(row.affected_serviceID)
-           }
-           this.getchangeCategorydata();
-           this.data.changeCategory = row.change_category
-           this.data.changeIntention = row.change_intention
-           this.getchangetypedata();
-           this.data.changeType = row.change_type
-           this.getchangeitemdata();
-           this.data.changeItem = row.change_item
-           this.data.productId = row.change_product
-           this.data.changeSource = row.change_request_source
-           this.data.changeDescription = row.description
-           this.data.endTimeForImpact = row.end_time_for_impact
-           if(this.data.implementer != null)
-           {
-              this.data.implementer.push(row.implementer)
-           }
-           this.data.plannedEndTime = row.planned_end_time
-           this.data.plannedStartTime = row.planned_start_time
-           this.getprioritydata()
-           this.data.priority = row.priority
-           this.data.changeReason = row.reason_for_change
-           this.getregiondata()
-           this.data.region = row.region
-           this.data.sourceTicketId = row.source_ticket_id
-           this.data.testResult = row.test_result
-           this.data.startTimeForImpact = row.start_time_for_impact           
-           this.data.vendorId = row.vendor
-           this.data.workPlan = row.work_plan
-        })
-        );
-      console.log(e.target.value)
-      },
+        .then((res) =>
+          this.data = {...res.data.template_create1[0]?.template})
+    },
     save_template_func() {
       this.$apolloProvider.defaultClient
         .mutate({
-          mutation: SAVE_TEMPLATE,
+          mutation: SAVE_TEMPLATE1,
           variables: {
-            title: this.data.ticketTitle,
-            affectedNEId: this.data.affectedNEId,
-            affectedNEType: this.data.affectedNEType,
-            affected_serviceID: this.data.affectedServiceId[0] || null,
-            change_category: this.data.changeCategory,
-            change_intention: this.data.changeIntention,
-            change_item: this.data.changeItem,
-            change_product: this.data.productId,
-            change_request_source: this.data.changeSource,
-            change_type: this.data.changeType,
-            description: this.data.changeDescription,
-            end_time_for_impact: this.data.endTimeForImpact,
-            implementer: this.data.implementer[0] || null,
-            planned_end_time: this.data.plannedEndTime,
-            planned_start_time: this.data.plannedStartTime,
-            priority: this.data.priority,
-            reason_for_change: this.data.changeReason,
-            region: this.data.region,
-            source_ticket_id: this.data.sourceTicketId,
-            test_result: this.data.testResult,
-            start_time_for_impact: this.data.startTimeForImpact,
             user: this.$store.state.userinfo.username,
-            vendor: this.data.vendorId,
-            work_plan: this.data.workPlan,
+            type: "changeRequest",
+            template_name: this.template_name,
+            template: this.data
           },
         })
         .then((res) => {
+          setTimeout(() => {            
+            this.open1 = !this.open1;
+          }, 1000);
           this.Notification(
             "info",
             "Saved Successfuly",
@@ -339,7 +299,7 @@ export default {
         .catch((err) => {
           this.Notification(
             "danger",
-            "Unknown Error",
+            `${err}`,
             `Unknown error , ${new Date().toLocaleString()}.`
           );
         });
@@ -350,16 +310,24 @@ export default {
           query: USER_TEMPLATE,
           variables: {
             user: this.$store.state.userinfo.username,
+            type: "changeRequest"
           },
         })
-        .then((res) => { this.user_templates = res.data.template_create.map(row => row)});
+        .then((res) => {
+          this.user_templates = res.data.template_create1.map(
+            (row) => row.template_name
+          );
+        });
     },
     clear1() {
       this.changeTypedata = [];
       this.changeitemdata = [];
+      this.data.changeType = "";
+      this.data.changeItem = "";
     },
     clear2() {
       this.changeitemdata = [];
+      this.data.changeItem = "";
     },
     getaffectedservicedata() {
       this.$apolloProvider.defaultClient
@@ -381,6 +349,30 @@ export default {
         .then(
           (res) =>
             (this.prioritydata = res.data.change_priority.map(
+              (res) => res.keycode
+            ))
+        );
+    },
+    getproductservicedata() {
+      this.$apolloProvider.defaultClient
+        .query({
+          query: GET_PORDUCT_ID,
+        })
+        .then(
+          (res) =>
+            (this.productservicedata = res.data.change_product.map(
+              (res) => res.keycode
+            ))
+        );
+    },
+    getaffectedNETypedata() {
+      this.$apolloProvider.defaultClient
+        .query({
+          query: GET_AFFECTED_NE_TYPE,
+        })
+        .then(
+          (res) =>
+            (this.affectedNETypeydata = res.data.affected_ne_type.map(
               (res) => res.keycode
             ))
         );
@@ -436,12 +428,12 @@ export default {
       let formData = new FormData();
       this.files.map((file) => {
         formData.append(file.name, file);
-        console.log(file.name)
+        console.log(file.name);
       });
 
       const req = await fetch(
-        // "http://172.29.2.97:8080/api/attachments",
-        "http://172.29.2.97:5000",
+        "http://localhost:8080/api/attachments",
+        // "http://localhost:5000",
         {
           method: "POST",
           contentType: false,
@@ -460,11 +452,12 @@ export default {
       this.files = this.files.filter((name) => name != e);
     },
     async submitData() {
-      console.log(JSON.stringify({ data: this.data }));
-      this.data.affectedServiceId = this.data.affectedServiceId.join(", ");
-      this.data.implementer = this.data.implementer.join(", ");
-      
-      const req = await fetch("http://172.29.2.97:8080/api/changeRequests", {
+      this.data.affectedServiceId =
+        this.data.affectedServiceId.join(", ") || null;
+      this.data.implementer = this.data.implementer.join(", ") || null;
+      this.data.affectedNEType = this.data.affectedNEType.join(", ") || null;
+
+      const req = await fetch("http://localhost:8080/api/changeRequests", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + this.token,
@@ -482,8 +475,8 @@ export default {
         .catch((err) => {
           this.Notification(
             "danger",
-            "Unknown Error",
-            `Unknown error , ${new Date().toLocaleString()}.`
+            "error",
+            `${err} , ${new Date().toLocaleString()}.`
           );
         });
     },
@@ -497,10 +490,9 @@ export default {
         setTimeout(() => {
           this.$store.commit("delNotifications");
         }, 5000);
-        setTimeout(() => {
-          // this.$router.push({name:'Home'})
-          window.location.href = "/";
-        }, 500);
+        // setTimeout(() => {
+        //   window.location.href = "/";
+        // }, 500);
       }
     },
     clear_alarm() {
@@ -520,17 +512,17 @@ export default {
     <div class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl">
       <pf-card>
         <pf-card-title> <pf-title h="1">Create CR</pf-title></pf-card-title>
-
+        <pre></pre>
         <pf-divider />
 
         <pre v-if="$apollo.loading"></pre>
         <pf-card-body v-else>
           <pf-form @submit.prevent="submitData" class="pf-l-grid">
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-10-col-on-xl"
+              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
             ></div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-2-col-on-xl"
+              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
             >
               <pf-form-group>
                 <div class="pf-c-form__group-label">
@@ -539,25 +531,36 @@ export default {
                   </label>
                 </div>
                 <div class="pf-c-form__group-control">
-                  <select
+                  <VueMultiselect
+                    :multiple="false"
+                    :options="user_templates"
+                    id="ajax"
+                    @click="get_user_template"
+                    @select="load_template"
+                    :show-labels="false"
+                  >
+                  </VueMultiselect>
+                  <!-- <select
                     class="pf-c-form-control"
                     name=""
-                    id=""                    
+                    id=""
                     @click="get_user_template"
                     @change="load_template"
                   >
                     <option value="" disabled selected hidden></option>
                     <option value="" v-if="$apollo.loading">...loading</option>
-                    <option 
+                    <option
                       :value="item.title"
                       v-else
                       v-for="item in user_templates"
-                    >{{item.title}}</option>
-                  </select>
+                    >
+                      {{ item.title }}
+                    </option>
+                  </select> -->
                 </div>
               </pf-form-group>
             </div>
-                    <pf-divider />
+            <pf-divider />
 
             <!-- Row 1 -->
             <!-- Title -->
@@ -637,25 +640,16 @@ export default {
                       </label>
                     </div>
                     <div class="pf-c-form__group-control">
-                      <select
-                        class="pf-c-form-control"
+                      <VueMultiselect
                         v-model="data.changeCategory"
-                        required
-                        :onblur="check"
-                        name=""
-                        id=""
+                        :multiple="false"
+                        :options="changeCategorydata"
+                        id="ajax"
                         @click="getchangeCategorydata"
-                        @change="clear1"
+                        @select="clear1"
+                        :show-labels="false"
                       >
-                        <option value="" v-if="$apollo.loading">
-                          ...loading
-                        </option>
-                        <option
-                          :value="item"
-                          v-else
-                          v-for="item in changeCategorydata"
-                        >{{item}}</option>
-                      </select>
+                      </VueMultiselect>
                     </div>
                   </pf-form-group>
                 </div>
@@ -670,27 +664,16 @@ export default {
                       </label>
                     </div>
                     <div class="pf-c-form__group-control">
-                      <select
-                        class="pf-c-form-control"
+                      <VueMultiselect
                         v-model="data.changeType"
-                        required
-                        :onblur="check"
-                        name=""
-                        id=""
-                        @change="clear2"
+                        :multiple="false"
+                        :options="changeTypedata"
+                        id="ajax"
                         @click="getchangetypedata"
+                        @select="clear2"
+                        :show-labels="false"
                       >
-                        <option value="" v-if="$apollo.loading">
-                          ...loading
-                        </option>
-                        <option
-                          :value="item"
-                          v-else
-                          v-for="item in changeTypedata"
-                        >
-                          {{ item }}
-                        </option>
-                      </select>
+                      </VueMultiselect>
                     </div>
                   </pf-form-group>
                 </div>
@@ -705,25 +688,17 @@ export default {
                       </label>
                     </div>
                     <div class="pf-c-form__group-control">
-                      <select
-                        required
-                        class="pf-c-form-control"
+                      <VueMultiselect
                         v-model="data.changeItem"
-                        name=""
-                        id=""
+                        :multiple="false"
+                        :options="changeitemdata"
+                        id="ajax"
                         @click="getchangeitemdata"
+                        @select="clear2"
+                        :allowEmpty="false"
+                        :show-labels="false"
                       >
-                        <option value="" v-if="$apollo.loading">
-                          ...loading
-                        </option>
-                        <option
-                          :value="item"
-                          v-else
-                          v-for="item in changeitemdata"
-                        >
-                          {{ item }}
-                        </option>
-                      </select>
+                      </VueMultiselect>
                     </div>
                   </pf-form-group>
                 </div>
@@ -755,12 +730,15 @@ export default {
                     required
                     field-id="productId"
                   >
-                    <pf-text-input
-                      id="productId_input"
-                      name="productId"
-                      required
+                    <VueMultiselect
                       v-model="data.productId"
-                    />
+                      :multiple="false"
+                      :options="productservicedata"
+                      id="ajax"
+                      @click="getproductservicedata"
+                      :show-labels="false"
+                    >
+                    </VueMultiselect>
                   </pf-form-group>
                 </div>
                 <!-- affectedNEType -->
@@ -771,11 +749,16 @@ export default {
                     label="AffectedNEType"
                     field-id="affectedNEType"
                   >
-                    <pf-text-input
-                      id="affectedNEType_inout"
-                      name="affectedNEType"
+                    <VueMultiselect
                       v-model="data.affectedNEType"
-                    />
+                      :multiple="true"
+                      :options="affectedNETypeydata"
+                      id="ajax"
+                      @click="getaffectedNETypedata"
+                      :closeOnSelect="false"
+                      :show-labels="false"
+                    >
+                    </VueMultiselect>
                   </pf-form-group>
                 </div>
                 <!-- affectedNEId -->
@@ -803,24 +786,15 @@ export default {
                       </label>
                     </div>
                     <div class="pf-c-form__group-control">
-                      <select
-                        class="pf-c-form-control"
+                      <VueMultiselect
                         v-model="data.priority"
-                        name=""
-                        id=""
+                        :multiple="false"
+                        :options="prioritydata"
+                        id="ajax"
                         @click="getprioritydata"
+                        :show-labels="false"
                       >
-                        <option value="" v-if="$apollo.loading">
-                          ...loading
-                        </option>
-                        <option
-                          :value="item"
-                          v-else
-                          v-for="item in prioritydata"
-                        >
-                          {{ item }}
-                        </option>
-                      </select>
+                      </VueMultiselect>
                     </div>
                   </pf-form-group>
                 </div>
@@ -846,20 +820,15 @@ export default {
                       </label>
                     </div>
                     <div class="pf-c-form__group-control">
-                      <select
-                        class="pf-c-form-control"
+                      <VueMultiselect
                         v-model="data.region"
-                        name=""
-                        id=""
+                        :multiple="false"
+                        :options="regiondata"
+                        id="ajax"
                         @click="getregiondata"
+                        :show-labels="false"
                       >
-                        <option value="" v-if="$apollo.loading">
-                          ...loading
-                        </option>
-                        <option :value="item" v-else v-for="item in regiondata">
-                          {{ item }}
-                        </option>
-                      </select>
+                      </VueMultiselect>
                     </div>
                   </pf-form-group>
                 </div>
@@ -873,10 +842,12 @@ export default {
                   >
                     <VueMultiselect
                       v-model="data.affectedServiceId"
-                      :multiple="false"
+                      :multiple="true"
                       :options="affectedservicedata"
                       id="ajax"
                       @click="getaffectedservicedata"
+                      :closeOnSelect="false"
+                      :show-labels="false"
                     >
                     </VueMultiselect>
                   </pf-form-group>
@@ -1019,6 +990,8 @@ export default {
                       :searchable="true"
                       :loading="isLoading"
                       @search-change="searchfunc"
+                      :closeOnSelect="false"
+                      :show-labels="false"
                     >
                     </VueMultiselect>
                   </pf-form-group>
@@ -1047,15 +1020,15 @@ export default {
                     label="Attachment"
                     required
                     field-id="simple-form-name-01"
-                  >                   
+                  >
                     <file-pond
-                    name="fileupload"
-                    ref="pond"
-                    label-idle="Click or Drop..."
-                    v-bind:allow-multiple="true"
-                    accepted-file-types="image/jpeg, image/png"
-                    v-on:processfile="handleProcessFile"
-                    />                  
+                      name="fileupload"
+                      ref="pond"
+                      label-idle="Click or Drop..."
+                      v-bind:allow-multiple="true"
+                      accepted-file-types="image/jpeg, image/png"
+                      v-on:processfile="handleProcessFile"
+                    />
                   </pf-form-group>
 
                   <!-- <pf-chip-group v-for="file in files">
@@ -1075,7 +1048,7 @@ export default {
                       </button>
                     </div>
                   </pf-chip-group> -->
-                  <br />                  
+                  <br />
                 </div>
               </pf-card-body>
             </pf-card>
@@ -1084,12 +1057,40 @@ export default {
             >
               <pf-action-group>
                 <pf-button type="submit" variant="primary">Submit</pf-button>
-                <pf-button
-                  type="submit"
-                  variant="secondary"
-                  @click.prevent="save_template_func"
+                <pf-button variant="secondary" @click="open1 = !open1"
                   >Save as Template</pf-button
                 >
+                <pf-modal
+                  v-model:open="open1"
+                  variant="small"
+                  title="Save Template"
+                >
+                  <div class="pf-l-grid">
+                    <div
+                      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                    >
+                      <pf-form-group
+                        label="Name"
+                        field-id="templateName-group"
+                      >
+                        <pf-text-input
+                          id="templateName"
+                          name="TemplateName"
+                          v-model="template_name"
+                          required
+                        />
+                        <pre>{{template_name}}</pre>
+                      </pf-form-group>
+                      <br>
+                      <pf-button
+                        type="submit"
+                        @click.prevent="save_template_func"
+                        >Save</pf-button
+                      >
+                      <pf-button @click="open1 = !open1" variant="link">Cancel</pf-button>
+                    </div>
+                  </div>
+                </pf-modal>
                 <pf-button variant="link">Cancel</pf-button>
               </pf-action-group>
             </div>

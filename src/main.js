@@ -7,6 +7,7 @@ import {
   ApolloClient,
   createHttpLink,
   InMemoryCache,
+  split
 } from "@apollo/client/core";
 import { createApolloProvider } from "@vue/apollo-option";
 import VuePatternfly4 from '@vue-patternfly/core';
@@ -29,6 +30,9 @@ import store from "./store/store.js"
 
 import Keycloak from 'keycloak-js';
 
+import { WebSocketLink } from 'apollo-link-ws'
+import { getMainDefinition } from '@apollo/client/utilities'
+
 const initOptions = {
     url: 'http://172.29.2.97:8480/auth/',
     realm: 'kogito',
@@ -43,13 +47,31 @@ const httpLink = createHttpLink({
   },
 });
 
+const wsLink = new WebSocketLink({
+  uri: 'ws://localhost:8580/v1/graphql',
+  options: {
+    reconnect: true,
+  },
+})
+
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+    return definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+  },
+  wsLink,
+  httpLink
+)
+
 const apolloClient = new ApolloClient({
-  link: httpLink,
+  link: link,
   cache: new InMemoryCache(),
 });
 
 const apolloProvider = createApolloProvider({
-  defaultClient: apolloClient,
+  defaultClient: apolloClient
 });
 
 // const store = createStore({
@@ -107,6 +129,18 @@ store.state._keycloak
         .mount("#app");
     });
 
+    window.addEventListener('focus',() => {
+      store.state._keycloak.updateToken(70).then((refreshed) => {
+        if (refreshed) {
+          console.log('Token refreshed ' + refreshed);
+        } else {
+          console.log('Token not refreshed, valid for '
+            + Math.round(store.state._keycloak.tokenParsed.exp + store.state._keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+        }
+      }).catch(() => {
+        console.log('Failed to refresh token ');
+      });
+    })
 
     router.afterEach((to, from, next) => {
       store.state._keycloak.updateToken(70).then((refreshed) => {

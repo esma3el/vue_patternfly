@@ -1,6 +1,9 @@
 <script>
 import FormTabs from "./FormTabs.vue";
 import gql from "graphql-tag";
+import WorkFlow from "../Workflow/WorkFlow.vue";
+import Stepper from './Stepper.vue'
+
 
 const Q2 = gql`
   query ($user: String!, $id: String!, $task_id: String!) {
@@ -33,7 +36,7 @@ const QUERY = gql`
 `;
 export default {
   name: "Update",
-  components: { FormTabs },
+  components: { FormTabs ,WorkFlow , Stepper },
   data() {
     return {
       data: {
@@ -65,9 +68,8 @@ export default {
           method: "POST",
           body: JSON.stringify({ data: this.data }),
         }
-      )
-      .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})
+      ).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
     },
     async Notification(variant = "", title = "", msg = "") {
       this.$store.commit("setNotifications", {
@@ -99,11 +101,11 @@ export default {
     tasks: {
       query: Q2,
       variables() {
-        return {
+        return{
           user: this.$store.state.userinfo.username,
-          task_id:this.$route.params.id,
-          id:this.$route.params.taskid
-        };
+          id:this.$route.params.id,
+          task_id:this.$route.params.taskid
+        }
       },
     },
   },
@@ -112,6 +114,13 @@ export default {
 
 <template>
   <div class="pf-l-grid pf-m-gutter">
+    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+      <pf-card>
+        <pf-card-body>
+           <Stepper />     
+          </pf-card-body>
+      </pf-card>
+    </div>
     <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
       <div class="phase-action">        
         <pf-card>
@@ -139,6 +148,7 @@ export default {
                 >
                   <pf-text-input
                     :readonly="!checked"
+                    :auto-validate="false"
                     id="startTimeForImpact_input"
                     name="startTimeForImpact"
                     type="datetime-local"
@@ -155,6 +165,7 @@ export default {
                 >
                   <pf-text-input
                     :readonly="!checked"
+                    :auto-validate="false"
                     id="endTimeForImpact_input"
                     name="endTimeForImpact"
                     type="datetime-local"
@@ -171,6 +182,7 @@ export default {
                 >
                   <pf-text-input
                     :readonly="!checked"
+                    :auto-validate="false"
                     id="plannedStartTime_input"
                     name="plannedStartTime"
                     type="datetime-local"
@@ -187,11 +199,13 @@ export default {
                 >
                   <pf-text-input
                     :readonly="!checked"
+                    :auto-validate="false"
                     id="plannedEndTime_input"
                     name="plannedEndTime"
                     type="datetime-local"
                     v-model="this.requests[0].plannedendtime"
                   />
+                  <pre>{{requests[0].plannedendtime}}</pre>
                 </pf-form-group>
               </div>
 
@@ -201,9 +215,10 @@ export default {
                 <pf-form-group label="implementer" field-id="implementer">
                   <pf-text-input
                     :readonly="!checked"
+                    :auto-validate="false"
                     id="implementer_input"
                     name="implementer"
-                    v-model="this.requests[0].implementer"
+                    v-model="requests[0].implementer"
                   />
                 </pf-form-group>
               </div>

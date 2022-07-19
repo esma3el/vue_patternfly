@@ -16,9 +16,9 @@ export default {
         setTimeout(()=>{
           this.$store.commit('delNotifications')
         },5000)
-        setTimeout(()=>{
-        this.$router.push({name:'Home'})
-        },1000)
+        // setTimeout(()=>{
+        // this.$router.push({name:'Home'})
+        // },1000)
     } ,    
     clear_alarm(){
       this.$store.commit('delNotifications')
@@ -40,12 +40,7 @@ export default {
         <pf-page-header-tools>
           <pf-page-header-tools-group>
             <pf-page-header-tools-item visibility-xs="hidden">           
-              <div style="display:flex;">
-              {{$store.state.userinfo.username }}
-              <pf-button class="btn">
-              <img src="./logout.svg" />
-              </pf-button>
-              </div>
+              {{$store.state.userinfo.username }}              
             </pf-page-header-tools-item>
           </pf-page-header-tools-group>
         </pf-page-header-tools>
@@ -101,13 +96,5 @@ export default {
   position: fixed;
   top:10%;
   right: 0%;
-}
-img{
-  width: 25px;
-  height: 25px;
-  background-color: white;  
-}
-.btn{
-  width: 25px;
 }
 </style>

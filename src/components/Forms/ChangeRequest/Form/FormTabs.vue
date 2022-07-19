@@ -190,7 +190,7 @@ export default {
                 class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group label="Region"  field-id="region">
-                  <pf-text-input id="region_input" readonly name="region" />
+                  <pf-text-input id="region_input" readonly name="region" :value="requests[0].region" />
                 </pf-form-group>
               </div>
               <!--  -->
