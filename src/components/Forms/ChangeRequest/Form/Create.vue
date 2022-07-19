@@ -297,6 +297,7 @@ export default {
           );
         })
         .catch((err) => {
+          console.log(err)
           this.Notification(
             "danger",
             `${err}`,
@@ -540,23 +541,7 @@ export default {
                     :show-labels="false"
                   >
                   </VueMultiselect>
-                  <!-- <select
-                    class="pf-c-form-control"
-                    name=""
-                    id=""
-                    @click="get_user_template"
-                    @change="load_template"
-                  >
-                    <option value="" disabled selected hidden></option>
-                    <option value="" v-if="$apollo.loading">...loading</option>
-                    <option
-                      :value="item.title"
-                      v-else
-                      v-for="item in user_templates"
-                    >
-                      {{ item.title }}
-                    </option>
-                  </select> -->
+                  
                 </div>
               </pf-form-group>
             </div>

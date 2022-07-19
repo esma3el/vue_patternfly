@@ -4,6 +4,36 @@ import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from "graphql-tag";
 import VueMultiselect from "vue-multiselect";
  
+ const USER_TEMPLATE = gql`
+    query ($user: String!,$type:String!) {
+    template_create1(where: { user: { _eq: $user },_and:{type:{_eq:$type}} }) {
+			template_name   
+    }
+  }
+`;
+
+const GET_TEMPLATE_DATA = gql`
+  query ($user: String!, $type: String!,$template_name:String!) {
+    template_create1(
+      where: { user: { _eq: $user }, _and: { type: { _eq: $type },_and:{template_name:{_eq:$template_name}} } }
+    ) {
+      user
+      template_name
+      type
+      template
+    }
+  }
+`;
+const SAVE_TEMPLATE1 = gql`
+  mutation ($type: String!, $template: json!, $user: String!, $template_name : String!) {
+    insert_template_create1_one(
+      object: { type: $type, user: $user, template: $template ,template_name:$template_name }
+    ) {
+      template
+    }
+  }
+`;
+
 const SEARCH_QUERY = gql`
 query ($search: String!) {
   site(where: {keycode: {_iregex: $search}}, limit: 10) {
@@ -34,6 +64,9 @@ export default {
         domains: [],
         networkTypes: [],
         useroptions:[],
+        user_templates: [],
+        productservicedata: [],
+        loaded_template_data: [],
         data: {
         createDescription: "",
         processor: "",
@@ -73,6 +106,68 @@ export default {
     };
   },    
   methods: {
+    save_template_func() {
+      this.$apolloProvider.defaultClient
+        .mutate({
+          mutation: SAVE_TEMPLATE1,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "changeRequest",
+            template_name: this.template_name,
+            template: this.data
+          },
+        })
+        .then((res) => {
+          setTimeout(() => {            
+            this.open1 = !this.open1;
+          }, 1000);
+          this.Notification(
+            "info",
+            "Saved Successfuly",
+            `Template Saved Successfuly.`
+          );
+        })
+        .catch((err) => {
+          console.log(err)
+          this.Notification(
+            "danger",
+            `${err}`,
+            `Unknown error , ${new Date().toLocaleString()}.`
+          );
+        });
+    },
+     load_template(search) {
+      console.log(search)
+      this.data.implementer = [];
+      this.data.affectedServiceId = [];
+      this.data.affectedNEType = [];
+      this.$apolloProvider.defaultClient
+        .query({
+          query: GET_TEMPLATE_DATA,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "changeRequest",
+            template_name: search
+          },
+        })
+        .then((res) =>
+          this.data = {...res.data.template_create1[0]?.template})
+    },
+    get_user_template() {
+      this.$apolloProvider.defaultClient
+        .query({
+          query: USER_TEMPLATE,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "changeRequest"
+          },
+        })
+        .then((res) => {
+          this.user_templates = res.data.template_create1.map(
+            (row) => row.template_name
+          );
+        });
+    },
     searchfunc(query){
       this.$apolloProvider.defaultClient.query({
             query:SEARCH_QUERY,
@@ -96,7 +191,7 @@ export default {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
+            Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
           body: JSON.stringify({ data: this.data }),
@@ -136,6 +231,33 @@ export default {
               <pf-card-body>
                 <pf-form @submit.prevent="submitData">
                     <div class="pf-l-grid">
+                      <div
+              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
+            ></div>
+                      <div
+              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
+            >
+              <pf-form-group>
+                <div class="pf-c-form__group-label">
+                  <label class="pf-c-form__label" for="user_template">
+                    <span class="pf-c-form__label-text">Template</span>
+                  </label>
+                </div>
+                <div class="pf-c-form__group-control">
+                  <VueMultiselect
+                    :multiple="false"
+                    :options="user_templates"
+                    id="ajax"
+                    @click="get_user_template"
+                    @select="load_template"
+                    :show-labels="false"
+                  >
+                  </VueMultiselect>
+                  
+                </div>
+              </pf-form-group>
+            </div>
+            <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Title" field-id="title" required>
                                 <pf-text-input id="title_input" name="title" required

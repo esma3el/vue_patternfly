@@ -2,6 +2,37 @@
 import gql from "graphql-tag";
 import VueMultiselect from "vue-multiselect";
  
+
+ const USER_TEMPLATE = gql`
+    query ($user: String!,$type:String!) {
+    template_create1(where: { user: { _eq: $user },_and:{type:{_eq:$type}} }) {
+			template_name   
+    }
+  }
+`;
+
+const GET_TEMPLATE_DATA = gql`
+  query ($user: String!, $type: String!,$template_name:String!) {
+    template_create1(
+      where: { user: { _eq: $user }, _and: { type: { _eq: $type },_and:{template_name:{_eq:$template_name}} } }
+    ) {
+      user
+      template_name
+      type
+      template
+    }
+  }
+`;
+const SAVE_TEMPLATE1 = gql`
+  mutation ($type: String!, $template: json!, $user: String!, $template_name : String!) {
+    insert_template_create1_one(
+      object: { type: $type, user: $user, template: $template ,template_name:$template_name }
+    ) {
+      template
+    }
+  }
+`;
+
 const SEARCH_QUERY = gql`
 query ($search: String!) {
   site(where: {keycode: {_iregex: $search}}, limit: 10) {
@@ -23,6 +54,7 @@ const GET_NETWORK_TYPES = gql`
   }
 }
 `;
+
 
 export default {
   components: { VueMultiselect},
@@ -68,9 +100,74 @@ export default {
           deviceId: ""
         }
       },
-    
+      user_templates: [],      
+      loaded_template_data: [],
+      template_name:"",
+      open1:false
     }
   },methods:{
+        load_template(search) {
+      console.log(search)
+      this.data.implementer = [];
+      this.data.affectedServiceId = [];
+      this.data.affectedNEType = [];
+      this.$apolloProvider.defaultClient
+        .query({
+          query: GET_TEMPLATE_DATA,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "incidents",
+            template_name: search
+          },
+        })
+        .then((res) =>
+          this.data = {...res.data.template_create1[0]?.template})
+    },
+    save_template_func() {
+      this.$apolloProvider.defaultClient
+        .mutate({
+          mutation: SAVE_TEMPLATE1,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "incidents",
+            template_name: this.template_name,
+            template: this.data
+          },
+        })
+        .then((res) => {
+          setTimeout(() => {            
+            this.open1 = !this.open1;
+          }, 1000);
+          this.Notification(
+            "info",
+            "Saved Successfuly",
+            `Template Saved Successfuly.`
+          );
+        })
+        .catch((err) => {
+          console.log(err)
+          this.Notification(
+            "danger",
+            `${err}`,
+            `Unknown error , ${new Date().toLocaleString()}.`
+          );
+        });
+    },
+    get_user_template() {
+      this.$apolloProvider.defaultClient
+        .query({
+          query: USER_TEMPLATE,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "incidents"
+          },
+        })
+        .then((res) => {
+          this.user_templates = res.data.template_create1.map(
+            (row) => row.template_name
+          );
+        });
+    },
     searchfunc(query){
       this.$apolloProvider.defaultClient.query({
             query:SEARCH_QUERY,
@@ -94,15 +191,29 @@ export default {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
+            Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
           body: JSON.stringify({ data: this.data }),
         }
-      )
-        .then((data) => console.log(data))
-        .error((err) => console.log(err));
+      ).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
     },
+      async Notification(variant="",title="",msg=""){
+        this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
+        if(variant != 'danger'){
+        setTimeout(()=>{
+          this.$store.commit('delNotifications')
+        },5000)
+        setTimeout(()=>{
+        // this.$router.push({name:'Home'})
+        window.location.href = '/';
+        },500)
+        }
+    } ,    
+    clear_alarm(){
+      this.$store.commit('delNotifications')
+    }
   },
 };
 </script>
@@ -117,8 +228,32 @@ export default {
               <pf-card-title>Create Incident Ticket</pf-card-title>
               <pf-divider />
               <pf-card-body>
-                <pf-form @submit.prevent="submitData">
-                    <div class="pf-l-grid">
+                <pf-form @submit.prevent="submitData">                
+                    <div class="pf-l-grid">   
+          <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-8-col-on-xl"></div>
+          <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+              <pf-form-group>
+                <div class="pf-c-form__group-label">
+                  <label class="pf-c-form__label" for="user_template">
+                    <span class="pf-c-form__label-text">Template</span>
+                  </label>
+                </div>
+                <div class="pf-c-form__group-control">
+                  <VueMultiselect
+                    :multiple="false"
+                    :options="user_templates"
+                    id="ajax"
+                    @click="get_user_template"
+                    @select="load_template"
+                    :show-labels="false"
+                  >
+                  </VueMultiselect>
+                  
+                </div>
+              </pf-form-group>
+            </div>              
+                    <pf-divider />
+             
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Title" field-id="title" required>
                                 <pf-text-input id="title_input" name="title" required
@@ -244,32 +379,66 @@ export default {
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
-                            <pf-form-group label="Fault Summary" field-id="faultSummary">
-                                <pf-textarea id="faultSummary_input" name="faultSummary"
+                          <pf-form-group label="Fault Summary" field-id="faultSummary">
+                            <pf-textarea id="faultSummary_input" name="faultSummary"
                                     v-model="data.faultAlarm.faultSummary" />
                             </pf-form-group>
                         </div>              
                         <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Assign to User" field-id="processor" required>
-                                <pf-text-input id="processor_input" name="processor" required
+                              <pf-text-input id="processor_input" name="processor" required
                                     v-model="data.processor"/>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
-                            <pf-form-group label="Assign to Group" field-id="processors" required>
-                                <pf-text-input id="processors_input" name="processors" required
+                          <pf-form-group label="Assign to Group" field-id="processors" required>
+                            <pf-text-input id="processors_input" name="processors" required
                                     v-model="data.processors"/>
                             </pf-form-group>
                         </div>
-                    </div>
-                    <pf-action-group>
-                      <pf-button type="submit" variant="primary">Submit</pf-button>
-                      <pf-button variant="link">Cancel</pf-button>
-                    </pf-action-group>
-                </pf-form>
+                    </div>                    
+                    <pf-action-group>                                
+                    <pf-button type="submit" variant="primary">Submit</pf-button>
+                <pf-button variant="secondary" @click="open1 = !open1"
+                  >Save as Template</pf-button
+                >
+                <pf-button variant="link">Cancel</pf-button>
+                </pf-action-group>                                
+                  </pf-form>
               </pf-card-body>
-            </pf-card>
+            </pf-card>                                  
+                <pf-modal
+                  v-model:open="open1"
+                  variant="small"
+                  title="Save Template"
+                >
+                  
+                    <div
+                      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                    >
+                      <pf-form-group
+                        label="Name"
+                        field-id="templateName-group"
+                      >
+                        <pf-text-input
+                          id="templateName"
+                          name="TemplateName"
+                          v-model="template_name"
+                          required
+                        />
+                        <pre>{{template_name}}</pre>
+                      </pf-form-group>
+                      <br>
+                      <pf-button
+                        type="submit"
+                        @click.prevent="save_template_func"
+                        >Save</pf-button
+                      >
+                      <pf-button @click="open1 = !open1" variant="link">Cancel</pf-button>
+                    </div>
+                </pf-modal>
+                                             
           </div>
         </div>
       </div>

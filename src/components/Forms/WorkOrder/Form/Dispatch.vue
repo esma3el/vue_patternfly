@@ -23,7 +23,7 @@ export default {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
+            Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
           body: JSON.stringify({ data: this.data }),
