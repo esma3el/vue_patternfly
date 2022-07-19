@@ -14,7 +14,7 @@ function getHeaders() {
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: "http://172.29.2.97:8580/v1/graphql",
+  uri: "http://localhost:8580/v1/graphql",
   fetch: (uri: RequestInfo, options: RequestInit) => {
     options.headers = getHeaders();
     return fetch(uri, options);

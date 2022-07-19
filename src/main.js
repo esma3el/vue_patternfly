@@ -34,13 +34,13 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from '@apollo/client/utilities'
 
 const initOptions = {
-    url: 'http://172.29.2.97:8480/auth/',
+    url: 'http://localhost:8480/auth/',
     realm: 'kogito',
     clientId: 'vue-demo'
 };
 
 const httpLink = createHttpLink({
-  uri: "http://172.29.2.97:8580/v1/graphql",
+  uri: "http://localhost:8580/v1/graphql",
   headers: {
     "content-type": "application/json",
     "x-hasura-admin-secret": "hasura",

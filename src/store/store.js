@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import Keycloak from 'keycloak-js';
 
 const initOptions = {
-    url: 'http://172.29.2.97:8480/auth/',
+    url: 'http://localhost:8480/auth/',
     realm: 'kogito',
     clientId: 'vue-demo'
 };
