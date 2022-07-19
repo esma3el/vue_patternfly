@@ -30,6 +30,7 @@ const QUERY = gql`
       rootcausedescription
       faultreasondescription
       faultsolutiondescription
+      firstoccurtime
     }
   }
 `;
@@ -90,13 +91,18 @@ export default {
       query: Q2,
       variables() {
         return {
-          user: window.localStorage.getItem("userInfo").username,
+          user: this.$store.state.userinfo.username,
           id: this.$route.params.id,
           task_id: this.$route.params.taskid,
         };
       },
     },
   },   
+  computed: {
+    interrupted() {
+      return this.incidents[0].recoverytime
+    }
+  },
   methods: {
     getrootcauseitems(){
       this.$apolloProvider.defaultClient.query({
@@ -118,9 +124,9 @@ export default {
     async submitData() {
       this.data.faultSolution.recoveryTime = this.incidents[0].recoverytime,
       this.data.faultSolution.interruptionTime = this.incidents[0].interruptiontime,
-      this.data.faultSolution.rootCauseCategory = this.incidents[0].rootcausecategory,
-      this.data.faultSolution.rootCauseType = this.incidents[0].rootcausetype,
-      this.data.faultSolution.rootCauseItem = this.incidents[0].rootcauseitem,
+      this.data.faultSolution.rootCauseCategory = 'TEST_CATEGORY', //this.incidents[0].rootcausecategory,
+      this.data.faultSolution.rootCauseType = 'TEST_TYPE', //this.incidents[0].rootcausetype,
+      this.data.faultSolution.rootCauseItem = 'TEST_ITEM', //this.incidents[0].rootcauseitem,
       this.data.faultSolution.rootCauseDescription = this.incidents[0].rootcausedescription,
       this.data.faultSolution.faultReasonDescription = this.incidents[0].faultreasondescription,
       this.data.faultSolution.faultSolutionDescription = this.incidents[0].faultsolutiondescription,
@@ -131,7 +137,7 @@ export default {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
+            Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
           body: JSON.stringify({ data: this.data }),
@@ -184,9 +190,9 @@ export default {
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Service Interruption Time" field-id="interruptionTime" readonly>
-                                <pf-text-input type="number" id="interruptionTime_input" name="interruptionTime" readonly
-                                    v-model="incidents[0].interruptiontime"/>
-                            </pf-form-group>
+                                <pf-text-input type="time" id="interruptionTime_input" name="interruptionTime" readonly
+                                    v-model="interrupted"/>
+                            </pf-form-group>                            
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
             <pf-form-group label="Root Cause Category" field-id="rootCauseCategory" required>
@@ -194,12 +200,13 @@ export default {
                 <select
                   class="pf-c-form-control"
                   v-model="incidents[0].rootcausecategory"
-                  required
+                  
                   name=""
                   id=""   
                   @click="getrootcausecategories"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <option value="" v-if="$apollo.loading">...loading</option>
+                  <option selected :value="incidents[0].rootcausecategory" v-else="incidents[0].rootcausecategory">{{incidents[0].rootcausecategory}}</option>                                                                        
                   <option :value="item" v-else v-for="item in rootCauseCategories">{{item}}</option>                  
                 </select>
               </div>
@@ -213,7 +220,7 @@ export default {
                 <select
                   class="pf-c-form-control"
                   v-model="incidents[0].rootcausetype"
-                  required
+                  
                   name=""
                   id=""   
                   @click="getrootcausetypes"               
@@ -231,7 +238,7 @@ export default {
 
               <div class="pf-c-form__group-control">
                 <select
-                required
+                
                   class="pf-c-form-control"
                   v-model="incidents[0].rootcauseitem"                                    
                   name=""

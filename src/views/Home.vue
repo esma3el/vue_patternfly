@@ -57,7 +57,7 @@
 import gql from "graphql-tag";
 
 const GET_PENDING_DATA = gql`
-subscription ($user: String!, $limit: Int!, $offset: Int!) {
+query ($user: String!, $limit: Int!, $offset: Int!) {
   tasks(where: {tasks_potential_users: {user_id: {_eq: $user}}, _and: {state: {_eq: "Ready"}}}, limit: $limit, offset: $offset ,order_by: {process: {starttime: desc}}) {
     id
     name
@@ -79,8 +79,28 @@ subscription ($user: String!, $limit: Int!, $offset: Int!) {
     }
   }
 }
-
 `;
+
+const SUBSCRIBE_TO_PENDING_DATA = gql`
+subscription ($user: String!, $limit: Int!, $offset: Int!) {
+  tasks(where: {tasks_potential_users: {user_id: {_eq: $user}}, _and: {state: {_eq: "Ready"}}}, limit: $limit, offset: $offset ,order_by: {process: {starttime: desc}}) {
+    id
+    name
+    referencename
+    tasks_potential_users {
+      user_id
+    }
+    process {
+      id
+      processid
+      businesskey
+      processname
+      starttime
+    }
+  }
+}
+`;
+
 export default {
   name: "Home",
   data() {
@@ -103,7 +123,7 @@ export default {
         user: this.$store.state.userinfo.username,
         limit: this.perPage,
         offset: this.offset,
-      }},
+      }}
     },
     tasks_aggregate: {
       query: GET_PENDING_DATA,
@@ -113,9 +133,9 @@ export default {
         limit: this.perPage,
         offset: this.offset,
       }},
-    },
+    }    
   },
-};
+}
 </script>
 
 <style></style>

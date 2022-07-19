@@ -47,10 +47,17 @@ const httpLink = createHttpLink({
   },
 });
 
+let token = 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJzeVo4VkRybzR2SHNPZ01kUXUxUC1vQnA1SlN1Q0JOZHU1eWt5TFh0OGY4In0.eyJleHAiOjE2NTgyMTYzNzksImlhdCI6MTY1ODIxNjA3OSwiYXV0aF90aW1lIjoxNjU4MjE0MDk0LCJqdGkiOiJiNzAxNDc1Yy0yNWQyLTQ2MWItOTYyMi1iMGI4NTE0ZWI1NTUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0Ojg0ODAvYXV0aC9yZWFsbXMva29naXRvIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImI2ODQ2YWJlLTg5M2MtNGIxYy1iZjAxLTdlNGZkYzNlOWJhNCIsInR5cCI6IkJlYXJlciIsImF6cCI6InZ1ZS1kZW1vIiwibm9uY2UiOiI3NjgzMGJhZS1kYzFjLTRmOGItOGU0NS1hZWYwMWNhODI4NWUiLCJzZXNzaW9uX3N0YXRlIjoiMzI2MTVlNjAtNjVhZS00Zjc1LWI4M2EtODdmNzQ5MzU1NjFlIiwiYWNyIjoiMCIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMDAiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJkZWZhdWx0LXJvbGVzLWtvZ2l0byJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJzaWQiOiIzMjYxNWU2MC02NWFlLTRmNzUtYjgzYS04N2Y3NDkzNTU2MWUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImhzbSJ9.oWVkS0BD_mvPpjsaINmGEJrgJYdxWmEDXdY5xBkl2mBovUNBvFG7b0fCzHn8_7dxZsEtS554qJSkQVdD5UNHD-1bbUPxBQyj8unJxVpzBhtAHDrWrBZusyCW6R9nXp_Y-CWVBUyiM6m9_0wNEj-rwGLtkcbwJ58pAs4UUGiL3QkGsAvYYWkc0ez3fjdqW6gc8r2w-C73ysFcUEj5D08QH3nGxUyppYbPsgv7tR8QTfg7GcXVaMM5vAZ5NxxGuz7t4F1jbjBNdF6WzWKkEibdATk7-7vIBAgntBKfufqBeu6UEpuj19vpzZ_xvZ2aqmxZpCTx2uGpLhtV0SFX_ZwiUw'
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:8580/v1/graphql',
-  options: {
+  options: {   
     reconnect: true,
+    timeout: 30000,
+    connectionParams: {
+      headers: {
+        Authorization: "Bearer " + store.state._keycloak.Token
+      }
+    }
   },
 })
 
@@ -107,13 +114,11 @@ store.state._keycloak
     .init({
         onLoad: 'login-required',
     }).then(async () => {
-        // window.localStorage.setItem('token', _keycloak.token)
         store.commit('set_userinfo',await store.state._keycloak.loadUserProfile())
 
         // store.state._keycloak.loadUserProfile()
         // .then(function(profile) {
         //     const myprofile = JSON.stringify(profile, null, "  ")
-        //     window.localStorage.setItem('userInfo', myprofile)
         //   }
         //   ).catch(function() {
         //     alert('Failed to load user profile');

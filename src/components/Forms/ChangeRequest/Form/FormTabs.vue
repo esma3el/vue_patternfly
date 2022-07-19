@@ -596,11 +596,9 @@ export default {
 .adjust-font,.pf-c-form-control{
   font-size: .7vw;
   opacity: .8;
-  
 }
 .adjust-font input,.adjust-font textarea{
     pointer-events: none;
-
 }
 
 

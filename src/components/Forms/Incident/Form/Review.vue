@@ -125,7 +125,7 @@ export default {
       query: Q2,
       variables() {
         return {
-          user: window.localStorage.getItem("userInfo").username,
+          user: this.$store.state.userinfo.username,
           id: this.$route.params.id,
           task_id: this.$route.params.taskid,
         };
@@ -183,7 +183,7 @@ export default {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
+            Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
           body: JSON.stringify({ data: this.data }),
@@ -291,7 +291,7 @@ export default {
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Alarm Type" field-id="alarmType" required>
                                 <pf-text-input id="alarmType_input" name="alarmType" required
-                                    v-model="this.incidents[0].alarmyype"/>
+                                    v-model="this.incidents[0].alarmtype"/>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
