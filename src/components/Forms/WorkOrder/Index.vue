@@ -1,10 +1,11 @@
 <script>
 import FormTabs from "./Form/FormTabs.vue";
 import WorkFlow from "./Workflow/WorkFlow.vue";
+import Attachemnts from "../Attachemnts.vue";
 
 export default {
   name: "Index",
-  components: { FormTabs, WorkFlow },
+  components: { FormTabs, WorkFlow ,Attachemnts},
 };
 
 </script>
@@ -32,11 +33,14 @@ export default {
                 <pf-tabs>
                   <pf-tab title="Ticket Information">
                     <br>
-                    <form-tabs :ticketid="$route.params.id" />
+                    <!-- <form-tabs :ticketid="$route.params.id" /> -->
                   </pf-tab>
                   <pf-tab title="WorkFlow Details">
                     <br>
-                    <!-- <WorkFlow :ticketid="$route.params.id" /> -->
+                    <WorkFlow :ticketid="$route.params.id" />
+                  </pf-tab>
+                  <pf-tab title="Attachments">
+                    <Attachemnts />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>
