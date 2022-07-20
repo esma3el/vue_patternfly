@@ -43,6 +43,17 @@ const GET_TAB_FORM_DATA = gql`
       rootcausedescription
       faultreasondescription
       faultsolutiondescription
+      responseslaname
+      responseslastatus
+      responseslatriggertime
+      responseslatargettime
+      responseslaactualtime
+      restorationslaname
+      restorationslastatus
+      restorationslatriggertime
+      restorationslamilestonetime
+      restorationslatargettime
+      restorationslaactualtime
     }
   }
 `;
@@ -72,11 +83,13 @@ export default {
   <div v-if="$apollo.loading">...loading</div>
   <div class="adjust-font" v-else>
     <pf-tabs secondary>
-      <pf-tab title="Incident Ticket" :content-ref="$refs.supportRequest" />
+      <pf-tab title="Incident Ticket" :content-ref="$refs.incidents" />
       <pf-tab title="Fault Alarm" :content-ref="$refs.faultAlarm" />
-      <pf-tab title="Process Incident" :content-ref="$refs.ProcessIncident" />
+      <pf-tab title="Fault Solution" :content-ref="$refs.ProcessIncident" />
+      <pf-tab title="Associated Alarms" :content-ref="$refs.associatedAlarms" />
+      <pf-tab title="SLA Details" :content-ref="$refs.slaDetails" />
     </pf-tabs>
-    <pf-tab-content ref="supportRequest">
+    <pf-tab-content ref="incidents">
       <br />
       <div class="pf-l-grid">
         <div
@@ -363,6 +376,111 @@ export default {
         </pf-form-group>
       </div>
       </div>
+    </pf-tab-content>
+    <pf-tab-content ref="associatedAlarms">
+      <br />
+      <div class="pf-l-grid">
+        <div
+          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+        >
+          <pf-form-group label="Title" field-id="title">
+            <pf-text-input id="title_input" name="title" readonly 
+            v-model="incidents[0].title"/>
+          </pf-form-group>
+        </div>
+      </div>
+    </pf-tab-content>
+    <pf-tab-content ref="slaDetails">
+      <br />
+      <pf-card>
+        <pf-card-title>{{incidents[0].responseslaname}}</pf-card-title>
+        <pf-divider />
+        <pf-card-body>
+          <div class="pf-l-grid">
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+            >
+              <pf-form-group label="Status" field-id="status">
+              <pf-text-input id="status_input" name="status" readonly 
+                v-model="incidents[0].responseslastatus"/>
+              </pf-form-group>
+            </div>
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+            >
+              <pf-form-group label="Trigger Time" field-id="trigger">
+              <pf-text-input id="trigger_input" name="trigger" readonly 
+                v-model="incidents[0].responseslatriggertime"/>
+              </pf-form-group>
+            </div>
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+            >
+              <pf-form-group label="Target Time" field-id="target">
+              <pf-text-input id="target_input" name="target" readonly 
+                v-model="incidents[0].responseslatargettime"/>
+              </pf-form-group>
+            </div>
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+            >
+              <pf-form-group label="Actual Time" field-id="actual">
+              <pf-text-input id="actual_input" name="actual" readonly 
+                v-model="incidents[0].responseslaactualtime"/>
+              </pf-form-group>
+            </div>
+          </div>
+        </pf-card-body>
+      </pf-card>
+      <br />
+      <pf-card>
+        <pf-card-title>{{incidents[0].restorationslaname}}</pf-card-title>
+        <pf-divider />
+        <pf-card-body>
+          <div class="pf-l-grid">
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+            >
+              <pf-form-group label="Status" field-id="status">
+              <pf-text-input id="status_input" name="status" readonly 
+                v-model="incidents[0].restorationslastatus"/>
+              </pf-form-group>
+            </div>
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+            >
+              <pf-form-group label="Trigger Time" field-id="trigger">
+              <pf-text-input id="trigger_input" name="trigger" readonly 
+                v-model="incidents[0].restorationslatriggertime"/>
+              </pf-form-group>
+            </div>
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+            >
+              <pf-form-group label="Milestone Time" field-id="milestone">
+              <pf-text-input id="milestone_input" name="milestone" readonly 
+                v-model="incidents[0].restorationslamilestonetime"/>
+              </pf-form-group>
+            </div>
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+            >
+              <pf-form-group label="Target Time" field-id="target">
+              <pf-text-input id="target_input" name="target" readonly 
+                v-model="incidents[0].restorationslatargettime"/>
+              </pf-form-group>
+            </div>
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+            >
+              <pf-form-group label="Actual Time" field-id="actual">
+              <pf-text-input id="actual_input" name="actual" readonly 
+                v-model="incidents[0].restorationslaactualtime"/>
+              </pf-form-group>
+            </div>
+          </div>
+        </pf-card-body>
+      </pf-card>
     </pf-tab-content>
   </div>
 </template>

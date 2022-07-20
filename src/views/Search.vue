@@ -162,6 +162,7 @@ export default {
               <option value="Incident Management">Incident Management</option>
               <option value="Change Management">Change Management</option>
               <option value="Work Orders">Work Orders</option>
+              <option value="Field Support">Field Support</option>
             </select>
           </div>
         </div>
@@ -319,7 +320,7 @@ export default {
         <td v-if="item.state == 1">Running</td>
         <td v-else-if="item.state == 2">Completed</td>
         <td v-else>{{ item.state }}</td>
-        <td>{{ item.starttime }}</td>
+        <td>{{ item.starttime.slice(0,16).replace("T"," ") }}</td>
       </tr>
     </tbody>
   </table>

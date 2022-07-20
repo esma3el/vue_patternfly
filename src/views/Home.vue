@@ -34,9 +34,9 @@
             </router-link>
           </td>
           <td role="cell" data-label="SLA">
-            <img v-if="task.process.variables?.meta.restorationSla.status == 'Within Milestone'" src="http://localhost:9000/kogito/public/green.png"/>
-            <img v-else-if="task.process.variables?.meta.restorationSla.status == 'Exeeds Milestone'" src="http://localhost:9000/kogito/public/yellow.png"/>
-            <img v-else-if="task.process.variables?.meta.restorationSla.status == 'Exeeds Target'" src="http://localhost:9000/kogito/public/red.png"/>
+            <img v-if="task.process.variables?.meta?.restorationSla?.status == 'Within Milestone'" src="http://localhost:9000/kogito/public/green.png"/>
+            <img v-else-if="task.process.variables?.meta?.restorationSla?.status == 'Exeeds Milestone'" src="http://localhost:9000/kogito/public/yellow.png"/>
+            <img v-else-if="task.process.variables?.meta?.restorationSla?.status == 'Exeeds Target'" src="http://localhost:9000/kogito/public/red.png"/>
             <img v-else src="http://localhost:9000/kogito/public/green.png"/>
           </td>
           <td role="cell" data-label="Ticket State">

@@ -36,8 +36,8 @@ export default {
         useroptions:[],
         data: {
         createDescription: "",
-        dispatcher: "",
-        dispatchers: "",
+        processor: "",
+        processors: "",
         information: {
           title: "",
           description: "",
@@ -268,15 +268,15 @@ export default {
                         </div>              
                         <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
-                            <pf-form-group label="Dispatcher User" field-id="dispatcher" required>
-                                <pf-text-input id="dispatcher_input" name="dispatcher" required
-                                    v-model="data.dispatcher"/>
+                            <pf-form-group label="FME User" field-id="processor" required>
+                                <pf-text-input id="processor_input" name="processor" required
+                                    v-model="data.processor"/>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
-                            <pf-form-group label="Dispatcher Group" field-id="dispatchers" required>
-                                <pf-text-input id="dispatchers_input" name="dispatchers" required
-                                    v-model="data.dispatchers"/>
+                            <pf-form-group label="FME Group" field-id="processors" required>
+                                <pf-text-input id="processors_input" name="processors" required
+                                    v-model="data.processors"/>
                             </pf-form-group>
                         </div>
                     </div>

@@ -34,8 +34,8 @@ export default {
         useroptions:[],
         data: {
         createDescription: "",
-        dispatcher: "",
-        dispatchers: "",
+        processor: "",
+        processors: "",
         information: {
           title: "",
           description: "",
@@ -99,10 +99,24 @@ export default {
           method: "POST",
           body: JSON.stringify({ data: this.data }),
         }
-      )
-        .then((data) => console.log(data))
-        .error((err) => console.log(err));
+      ).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
     },
+      async Notification(variant="",title="",msg=""){
+        this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
+        if(variant != 'danger'){
+        setTimeout(()=>{
+          this.$store.commit('delNotifications')
+        },5000)
+        setTimeout(()=>{
+        // this.$router.push({name:'Home'})
+        window.location.href = '/';
+        },500)
+        }
+    } ,    
+    clear_alarm(){
+      this.$store.commit('delNotifications')
+    }
   },
 };
 </script>
@@ -251,15 +265,15 @@ export default {
                         </div>              
                         <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
-                            <pf-form-group label="Dispatcher User" field-id="dispatcher" required>
-                                <pf-text-input id="dispatcher_input" name="dispatcher" required
-                                    v-model="data.dispatcher"/>
+                            <pf-form-group label="FME User" field-id="processor" required>
+                                <pf-text-input id="processor_input" name="processor" required
+                                    v-model="data.processor"/>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
-                            <pf-form-group label="Dispatcher Group" field-id="dispatchers" required>
-                                <pf-text-input id="dispatchers_input" name="dispatchers" required
-                                    v-model="data.dispatchers"/>
+                            <pf-form-group label="FME Group" field-id="processors" required>
+                                <pf-text-input id="processors_input" name="processors" required
+                                    v-model="data.processors"/>
                             </pf-form-group>
                         </div>
                     </div>

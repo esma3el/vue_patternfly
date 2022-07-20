@@ -1,7 +1,23 @@
 <script>
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
+import gql from 'graphql-tag';
 
+const Q2 = gql`
+  query ($user: String!, $id: String!, $task_id: String!) {
+    tasks(
+      where: {
+        id: { _eq: $task_id }
+        state: { _eq: "Ready" }
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+        process: { id: { _eq: $id } }
+      }
+    ) {
+      id
+    }
+  }
+`;
 export default {
   name: "Enter",
   components: { FormTabs, WorkFlow },
@@ -12,6 +28,18 @@ export default {
         enterTime: ""
       },
     };
+  },
+  apollo: {
+    tasks:{
+      query:Q2,
+      variables(){
+        return{
+          user: this.$store.state.userinfo.username,
+          id:this.$route.params.id,
+          task_id:this.$route.params.taskid
+        }
+      }      
+    }
   },
   methods: {
     async submitData() {

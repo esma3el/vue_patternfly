@@ -11,6 +11,12 @@ export default {
   },
   mounted() {
   },methods:{
+      async profile() {
+        await this.$store.state._keycloak.accountManagement();
+      },
+      async logout() {
+        await this.$store.state._keycloak.logout();
+      },
       async Notification(){
         this.$store.commit('setNotifications',{'variant':'','title':''})   
         setTimeout(()=>{
@@ -38,6 +44,18 @@ export default {
           />
         </template>
         <pf-page-header-tools>
+          <pf-page-header-tools-group>
+            <pf-page-header-tools-item>           
+              <pf-dropdown v-model:open="open7" plain>
+                <template #toggle>
+                  <pf-kebab-toggle />
+                </template>
+                <pf-dropdown-item @click="profile">Edit Profile</pf-dropdown-item>
+                <pf-dropdown-separator />
+                <pf-dropdown-item @click="logout">Logout</pf-dropdown-item>
+              </pf-dropdown>             
+            </pf-page-header-tools-item>
+          </pf-page-header-tools-group>
           <pf-page-header-tools-group>
             <pf-page-header-tools-item visibility-xs="hidden">           
               {{$store.state.userinfo.username }}              
