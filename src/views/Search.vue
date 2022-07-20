@@ -39,7 +39,8 @@ const QUERY = gql`
       processname
       starttime
       state
-      tasks {
+      variables
+      tasks(where: {state: {_eq: "Ready"}}) {
         id
         state
         name
@@ -275,6 +276,7 @@ export default {
     <thead>
       <tr role="row">
         <th role="columnheader" scope="col">Ticket ID</th>
+        <th role="columnheader" scope="col">SLA</th>
         <th role="columnheader" scope="col">Ticket State</th>
         <th role="columnheader" scope="col">Handler</th>
         <th role="columnheader" scope="col">Process Name</th>
@@ -302,10 +304,21 @@ export default {
             >{{ item.businesskey }}</router-link
           >
         </td>
-        <td>{{ item.tasks[0]?.referencename }}</td>
+        <td role="cell" data-label="SLA">
+            <img v-if="item.variables?.meta?.restorationSla?.status == 'Within Milestone'" src="http://localhost:9000/kogito/public/green.png"/>
+            <img v-else-if="item.variables?.meta?.restorationSla?.status == 'Exeeds Milestone'" src="http://localhost:9000/kogito/public/yellow.png"/>
+            <img v-else-if="item.variables?.meta?.restorationSla?.status == 'Exeeds Target'" src="http://localhost:9000/kogito/public/red.png"/>
+            <img v-else src="http://localhost:9000/kogito/public/green.png"/>
+          </td>
+          <td v-if="item.tasks[0]" role="cell" data-label="Ticket State">
+            {{ item.tasks[0]?.referencename }}
+          </td>
+          <td v-else role="cell" data-label="Ticket State">Closed</td>
         <td>{{ item.tasks[0]?.tasks_potential_users[0]?.user_id }}</td>
         <td>{{ item.processname }}</td>
-        <td>{{ item.state }}</td>
+        <td v-if="item.state == 1">Running</td>
+        <td v-else-if="item.state == 2">Completed</td>
+        <td v-else>{{ item.state }}</td>
         <td>{{ item.starttime }}</td>
       </tr>
     </tbody>

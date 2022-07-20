@@ -50,6 +50,7 @@ export default {
   methods: {
     async submitData() {
       console.log(JSON.stringify({ data: this.data }));
+
       const req = await fetch(
         `http://localhost:8080/api/changeRequests/${this.$route.params.id}/handle/${this.$route.params.taskid}`,
         {

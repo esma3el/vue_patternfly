@@ -5,12 +5,23 @@
         <pf-nav-group title="">
           <pf-nav-item item-id="Home" :to="{name:'create_cr'}"  :active="activeLink == 'Link1'">
             New Change Request
-          </pf-nav-item>          
-          <pf-nav-item item-id="link3" :to="{name:'Dashboard'}" :active="activeLink == 'link3'">
+          </pf-nav-item>
+          <pf-nav-item item-id="incidents" :to="{name:'new_incident'}"  :active="activeLink == 'Link2'">
+            New Incident
+          </pf-nav-item>
+          <pf-nav-item item-id="workOrders" :to="{name:'new_work_order'}"  :active="activeLink == 'Link3'">
+            New Work Order
+          </pf-nav-item>  
+          <pf-nav-item item-id="fieldSupport" :to="{name:'new_field_support'}"  :active="activeLink == 'Link4'">
+            New Support Request
+          </pf-nav-item>     
+        </pf-nav-group>
+          <pf-nav-group>
+            <pf-nav-item item-id="link3" :to="{name:'Dashboard'}" :active="activeLink == 'link5'">
             Dashboard
           </pf-nav-item>
         </pf-nav-group>
-        <pf-nav-group title="">
+        <pf-nav-group>
 
           <pf-nav-item item-id="link4" :to="{name:'Home'}" :active="activeLink == 'link4'">
             Pending For Me

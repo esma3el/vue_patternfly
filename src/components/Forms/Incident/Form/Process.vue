@@ -1,4 +1,5 @@
 <script>
+import VueMultiselect from "vue-multiselect";
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from "graphql-tag";
@@ -59,13 +60,14 @@ query($type: String!){
 
 export default {
   name: "Process",
-  components: { FormTabs, WorkFlow },
+  components: { VueMultiselect, FormTabs, WorkFlow },
   data() {
     return {
       rootCauseCategories: [],
       rootCauseTypes: [],
       rootCauseItems: [],
       data: {
+        processOperationMode: "",
         processDescription: "",
         faultSolution: {
           recoveryTime: "",
@@ -122,14 +124,16 @@ export default {
       }).then(res => this.rootCauseCategories = res.data.root_cause_category.map(row=> row.keycode)); 
     },
     async submitData() {
-      this.data.faultSolution.recoveryTime = this.incidents[0].recoverytime,
-      this.data.faultSolution.interruptionTime = this.incidents[0].interruptiontime,
-      this.data.faultSolution.rootCauseCategory = 'TEST_CATEGORY', //this.incidents[0].rootcausecategory,
-      this.data.faultSolution.rootCauseType = 'TEST_TYPE', //this.incidents[0].rootcausetype,
-      this.data.faultSolution.rootCauseItem = 'TEST_ITEM', //this.incidents[0].rootcauseitem,
-      this.data.faultSolution.rootCauseDescription = this.incidents[0].rootcausedescription,
-      this.data.faultSolution.faultReasonDescription = this.incidents[0].faultreasondescription,
-      this.data.faultSolution.faultSolutionDescription = this.incidents[0].faultsolutiondescription,
+      this.data.processDescription,
+      this.data.processOperationMode,
+      this.data.faultSolution.recoveryTime,
+      this.data.faultSolution.interruptionTime,
+      this.data.faultSolution.rootCauseCategory,
+      this.data.faultSolution.rootCauseType,
+      this.data.faultSolution.rootCauseItem,
+      this.data.faultSolution.rootCauseDescription,
+      this.data.faultSolution.faultReasonDescription,
+      this.data.faultSolution.faultSolutionDescription,
 
       console.log(JSON.stringify({ data: this.data }));
       const req = fetch(
@@ -183,15 +187,30 @@ export default {
             >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                          <pf-form-group label="Operation Mode" field-id="operationMode" required>
+              <div class="pf-c-form__group-control">
+                <select
+                  class="pf-c-form-control"
+                  v-model="data.processOperationMode"
+                >
+                  <option value="Resolve">Resolve</option>
+                  <option value="Work-Order">Work-Order</option>                
+                </select>
+              </div>
+            </pf-form-group>
+                  </div>
+                  <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"></div>
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Service Recovery Time" field-id="recoveryTime" required>
                                 <pf-text-input type="datetime-local" id="recoveryTime_input" name="recoveryTime" required
-                                    v-model="incidents[0].recoverytime"/>
+                                    v-model="data.faultSolution.recoveryTime"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                                                <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+
                             <pf-form-group label="Service Interruption Time" field-id="interruptionTime" readonly>
                                 <pf-text-input type="time" id="interruptionTime_input" name="interruptionTime" readonly
-                                    v-model="interrupted"/>
+                                    v-model="data.faultSolution.interruptionTime"/>
                             </pf-form-group>                            
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
@@ -199,7 +218,7 @@ export default {
               <div class="pf-c-form__group-control">
                 <select
                   class="pf-c-form-control"
-                  v-model="incidents[0].rootcausecategory"
+                  v-model="data.faultSolution.rootCauseCategory"
                   
                   name=""
                   id=""   
@@ -215,11 +234,11 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
           >
-              <pf-form-group label="Root Cause Category" field-id="rootCauseCategory" required>
+              <pf-form-group label="Root Cause Type" field-id="rootCauseType" required>
               <div class="pf-c-form__group-control">
                 <select
                   class="pf-c-form-control"
-                  v-model="incidents[0].rootcausetype"
+                  v-model="data.faultSolution.rootCauseType"
                   
                   name=""
                   id=""   
@@ -234,13 +253,13 @@ export default {
            <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
           >
-                      <pf-form-group label="Root Cause Category" field-id="rootCauseCategory" required>
+                      <pf-form-group label="Root Cause Item" field-id="rootCauseItem" required>
 
               <div class="pf-c-form__group-control">
                 <select
                 
                   class="pf-c-form-control"
-                  v-model="incidents[0].rootcauseitem"                                    
+                  v-model="data.faultSolution.rootCauseItem"                                    
                   name=""
                   id=""   
                   @click="getrootcauseitems"               
@@ -254,19 +273,19 @@ export default {
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Root Cause Description" field-id="rootCauseDescription">
                                 <pf-text-input id="rootCauseDescription_input" name="rootCauseDescription"
-                                    v-model="incidents[0].rootcausedescription"/>
+                                    v-model="data.faultSolution.rootCauseDescription"/>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Fault Reason Description" field-id="faultReasonDescription">
                                 <pf-textarea id="faultReasonDescription_input" name="faultReasonDescription"
-                                    v-model="incidents[0].faultreasondescription" />
+                                    v-model="data.faultSolution.faultReasonDescription" />
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Fault Solution Description" field-id="faultSolutionDescription">
                                 <pf-textarea id="faultSolutionDescription_input" name="faultSolutionDescription"
-                                    v-model="incidents[0].faultsolutiondescription" />
+                                    v-model="data.faultSolution.faultSolutionDescription" />
                             </pf-form-group>
                         </div>
                     </div>
@@ -309,4 +328,5 @@ export default {
   justify-content: space-between;
   width: 100%;
 }
+
 </style>
