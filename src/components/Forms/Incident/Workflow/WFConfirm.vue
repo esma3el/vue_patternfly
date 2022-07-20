@@ -11,123 +11,39 @@ export default {
 </script>
 
 <template>
-    <div>
-        <pf-card>
-          <pf-card-body>
-            <pf-form @submit.prevent="submitData" class="pf-l-grid">
-              <div class="pf-l-grid">
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
-                >
-                  <label>Operation Mode</label>
-                </div>
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                >
-                  <div class="pf-c-radio">
-                    <label class="pf-c-radio__label" for="1">Yes</label>
-                    <input
-                      class="pf-c-radio__input"
-                      id="1"
-                      type="radio"
-                      name="operationmode"
-                      value="Yes"
-                      v-model="data.confirmAccepted"
-                    />
-                  </div>
-                </div>
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                >
-                  <div class="pf-c-radio">
-                    <label class="pf-c-radio__label" for="2">No</label>
-                    <input
-                      class="pf-c-radio__input"
-                      id="2"
-                      type="radio"
-                      name="operationmode"
-                      value="No"
-                      v-model="data.confirmAccepted"
-                    />
-                  </div>
-                </div>
-              </div>
-              <!--  -->
-              <!--  -->
-              <!--  -->
-              <div class="pf-l-grid">
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                >
-                  <label>SatisfactionDegree</label>
-                </div>
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                >
-                  <div class="pf-c-radio">
-                    <label class="pf-c-radio__label" for="1">Poor</label>
-                    <input
-                      class="pf-c-radio__input"
-                      id="1"
-                      type="radio"
-                      name="operationmode"
-                      value="poor"
-                      v-model="data.confirmSatisfactionDegree"
-                    />
-                  </div>
-                </div>
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                >
-                  <div class="pf-c-radio">
-                    <label class="pf-c-radio__label" for="2">Fair</label>
-                    <input
-                      class="pf-c-radio__input"
-                      id="2"
-                      type="radio"
-                      name="operationmode"
-                      value="fair"
-                      v-model="data.confirmSatisfactionDegree"
-                    />
-                  </div>
-                </div>
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
-                >
-                  <div class="pf-c-radio">
-                    <label class="pf-c-radio__label" for="2">Excellent</label>
-                    <input
-                      class="pf-c-radio__input"
-                      id="2"
-                      type="radio"
-                      name="operationmode"
-                      value="excellent"
-                      v-model="data.confirmSatisfactionDegree"
-                    />
-                  </div>
-                </div>
-              </div>
-                <!--  -->
-                <!--  -->
-                <!--  -->
-              <div class="pf-l-grid">
-                <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
-                >
-                  <pf-form-group label="Description" field-id="description">
-                    <pf-textarea
-                      maxlength="2048"
-                      id="description"
-                      name="description"
-                      v-model="data.confirmDescription"
-                    />
-                  </pf-form-group>
-                </div>
-              </div>
-
-             
-            </pf-form>
-          </pf-card-body>
-        </pf-card>               
-    </div>
+<pf-form @submit.prevent="submitData" class="pf-l-grid">
+                    <div class="pf-l-grid wf-style">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                          <pf-form-group label="Operation Mode" field-id="confirmOperationMode" >
+                                <pf-text-input readonly type="text" id="confirmOperationMode_input" name="confirmOperationMode" 
+                                    v-model="data.confirmOperationMode"/>
+                            </pf-form-group>                            
+                        </div>
+                        
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                          <pf-form-group label="Breached SLA?" field-id="slaBreached" >
+                                <pf-text-input readonly type="text" id="slaBreached_input" name="slaBreached" 
+                                    v-model="data.slaBreached"/>
+                            </pf-form-group>                            
+                        </div>
+                        
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                            <pf-form-group label="Description" field-id="confirmDescription">
+                                <pf-textarea readonly id="confirmDescription_input" name="confirmDescription"
+                                    v-model="data.confirmDescription" />
+                            </pf-form-group>
+                        </div>
+                      </div>                    
+                </pf-form>
 </template>
+
+<style>
+.pf-l-grid {
+  gap: 2em;
+}
+.wf-style ,.wf-style input{
+  font-size: .7vw;
+  opacity: .8;
+  pointer-events: none;
+}
+</style>

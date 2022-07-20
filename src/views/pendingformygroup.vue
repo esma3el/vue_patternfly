@@ -7,13 +7,13 @@
       id="table-basic"
     >
       <caption>
-        <pre>{{this.$store.state._keycloak.realmAccess.roles}}</pre>
+
       </caption>
       <thead>
         <tr role="row">
           <th role="columnheader" scope="col">Ticket ID</th>
           <th role="columnheader" scope="col">Ticket State</th>
-          <th role="columnheader" scope="col">Handler</th>
+          <th role="columnheader" scope="col">Group</th>
           <th role="columnheader" scope="col">Process Name</th>
           <th role="columnheader" scope="col">Created</th>
         </tr>
@@ -42,7 +42,7 @@
           <td role="cell" data-label="Process Name">
             {{ task.process.processname }}
           </td>
-          <td role="cell" data-label="Created">{{ task.process.starttime }}</td>
+          <td role="cell" data-label="Created">{{ task.process.starttime.slice(0,16).replace("T"," ") }}</td>
         </tr>
       </tbody>
     </table>

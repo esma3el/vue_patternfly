@@ -1,12 +1,12 @@
 <script>
 export default {
-  name: "WFCreate",
+  name: "WFReview",
   data() {
-    return {
-    }
-  },props:{
-    data:Array
-  }
+    return {};
+  },
+  props: {
+    data: Array,
+  },
 };
 </script>
 

@@ -11,7 +11,7 @@ export default {
 
 <template>
       <div class="pf-l-grid pf-m-gutter">
-        <div
+        <!-- <div
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl"
         >
           <div class="phase-action">
@@ -22,10 +22,8 @@ export default {
               </pf-card-body>
             </pf-card>
           </div>
-        </div>
-        <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-7-col-on-xl"
-        >
+        </div> -->
+        
           <div class="side">
             <pf-card>
               <pf-card-body>
@@ -36,14 +34,14 @@ export default {
                   </pf-tab>
                   <pf-tab title="WorkFlow Details">
                     <br>
-                    <!-- <WorkFlow :ticketid="$route.params.id" /> -->
+                    <WorkFlow :ticketid="$route.params.id" />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>
             </pf-card>
           </div>
         </div>
-      </div>
+      
 </template>
 
 <style>
