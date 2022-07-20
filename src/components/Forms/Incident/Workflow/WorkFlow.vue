@@ -2,16 +2,13 @@
 import gql from "graphql-tag";
 import WFCreate from "./WFCreate.vue";
 import WFHandle from "./WFHandle.vue";
-import WFAnalyze from "./WFAnalyze.vue";
-import WFCabApproval from "./WFCabApproval.vue";
-import WFCustomerApproval from "./WFCustomerApproval.vue";
-import WFPlan from "./WFPlan.vue";
-import WFImplement from "./WFImplement.vue";
+import WFReview from "./WFReview.vue";
+import WFProcess from "./WFProcess.vue";
 import WFConfirm from "./WFConfirm.vue";
 
 const GET_WORKFLOWS = gql`
   query ($id: String!) {
-    requests(where: { id: { _eq: $id } }) {
+    incidents(where: { id: { _eq: $id } }) {
       workflows(order_by: { created: asc }) {
         id
         name
@@ -28,17 +25,17 @@ export default {
     return {
       expanded: 0,
     };
-  },components:{WFCreate,WFHandle,WFAnalyze,WFCabApproval,WFCustomerApproval,WFPlan,WFImplement,WFConfirm},
+  },components:{WFCreate,WFHandle, WFProcess,WFReview,WFConfirm},
   props: {
     ticketid: String,
   },
   computed: {
     workflow_data() {
-      return this.requests[0]?.workflows.map((row) => row);
+      return this.incidents[0]?.workflows.map((row) => row);
     },
   },
   apollo: {
-    requests: {
+    incidents: {
       query: GET_WORKFLOWS,
       variables() {
         return { id: this.ticketid };
@@ -75,47 +72,18 @@ export default {
         :title="item.name"
         :expanded="expanded == index"
         @update:expanded="expanded = $event ? index : null"
-        v-else-if="item.name == 'Analyze'"
+        v-else-if="item.name == 'Process'"
       >
-        <WFAnalyze :data="item.data" />
-      </pf-accordion-item>
-      
-      <pf-accordion-item
-        :title="item.name"
-        :expanded="expanded == index"
-        @update:expanded="expanded = $event ? index : null"
-        v-else-if="item.name == 'Cab Approval'"
-      >
-        <WFCabApproval :data="item.data" />
+        <WFProcess :data="item.data" />
       </pf-accordion-item>
      
      <pf-accordion-item
         :title="item.name"
         :expanded="expanded == index"
         @update:expanded="expanded = $event ? index : null"
-        v-else-if="item.name == 'Customer Approval'"
+        v-else-if="item.name == 'Review'"
       >
-        <WFCustomerApproval :data="item.data" />
-      </pf-accordion-item>
-
-     <pf-accordion-item
-        :title="item.name"
-        :expanded="expanded == index"
-        @update:expanded="expanded = $event ? index : null"
-        v-else-if="item.name == 'Plan'"
-      >
-        <WFPlan :data="item.data" />
-        
-      </pf-accordion-item>
-
-     <pf-accordion-item
-        :title="item.name"
-        :expanded="expanded == index"
-        @update:expanded="expanded = $event ? index : null"
-        v-else-if="item.name == 'Implement'"
-      >
-        <WFImplement :data="item.data" />
-        
+        <WFReview :data="item.data" />
       </pf-accordion-item>
 
      <pf-accordion-item
@@ -132,3 +100,14 @@ export default {
 
   </div>
 </template>
+
+<style>
+.pf-l-grid {
+  gap: 2em;
+}
+.wf-style ,.wf-style input{
+  font-size: .7vw;
+  opacity: .8;
+  pointer-events: none;
+}
+</style>

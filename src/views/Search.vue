@@ -211,10 +211,6 @@ export default {
             </select>
           </div>
         </div>
-
-        <div
-          class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-3-col-on-xl"
-        ></div>
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-3-col-on-xl"
         >
@@ -226,7 +222,6 @@ export default {
               v-model="search.startTime"
               :auto-validate="false"
             />
-            <small>{{ search.startTime }}</small>
           </pf-form-group>
         </div>
         <div
@@ -240,9 +235,9 @@ export default {
               v-model="search.endTime"
               :auto-validate="false"
             />
-            <!-- <small>{{search.endTime}}</small> -->
           </pf-form-group>
         </div>
+        
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-2-col-on-xl"
         >
@@ -252,6 +247,7 @@ export default {
             <a href="#" @click="setdate" id="30">Last 30 Days</a>
           </div>
         </div>
+        
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-1-col-on-xl"
         >
