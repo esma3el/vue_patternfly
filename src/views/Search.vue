@@ -62,7 +62,7 @@ export default {
       search: {
         id: "",
         title: "",
-        state: 1,
+        state: [1,2,3,4,5],
         startTime: "",
         endTime: "",
         processname: "",

@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "WFCabApproval",
+  name: "WFProcess",
   data() {
     return {
     }
