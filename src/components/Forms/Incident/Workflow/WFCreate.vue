@@ -32,17 +32,12 @@ export default {
                                     v-model="data.information.probableCause" />
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
-                            <pf-form-group label="Initial Diagnosis?" field-id="initialDiagnosis" >
-                                <div class="pf-c-form__group-control">
-                                    <select class="pf-c-form-control"
-                                        v-model="data.information.initialDiagnosis" >
-                                        <option value="Yes" >Yes</option>
-                                        <option value="No" >No</option>                                    
-                                    </select>
-                                </div>
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+                            <pf-form-group label="Initial Diagnosis?" field-id="initialDiagnosis">
+                                <pf-textarea readonly id="initialDiagnosis_input" name="initialDiagnosis"
+                                    v-model="data.information.initialDiagnosis" />
                             </pf-form-group>
-                        </div>
+                        </div>  
                         <pf-divider />                        
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Site ID" field-id="siteId" >
