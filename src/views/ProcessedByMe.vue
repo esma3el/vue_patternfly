@@ -11,6 +11,7 @@
       <thead>
         <tr role="row">
           <th role="columnheader" scope="col">Ticket ID</th>
+          <th role="columnheader" scope="col">SLA</th>
           <th role="columnheader" scope="col">Ticket State</th>
           <th role="columnheader" scope="col">Handler</th>
           <th role="columnheader" scope="col">Process Name</th>
@@ -32,6 +33,12 @@
             <router-link v-else :to="`/${process.processid}/${process.id}`">{{
               process.businesskey
             }}</router-link>
+          </td>
+          <td role="cell" data-label="SLA">
+            <img v-if="process.variables?.meta?.restorationSla?.status == 'Within Milestone'" src="http://localhost:9000/kogito/public/green.png"/>
+            <img v-else-if="process.variables?.meta?.restorationSla?.status == 'Exeeds Milestone'" src="http://localhost:9000/kogito/public/yellow.png"/>
+            <img v-else-if="process.variables?.meta?.restorationSla?.status == 'Exeeds Target'" src="http://localhost:9000/kogito/public/red.png"/>
+            <img v-else src="http://localhost:9000/kogito/public/green.png"/>
           </td>
           <td v-if="process.tasks[0]" role="cell" data-label="Ticket State">
             {{ process.tasks[0]?.referencename }}
@@ -69,6 +76,7 @@ const GET_PENDING_DATA = gql`
     businesskey
     processname
     starttime
+    variables
     tasks(where: {state: {_eq: "Ready"}}) {
       id
       state

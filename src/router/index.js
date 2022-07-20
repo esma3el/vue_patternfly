@@ -29,7 +29,7 @@ const routes = [
   {
     path: "/changeRequests/:id",
     name: "home_cr",
-    component: ()=> import('../components/Forms/ChangeRequest/Form/Home.vue'),
+    component: ()=> import('../components/Forms/ChangeRequest/Form/Index.vue'),
   },
   {
     path: "/changeRequests/:id/handle/:taskid",
