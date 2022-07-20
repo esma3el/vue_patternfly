@@ -92,8 +92,7 @@ export default {
         @update:expanded="expanded = $event ? index : null"
         v-else-if="item.name == 'Departure'"
       >
-        <WFDeparture :data="item.data" />
-        
+        <WFDeparture :data="item.data" />        
       </pf-accordion-item>
 
     </pf-accordion>

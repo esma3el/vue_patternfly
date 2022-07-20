@@ -59,11 +59,13 @@ export default {
     return {
       data: [],
       count: 0,
-      selected: [],
+      filter: {"Running":1,
+              "Completed":2,
+              "Pending":3},
       search: {
         id: "",
         title: "",
-        state: [1,2,3,4,5],
+        state: [],
         startTime: "",
         endTime: "",
         processname: "",
@@ -74,8 +76,19 @@ export default {
     };
   },
   methods: {
-    onselect(e) {
-      console.log(e);
+    Onselect(e) {
+      console.log(e.target);
+      // const val = parseInt(e.target.value);
+      const val = this.filter[e.target.value];
+
+      if(this.search.state.includes(val))
+      {
+        this.search.state = this.search.state.filter((item)=>{
+          return item !== val
+        })
+      }else{
+        this.search.state.push(val)
+      }
     },
     setdate(e) {
       let zone = new Date().getTimezoneOffset() * 60 * 1000;
@@ -101,7 +114,8 @@ export default {
       this.perPage = 10;
       this.page = 1;
       this.offset = 0;
-    },
+      this.searchdata()
+    },    
     searchdata() {
       this.$apolloProvider.defaultClient
         .query({
@@ -132,7 +146,7 @@ export default {
       this.searchdata();
     },
   },
-  computed: {
+  computed: {    
     end() {
       return new Date(this.search.endTime);
     },
@@ -143,9 +157,10 @@ export default {
 <template>
   <pf-card>
     <pf-card-body>
-      <pf-form @submit.prevent="searchdata" class="pf-l-grid">
+      <!-- <pf-form @submit.prevent="searchdata" class="pf-l-grid"> -->
+      <section class="pf-l-grid">
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-3-col-on-xl"
         >
           <div class="pf-c-form__group-label">
             <label class="pf-c-form__label" for="Change Category">
@@ -166,7 +181,7 @@ export default {
           </div>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-3-col-on-xl"
         >
           <pf-form-group label="Ticket ID" field-id="form-id-group">
             <pf-text-input
@@ -197,8 +212,14 @@ export default {
               <span class="pf-c-form__label-text">Ticket Status</span>
             </label>
           </div>
+          
           <div class="pf-c-form__group-control">
-            <select
+            <pf-select @select="Onselect" placeholder="Filter" variant="checkbox">
+              <pf-select-option value="Running" />
+              <pf-select-option value="Completed"/>
+              <pf-select-option value="Pending" />
+            </pf-select>
+            <!-- <select
               class="pf-c-form-control"
               v-model="search.state"
               name=""
@@ -208,7 +229,7 @@ export default {
               <option value="Completed">Completed</option>
               <option value="Ready">Running</option>
               <option value="Closed">Closed</option>
-            </select>
+            </select> -->
           </div>
         </div>
         <div
@@ -255,14 +276,14 @@ export default {
             <pf-button
               type="submit"
               variant="primary"
-              @click="reset"
+              @click.prevent="reset"
               :disabled="!search.processname"
               small
               >Search</pf-button
             >
           </pf-action-group>
         </div>
-      </pf-form>
+      </section>
     </pf-card-body>
   </pf-card>
   <br />

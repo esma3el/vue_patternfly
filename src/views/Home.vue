@@ -26,18 +26,18 @@
       <tbody role="rowgroup" v-else>
         
         <tr role="row" v-for="task in tasks">
+            <td role="cell" data-label="SLA">
+              <img v-if="task.process.variables?.meta?.restorationSla?.status == 'Within Milestone'" src="http://172.29.2.97:9000/kogito/public/green.png"/>
+              <img v-else-if="task.process.variables?.meta?.restorationSla?.status == 'Exeeds Milestone'" src="http://172.29.2.97:9000/kogito/public/yellow.png"/>
+              <img v-else-if="task.process.variables?.meta?.restorationSla?.status == 'Exeeds Target'" src="http://172.29.2.97:9000/kogito/public/red.png"/>
+              <img v-else src="http://172.29.2.97:9000/kogito/public/green.png"/>
+            </td>
           <td role="cell" data-label="Ticket ID">
             <router-link
               :to="`/${task.process.processid}/${task.process.id}/${task.name}/${task.id}`"
             >
               {{ task.process.businesskey }}
             </router-link>
-          </td>
-          <td role="cell" data-label="SLA">
-            <img v-if="task.process.variables?.meta.restorationSla.status == 'Within Milestone'" src="http://localhost:9000/kogito/public/green.png"/>
-            <img v-else-if="task.process.variables?.meta.restorationSla.status == 'Exeeds Milestone'" src="http://localhost:9000/kogito/public/yellow.png"/>
-            <img v-else-if="task.process.variables?.meta.restorationSla.status == 'Exeeds Target'" src="http://localhost:9000/kogito/public/red.png"/>
-            <img v-else src="http://localhost:9000/kogito/public/green.png"/>
           </td>
           <td role="cell" data-label="Ticket State">
             {{ task.referencename }}
