@@ -1,10 +1,11 @@
 <script>
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
+import Stepper from '../../Stepper.vue'
 
 export default {
   name: "Process",
-  components: { FormTabs, WorkFlow },
+  components: { FormTabs, WorkFlow ,Stepper},
   data() {
     return {
       data: {
@@ -51,6 +52,13 @@ export default {
 
 <template>
       <div class="pf-l-grid pf-m-gutter">
+        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+      <pf-card>
+        <pf-card-body>
+           <Stepper />     
+          </pf-card-body>
+      </pf-card>
+    </div>
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
           <div class="phase-action">

@@ -58,14 +58,14 @@ export default {
   data() {
     return {
       data: [],
-      count: 0,
+      count: 5,
       filter: {"Running":1,
               "Completed":2,
               "Pending":3},
       search: {
         id: "",
         title: "",
-        state: [],
+        state: [1,2,3],
         startTime: "",
         endTime: "",
         processname: "",
@@ -213,12 +213,11 @@ export default {
               <span class="pf-c-form__label-text">Ticket Status</span>
             </label>
           </div>
-          
           <div class="pf-c-form__group-control">
             <pf-select @select="Onselect" placeholder="Filter" variant="checkbox">
-              <pf-select-option value="Running" />
-              <pf-select-option value="Completed"/>
-              <pf-select-option value="Pending" />
+              <pf-select-option :checked="true" value="Running" />
+              <pf-select-option :checked="true" value="Completed"/>
+              <pf-select-option :checked="true" value="Pending" />
             </pf-select>
             <!-- <select
               class="pf-c-form-control"

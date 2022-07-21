@@ -2,6 +2,7 @@
 import VueMultiselect from "vue-multiselect";
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
+import Stepper from '../../Stepper.vue'
 import gql from "graphql-tag";
 
  const Q2 = gql`
@@ -60,7 +61,7 @@ query($type: String!){
 
 export default {
   name: "Process",
-  components: { VueMultiselect, FormTabs, WorkFlow },
+  components: { VueMultiselect, FormTabs, WorkFlow ,Stepper},
   data() {
     return {
       rootCauseCategories: [],
@@ -171,6 +172,13 @@ export default {
 
 <template>
       <div class="pf-l-grid pf-m-gutter">
+        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+      <pf-card>
+        <pf-card-body>
+           <Stepper />     
+          </pf-card-body>
+      </pf-card>
+    </div>
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
           <div class="phase-action">
@@ -178,7 +186,7 @@ export default {
               <pf-card-title>Process Incident</pf-card-title>
               <pf-divider />
               <pf-card-body>
-                <pre v-if="$apollo.loading">..loading</pre>
+                <pf-spinner v-if="$apollo.loading" size="sm" />
             <pf-form
               @submit.prevent="submitData"
               class="pf-l-grid"

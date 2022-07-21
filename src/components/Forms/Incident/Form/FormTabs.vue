@@ -1,6 +1,7 @@
 <script>
 import gql from "graphql-tag";
 
+
 const GET_TAB_FORM_DATA = gql`
   query ($id: String!) {
     incidents(where: { id: { _eq: $id } }) {

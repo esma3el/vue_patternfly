@@ -8,6 +8,7 @@ import WFCustomerApproval from "./WFCustomerApproval.vue";
 import WFPlan from "./WFPlan.vue";
 import WFImplement from "./WFImplement.vue";
 import WFConfirm from "./WFConfirm.vue";
+import WFManager from "./WFManager.vue";
 
 const GET_WORKFLOWS = gql`
   query ($id: String!) {
@@ -28,7 +29,7 @@ export default {
     return {
       expanded: 0,
     };
-  },components:{WFCreate,WFHandle,WFAnalyze,WFCabApproval,WFCustomerApproval,WFPlan,WFImplement,WFConfirm},
+  },components:{WFCreate,WFHandle,WFAnalyze,WFCabApproval,WFCustomerApproval,WFPlan,WFImplement,WFConfirm ,WFManager},
   props: {
     ticketid: String,
   },
@@ -69,6 +70,15 @@ export default {
         v-else-if="item.name == 'Handle'"
       >
         <WFHandle :data="item.data" />
+      </pf-accordion-item>
+      
+      <pf-accordion-item
+        :title="item.name"
+        :expanded="expanded == index"
+        @update:expanded="expanded = $event ? index : null"
+        v-else-if="item.name == 'Manager'"
+      >
+        <WFManager :data="item.data" />
       </pf-accordion-item>
       
       <pf-accordion-item

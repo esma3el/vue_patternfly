@@ -2,7 +2,7 @@
 import FormTabs from "./FormTabs.vue";
 import gql from "graphql-tag";
 import WorkFlow from "../Workflow/WorkFlow.vue";
-import Stepper from './Stepper.vue'
+import Stepper from '../../Stepper.vue'
 
 
 const Q2 = gql`
@@ -127,7 +127,7 @@ export default {
           <pf-card-title> Update Ticket Information </pf-card-title>
           <pf-divider />
           <pf-card-body>
-            <pre v-if="$apollo.loading">..loading</pre>
+            <pf-spinner v-if="$apollo.loading" size="sm" />
             <pf-form
               @submit.prevent="submitData"
               class="pf-l-grid"

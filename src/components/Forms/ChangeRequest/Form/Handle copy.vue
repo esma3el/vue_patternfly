@@ -90,7 +90,7 @@ export default {
           <pf-card-title> Handle CR </pf-card-title>
           <pf-divider />          
           <pf-card-body>
-           <pre v-if="$apollo.loading">..loading</pre>
+           <pf-spinner v-if="$apollo.loading" size="sm" />
             <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"

@@ -97,7 +97,7 @@ export default {
       <div class="phase-action">
         <pf-card>
           <pf-card-body>
-            <pre v-if="$apollo.loading">..loading</pre>
+            <pf-spinner v-if="$apollo.loading" size="sm" />
             <pf-form
               @submit.prevent="submitData"
               class="pf-l-grid"

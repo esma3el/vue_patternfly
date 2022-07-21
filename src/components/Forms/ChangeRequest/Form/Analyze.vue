@@ -1,7 +1,7 @@
 <script>
 import FormTabs from "./FormTabs.vue";
 import gql from 'graphql-tag';
-import Stepper from './Stepper.vue'
+import Stepper from '../../Stepper.vue'
 import WorkFlow from "../Workflow/WorkFlow.vue";
 
 
