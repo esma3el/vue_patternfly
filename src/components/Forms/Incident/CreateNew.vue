@@ -1,8 +1,8 @@
 <script>
 import gql from "graphql-tag";
 import VueMultiselect from "vue-multiselect";
+import "../../../styles/vue-multiselect.css";
  
-
  const USER_TEMPLATE = gql`
     query ($user: String!,$type:String!) {
     template_create1(where: { user: { _eq: $user },_and:{type:{_eq:$type}} }) {
@@ -454,7 +454,7 @@ export default {
       </div>
 </template>
 
-<style src="vue-multiselect/dist/vue-multiselect.css">
+<style>
 .pf-l-grid {
   gap: 2em;
 }

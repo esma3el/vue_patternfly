@@ -1,6 +1,7 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import "../../../styles/vue-multiselect.css";
 
 const FilePond = vueFilePond();
 
@@ -472,7 +473,7 @@ export default {
       </div>
 </template>
 
-<style src="vue-multiselect/dist/vue-multiselect.css">
+<style>
 .pf-l-grid {
   gap: 2em;
 }

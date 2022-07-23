@@ -1,7 +1,8 @@
 <script>
 import gql from "graphql-tag";
 import VueMultiselect from "vue-multiselect";
- 
+import "../../../styles/vue-multiselect.css";
+
 const SEARCH_QUERY = gql`
 query ($search: String!) {
   site(where: {keycode: {_iregex: $search}}, limit: 10) {
@@ -300,7 +301,7 @@ export default {
       </div>
 </template>
 
-<style src="vue-multiselect/dist/vue-multiselect.css">
+<style>
 .pf-l-grid {
   gap: 2em;
 }
