@@ -3,7 +3,7 @@
     <pf-nav @select="selectLink">
       <pf-nav-list>
         <pf-nav-group title="">
-          <pf-nav-item item-id="Home" :to="{name:'create_cr'}"  :active="activeLink == 'Link1'">
+          <pf-nav-item item-id="Home" :to="{name:'create_new_cr'}"  :active="activeLink == 'Link1'">
             New Change Request
           </pf-nav-item>
           <pf-nav-item item-id="incidents" :to="{name:'new_incident'}"  :active="activeLink == 'Link2'">

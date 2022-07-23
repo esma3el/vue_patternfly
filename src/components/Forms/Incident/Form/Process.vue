@@ -1,6 +1,7 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 const FilePond = vueFilePond();
 
@@ -71,14 +72,17 @@ query($type: String!){
 
 export default {
   name: "Process",
-  components: { VueMultiselect, FormTabs, WorkFlow , Stepper, FilePond,},
+  components: { VueMultiselect, FormTabs, WorkFlow , Stepper, FilePond},
   data() {
     return {
+      open1:false,
       attachments:[],
       rootCauseCategories: [],
       rootCauseTypes: [],
       rootCauseItems: [],
       data: {
+        dispatcher: "",
+        dispatchers: "",
         processOperationMode: "",
         processDescription: "",
         faultSolution: {
@@ -144,7 +148,8 @@ export default {
     },
     async submitData() {
       this.data.processDescription,
-      this.data.processOperationMode,
+      //this.data.workOrderDescription,
+      this.data.processOperationMode = "Resolve",
       this.data.faultSolution.recoveryTime,
       this.data.faultSolution.interruptionTime,
       this.data.faultSolution.rootCauseCategory,
@@ -153,6 +158,8 @@ export default {
       this.data.faultSolution.rootCauseDescription,
       this.data.faultSolution.faultReasonDescription,
       this.data.faultSolution.faultSolutionDescription,
+      this.data.dispatcher,
+      this.data.dispatchers,
 
       this.$store.commit('toggle_spinner')
         await fetch(
@@ -164,9 +171,6 @@ export default {
           },
           method: "POST",
           body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
-  server: {
-    url: "http://localhost:8080/api/attachments",
-  },
 })
         .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
         .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})        
@@ -186,8 +190,54 @@ export default {
     } ,    
     clear_alarm(){
       this.$store.commit('delNotifications')
+    },
+  async submitWO() {
+      this.data.processOperationMode = "Work-Order",
+
+      this.$store.commit('toggle_spinner')
+        const req = await fetch(
+        `http://localhost:8080/api/incidents/${this.$route.params.id}/process/${this.$route.params.taskid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + this.$store.state._keycloak.token,
+          },
+          method: "POST",
+          body: JSON.stringify({ data: this.data}),
+})
+        if(req.ok){
+          this.Notification(
+            "success",
+            `status ${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          )
+        }
+        else{          
+          this.Notification(
+            "danger",
+            `status:${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          );
+        };
+        console.log(req);
+        this.$store.commit('toggle_spinner')
+    },
+    async Notification(variant="",title="",msg=""){
+        this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
+        if(variant != 'danger'){
+        setTimeout(()=>{
+          this.$store.commit('delNotifications')
+        },15000)
+        setTimeout(()=>{
+        
+        this.$router.push('/')
+        },800)
+        }
+    } ,    
+    clear_alarm(){
+      this.$store.commit('delNotifications')
     }
-  },
+  }
 };
 </script>
 
@@ -215,19 +265,24 @@ export default {
               :class="tasks ? '' : 'hide_unauthorized'"
             >
                     <div class="pf-l-grid">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+                            <pf-button block variant="tertiary" @click="open1 = !open1"><i class="fa-solid fa-screwdriver-wrench"></i> Work Order Request</pf-button>
+                                                        
+                        </div>
+                        <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
-                          <pf-form-group label="Operation Mode" field-id="operationMode" required>
-              <div class="pf-c-form__group-control">
-                <select
-                  class="pf-c-form-control"
-                  v-model="data.processOperationMode"
-                >
-                  <option value="Resolve">Resolve</option>
-                  <option value="Work-Order">Work-Order</option>                
-                </select>
-              </div>
-            </pf-form-group>
-                  </div>
+                          <pf-form-group label="Operation Mode" field-id="operationMode">
+                            <div class="pf-c-form__group-control">
+                              <select
+                                class="pf-c-form-control"
+                                v-model="data.processOperationMode"
+                              >
+                                <option value="Resolve">Resolve</option>
+                                <option value="Work-Order">Work-Order</option>                
+                              </select>
+                            </div>
+                          </pf-form-group>
+                      </div>
                   <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"></div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Service Recovery Time" field-id="recoveryTime" required>
@@ -338,10 +393,44 @@ export default {
                 </div>
                     </div>
                     <pf-action-group>
-                      <pf-button type="submit" variant="primary">Submit</pf-button>
-                      <pf-button variant="link">Cancel</pf-button>
+                      <pf-button block type="submit" variant="primary">Submit</pf-button>
+                      <pf-button block variant="tertiary">Cancel</pf-button>
                     </pf-action-group>
                 </pf-form>
+                <pf-modal variant="medium" v-model:open="open1" title="Work Order Request">
+                              <template #description>
+                            <pf-form @submit.prevent="submitWO" class="pf-l-grid">
+                              <div class="pf-l-grid">
+                                <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                                  <pf-form-group label="Dispacher" field-id="dispatcher" required>
+                                    <pf-text-input id="dispatcher_input" name="dispatcher" required
+                                              v-model="data.dispatcher"/>
+                                      </pf-form-group>
+                                  </div>
+                                  <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                                    <pf-form-group label="Dispacher Group" field-id="dispatchers" required>
+                                      <pf-text-input id="dispatchers_input" name="dispatchers" required
+                                              v-model="data.dispatchers"/>
+                                      </pf-form-group>
+                                  </div>                                  
+                                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                                            <pf-form-group label="Work Order Description" field-id="processDescription">
+                                                <pf-textarea id="processDescription_input" name="processDescription"
+                                                    v-model="data.processDescription" />
+                                            </pf-form-group>
+                                        </div>
+                              </div>
+                              <pf-action-group>
+                                <pf-button type="submit" block variant="primary">
+                                  Submit
+                                </pf-button>
+                                <pf-button block variant="tertiary" @click="open1 = !open1">
+                                  Cancel
+                                </pf-button>
+                                  </pf-action-group>                              
+                          </pf-form>
+                              </template>
+                            </pf-modal>
               </pf-card-body>
             </pf-card>
           </div>

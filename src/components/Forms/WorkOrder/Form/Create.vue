@@ -14,7 +14,17 @@ import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from "graphql-tag";
 import VueMultiselect from "vue-multiselect";
- 
+
+
+  const LOAD_DATA = gql`
+     query($id : String!){
+    processes(where:{id:{_eq:$id}}){
+      variables
+    }
+  }
+  `;
+
+
 const SEARCH_QUERY = gql`
 query ($search: String!) {
   site(where: {keycode: {_iregex: $search}}, limit: 10) {
@@ -109,7 +119,7 @@ export default {
       }).then(res => this.networkTypes = res.data.network_type.map(res=> res.keycode)); 
     },
     async submitData() {
-      this.$store.commit('toggle_spinner')
+      const req = this.$store.commit('toggle_spinner')
       await fetch(
         `http://localhost:8080/api/workOrders/${this.$route.params.id}/create/${this.$route.params.taskid}`,
         {
@@ -118,13 +128,23 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
-  server: {
-    url: "http://localhost:8080/api/attachments",
-  },
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments})
 })
-        .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})        
+        if(req.ok){
+          this.Notification(
+            "success",
+            `status ${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          )
+        }
+        else{          
+          this.Notification(
+            "danger",
+            `status:${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          );
+        };
+        console.log(req);
         this.$store.commit('toggle_spinner')
     },
     async Notification(variant="",title="",msg=""){
@@ -142,7 +162,25 @@ export default {
     clear_alarm(){
       this.$store.commit('delNotifications')
     }
-  },
+  },apollo:{
+  processes:{
+      query: LOAD_DATA,
+      variables(){
+        return{
+          id: this.$route.params.id
+        }
+      },
+      update(data){
+        console.log(data.processes[0]?.variables)
+        this.data = {...data.processes[0]?.variables}
+        this.data.faultAlarm = {...data.processes[0]?.variables.faultAlarm}                
+        this.data.faultAlarm.site = {...data.processes[0]?.variables.faultAlarm.site}                
+        this.data.information = {...data.processes[0]?.variables.information}                
+        this.data.faultAlarm.firstOccurTime = this.data.faultAlarm.firstOccurTime.substring(0,16)
+        this.data.faultAlarm.lastOccurTime = this.data.faultAlarm.lastOccurTime.substring(0,16)
+      }
+    }
+    } 
 };
 </script>
 
@@ -320,26 +358,7 @@ export default {
                   </pf-form-group>
                   <br />
                 </div>
-                    <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
-                >
-                  <pf-form-group
-                    label="Attachment"
-                    required
-                    field-id="simple-form-name-01"
-                  >
-                    <file-pond
-                      name="fileupload"
-                      ref="pond"
-                      label-idle="Click or Drop..."
-                      v-bind:allow-multiple="true"
-                      accepted-file-types="image/jpeg, image/png"
-                      v-on:processfile="handleProcessFile"
-                    />
-                  </pf-form-group>
-                  <br />
                 </div>
-                    </div>
                     <pf-action-group>
                       <pf-button type="submit" variant="primary">Submit</pf-button>
                       <pf-button variant="link">Cancel</pf-button>

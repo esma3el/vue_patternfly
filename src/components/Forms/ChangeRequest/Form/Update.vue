@@ -76,7 +76,7 @@ export default {
       this.data.plannedStartTime = this.requests[0].plannedstarttime;
       this.data.plannedEndTime = this.requests[0].plannedendtime;
       this.data.implementer = this.requests[0].implementer;
-      await fetch(
+      const req = await fetch(
         `http://localhost:8080/api/changeRequests/${this.$route.params.id}/updatePlan/${this.$route.params.taskid}`,
         {
           headers: {
@@ -84,12 +84,23 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
-  server: {
-    url: "http://localhost:8080/api/attachments",
-  },
-}).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments})
+})
+if(req.ok){
+          this.Notification(
+            "success",
+            `status ${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          )
+        }
+        else{          
+          this.Notification(
+            "danger",
+            `status:${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          );
+        };
+        console.log(req);
         this.$store.commit('toggle_spinner')
     },
     async Notification(variant = "", title = "", msg = "") {

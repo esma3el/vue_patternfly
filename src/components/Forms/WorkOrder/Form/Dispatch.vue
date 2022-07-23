@@ -36,7 +36,7 @@ export default {
     },
     async submitData() {
       this.$store.commit('toggle_spinner')
-      await fetch(
+      const req = await fetch(
         `http://localhost:8080/api/workOrders/${this.$route.params.id}/dispatch/${this.$route.params.taskid}`,
         {
           headers: {
@@ -44,13 +44,23 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
-  server: {
-    url: "http://localhost:8080/api/attachments",
-  },
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments})
 })
-        .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})        
+if(req.ok){
+          this.Notification(
+            "success",
+            `status ${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          )
+        }
+        else{          
+          this.Notification(
+            "danger",
+            `status:${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          );
+        };
+        console.log(req);
         this.$store.commit('toggle_spinner')
     },
     async Notification(variant="",title="",msg=""){
@@ -121,29 +131,10 @@ export default {
                   </pf-form-group>
                   <br />
                 </div>
-                    <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
-                >
-                  <pf-form-group
-                    label="Attachment"
-                    required
-                    field-id="simple-form-name-01"
-                  >
-                    <file-pond
-                      name="fileupload"
-                      ref="pond"
-                      label-idle="Click or Drop..."
-                      v-bind:allow-multiple="true"
-                      accepted-file-types="image/jpeg, image/png"
-                      v-on:processfile="handleProcessFile"
-                    />
-                  </pf-form-group>
-                  <br />
                 </div>
-                    </div>
                     <pf-action-group>
-                      <pf-button type="submit" variant="primary">Submit</pf-button>
-                      <pf-button variant="link">Cancel</pf-button>
+                      <pf-button block type="submit" variant="primary">Submit</pf-button>
+                      <pf-button block variant="link">Cancel</pf-button>
                     </pf-action-group>
                 </pf-form>
               </pf-card-body>

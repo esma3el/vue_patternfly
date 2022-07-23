@@ -1,6 +1,8 @@
 <script>
 import { handleError } from "vue";
 import Nav from "./components/Nav";
+import "@fortawesome/fontawesome-free/css/all.css";
+
 export default {
   name: "App",
   components: { Nav },
@@ -51,10 +53,10 @@ export default {
                   <pf-kebab-toggle />
                 </template>
                 <pf-dropdown-item @click="profile"
-                  >Edit Profile</pf-dropdown-item
+                  ><i class="fa-solid fa-user"></i> Edit Profile</pf-dropdown-item
                 >
                 <pf-dropdown-separator />
-                <pf-dropdown-item @click="logout">Logout</pf-dropdown-item>
+                <pf-dropdown-item @click="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</pf-dropdown-item>
               </pf-dropdown>
             </pf-page-header-tools-item>
           </pf-page-header-tools-group>

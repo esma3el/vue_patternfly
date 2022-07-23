@@ -1,8 +1,8 @@
 <script>
-import FormTabs from "./FormTabs.vue";
-import WorkFlow from "../Workflow/WorkFlow.vue";
-import Stepper from '../../Stepper.vue'
-import Attachemnts from "../../Attachemnts.vue";
+import FormTabs from "./Form/FormTabs.vue";
+import WorkFlow from "./Workflow/WorkFlow.vue";
+import Stepper from '../Stepper.vue'
+import Attachemnts from "../Attachemnts.vue";
 
 export default {
   name: "Index",

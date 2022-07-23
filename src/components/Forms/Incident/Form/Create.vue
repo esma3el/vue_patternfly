@@ -15,6 +15,14 @@ import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from "graphql-tag";
 import VueMultiselect from "vue-multiselect";
  
+  const LOAD_DATA = gql`
+     query($id : String!){
+    processes(where:{id:{_eq:$id}}){
+      variables
+    }
+  }
+  `;
+
  const USER_TEMPLATE = gql`
     query ($user: String!,$type:String!) {
     template_create1(where: { user: { _eq: $user },_and:{type:{_eq:$type}} }) {
@@ -205,7 +213,7 @@ export default {
     },
     async submitData() {
       this.$store.commit('toggle_spinner')
-      await fetch(
+      const req = await fetch(
         `http://localhost:8080/api/incidents/${this.$route.params.id}/create/${this.$route.params.taskid}`,
         {
           headers: {
@@ -213,13 +221,23 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
-  server: {
-    url: "http://localhost:8080/api/attachments",
-  },
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments})
 })
-        .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})        
+        if(req.ok){
+          this.Notification(
+            "success",
+            `status ${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          )
+        }
+        else{          
+          this.Notification(
+            "danger",
+            `status:${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          );
+        };
+        console.log(req);
         this.$store.commit('toggle_spinner')
     },
     async Notification(variant="",title="",msg=""){
@@ -237,7 +255,24 @@ export default {
     clear_alarm(){
       this.$store.commit('delNotifications')
     }
-  },
+  },apollo:{
+  processes:{
+      query: LOAD_DATA,
+      variables(){
+        return{
+          id: this.$route.params.id
+        }
+      },
+      update(data){
+        console.log(data.processes[0]?.variables)
+        this.data = {...data.processes[0]?.variables}
+        this.data.faultAlarm = {...data.processes[0]?.variables.faultAlarm}                
+        this.data.faultAlarm.site = {...data.processes[0]?.variables.faultAlarm.site}                
+        this.data.faultAlarm.firstOccurTime = this.data.faultAlarm.firstOccurTime.substring(0,16)
+        this.data.faultAlarm.lastOccurTime = this.data.faultAlarm.lastOccurTime.substring(0,16)
+      }
+    }
+    }
 };
 </script>
 

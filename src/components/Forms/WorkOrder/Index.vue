@@ -1,12 +1,12 @@
 <script>
 import FormTabs from "./Form/FormTabs.vue";
 import WorkFlow from "./Workflow/WorkFlow.vue";
-import Stepper from '../../Stepper.vue'
+import Stepper from '../Stepper.vue'
 import Attachemnts from "../Attachemnts.vue";
 
 export default {
   name: "Index",
-  components: { FormTabs, WorkFlow ,Attachemnts, Stepper, FilePond,},
+  components: { FormTabs, WorkFlow ,Attachemnts, Stepper},
 };
 
 </script>
@@ -17,21 +17,9 @@ export default {
         <pf-card-body>
            <Stepper />     
           </pf-card-body>
-      </pf-card>
+      </pf-card>       
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl"
-        >
-          <div class="phase-action">
-            <pf-card>
-              <pf-card-title>Ticket Information</pf-card-title>
-              <pf-divider />
-              <pf-card-body>
-              </pf-card-body>
-            </pf-card>
-          </div>
-        </div>
-        <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-7-col-on-xl"
+          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl"
         >
           <div class="side">
             <pf-card>
