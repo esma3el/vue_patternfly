@@ -39,7 +39,6 @@
           :height="data.height"
           :dataFormat="data.dataFormat"
           :dataSource="data.dataSource"
-          @dataPlotClick="onSliceClick"
           ref="fc"
         ></fusioncharts>
       </div>
@@ -150,7 +149,7 @@ const TICKETS_PER_DATE = gql`
 
 const dataSource1 = {
   chart: {
-    caption: "Total Opened Tickets",
+    caption: "Total Osdasdas",
     plottooltext: "<b>$percentValue</b> of web servers run on $label servers",
     showLegend: "1",
     showPercentValues: "1",

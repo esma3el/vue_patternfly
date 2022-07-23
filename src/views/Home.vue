@@ -6,8 +6,7 @@
       aria-label="This is a simple table example"
       id="table-basic"
     >
-      <caption>
-      </caption>
+      <caption></caption>
       <thead>
         <tr role="row">
           <th role="columnheader" scope="col">Ticket ID</th>
@@ -22,9 +21,8 @@
       <tbody role="rowgroup" v-if="$apollo.loading">
         ...loading
       </tbody>
-      
+
       <tbody role="rowgroup" v-else>
-        
         <tr role="row" v-for="task in tasks">
           <td role="cell" data-label="Ticket ID">
             <router-link
@@ -34,10 +32,28 @@
             </router-link>
           </td>
           <td role="cell" data-label="SLA">
-            <img v-if="task.process.variables?.meta?.restorationSla?.status == 'Within Milestone'" src="http://localhost:9000/kogito/public/green.png"/>
-            <img v-else-if="task.process.variables?.meta?.restorationSla?.status == 'Exeeds Milestone'" src="http://localhost:9000/kogito/public/yellow.png"/>
-            <img v-else-if="task.process.variables?.meta?.restorationSla?.status == 'Exeeds Target'" src="http://localhost:9000/kogito/public/red.png"/>
-            <img v-else src="http://localhost:9000/kogito/public/green.png"/>
+            <img
+              v-if="
+                task.process.variables?.meta?.restorationSla?.status ==
+                'Within Milestone'
+              "
+              src="http://localhost:9000/kogito/public/green.png"
+            />
+            <img
+              v-else-if="
+                task.process.variables?.meta?.restorationSla?.status ==
+                'Exeeds Milestone'
+              "
+              src="http://localhost:9000/kogito/public/yellow.png"
+            />
+            <img
+              v-else-if="
+                task.process.variables?.meta?.restorationSla?.status ==
+                'Exeeds Target'
+              "
+              src="http://localhost:9000/kogito/public/red.png"
+            />
+            <img v-else src="http://localhost:9000/kogito/public/green.png" />
           </td>
           <td role="cell" data-label="Ticket State">
             {{ task.referencename }}
@@ -48,7 +64,9 @@
           <td role="cell" data-label="Process Name">
             {{ task.process.processname }}
           </td>
-          <td role="cell" data-label="Created">{{ task.process.starttime.slice(0,16).replace("T"," ") }}</td>
+          <td role="cell" data-label="Created">
+            {{ task.process.starttime.slice(0, 16).replace("T", " ") }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -64,49 +82,70 @@
 import gql from "graphql-tag";
 
 const GET_PENDING_DATA = gql`
-query ($user: String!, $limit: Int!, $offset: Int!) {
-  tasks(where: {tasks_potential_users: {user_id: {_eq: $user}}, _and: {state: {_eq: "Ready"}}}, limit: $limit, offset: $offset ,order_by: {process: {starttime: desc}}) {
-    id
-    name
-    referencename
-    tasks_potential_users {
-      user_id
-    }
-    process {
+  query ($user: String!, $limit: Int!, $offset: Int!) {
+    tasks(
+      where: {
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+      }
+      limit: $limit
+      offset: $offset
+      order_by: { process: { starttime: desc } }
+    ) {
       id
-      processid
-      businesskey
-      processname
-      starttime
-      variables
+      name
+      referencename
+      tasks_potential_users {
+        user_id
+      }
+      process {
+        id
+        processid
+        businesskey
+        processname
+        starttime
+        variables
+      }
+    }
+    tasks_aggregate(
+      where: {
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+      }
+    ) {
+      aggregate {
+        count
+      }
     }
   }
-  tasks_aggregate(where: {tasks_potential_users: {user_id: {_eq: $user}}, _and: {state: {_eq: "Ready"}}}) {
-    aggregate {
-      count
-    }
-  }
-}
 `;
 
 const SUBSCRIBE_TO_PENDING_DATA = gql`
-subscription ($user: String!, $limit: Int!, $offset: Int!) {
-  tasks(where: {tasks_potential_users: {user_id: {_eq: $user}}, _and: {state: {_eq: "Ready"}}}, limit: $limit, offset: $offset ,order_by: {process: {starttime: desc}}) {
-    id
-    name
-    referencename
-    tasks_potential_users {
-      user_id
-    }
-    process {
+  subscription ($user: String!, $limit: Int!, $offset: Int!) {
+    tasks(
+      where: {
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+      }
+      limit: $limit
+      offset: $offset
+      order_by: { process: { starttime: desc } }
+    ) {
       id
-      processid
-      businesskey
-      processname
-      starttime
+      name
+      referencename
+      tasks_potential_users {
+        user_id
+      }
+      process {
+        id
+        processid
+        businesskey
+        processname
+        starttime
+      }
     }
   }
-}
 `;
 
 export default {
@@ -118,32 +157,43 @@ export default {
       offset: (this.page - 1) * this.perPage,
     };
   },
+  created() {
+    this.$apollo.queries.tasks.startPolling(2000);
+  },
+  destroyed() {
+    this.$apollo.queries.tasks.stopPolling();
+  },
   watch: {
     page() {
       this.offset = (this.page - 1) * this.perPage;
     },
+    // $route(){
+    //   alert('working')
+    //   }
   },
   apollo: {
     tasks: {
       query: GET_PENDING_DATA,
-      variables(){
-      return {
-        user: this.$store.state.userinfo.username,
-        limit: this.perPage,
-        offset: this.offset,
-      }}
+      variables() {
+        return {
+          user: this.$store.state.userinfo.username,
+          limit: this.perPage,
+          offset: this.offset,
+        };
+      },
     },
     tasks_aggregate: {
       query: GET_PENDING_DATA,
-      variables(){
-      return {
-        user: this.$store.state.userinfo.username,
-        limit: this.perPage,
-        offset: this.offset,
-      }},
-    }    
+      variables() {
+        return {
+          user: this.$store.state.userinfo.username,
+          limit: this.perPage,
+          offset: this.offset,
+        };
+      },
+    },
   },
-}
+};
 </script>
 
 <style></style>

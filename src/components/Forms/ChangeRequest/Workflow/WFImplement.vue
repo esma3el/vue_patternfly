@@ -2,7 +2,8 @@
 export default {
   name: "WFImplement",
   data() {
-    return {};
+    return {
+      attachments:[],};
   },
   props: {
     data: Array,

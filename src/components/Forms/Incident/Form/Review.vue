@@ -1,4 +1,14 @@
 <script>
+import vueFilePond, { setOptions } from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+
+const FilePond = vueFilePond();
+
+setOptions({
+  server: {
+    url: "http://localhost:8080/api/attachments",
+  },
+});
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from "graphql-tag";
@@ -73,9 +83,10 @@ const GET_NETWORK_TYPES = gql`
   
 export default {
   name: "Review",
-  components: { FormTabs, WorkFlow, VueMultiselect ,Stepper},
+  components: { FormTabs, WorkFlow, VueMultiselect , Stepper, FilePond,},
   data() {
     return {
+      attachments:[],
         domains: [],
         networkTypes: [],
         useroptions:[],
@@ -136,6 +147,13 @@ export default {
     },
   },    
   methods: {
+    handleProcessFile: function (error, file) {                  
+      if(!error){
+      const f = JSON.parse(file.serverId)
+      this.attachments.push(f)
+      console.log(this.attachments)
+      }
+    },
     searchfunc(query){
       this.$apolloProvider.defaultClient.query({
             query:SEARCH_QUERY,
@@ -153,35 +171,35 @@ export default {
       }).then(res => this.networkTypes = res.data.network_type.map(res=> res.keycode)); 
     },
     async submitData() {
-      this.data.processor = this.incidents[0].processor,
-      this.data.processors = this.incidents[0].processors,
-      this.data.information.title = this.incidents[0].title,
-      this.data.information.description = this.incidents[0].description,
-      this.data.information.probableCause = this.incidents[0].probablecause,
-      this.data.information.solution = this.incidents[0].solution,
-      this.data.information.source = this.incidents[0].source,
-      this.data.information.initialDiagnosis = this.incidents[0].initialdiagnosis,
-      this.data.faultAlarm.faultLevel = this.incidents[0].faultlevel,
-      this.data.faultAlarm.domain = this.incidents[0].domain,
-      this.data.faultAlarm.networkType = this.incidents[0].networktypes,
-      this.data.faultAlarm.emsId = this.incidents[0].emsid,
-      this.data.faultAlarm.alarmId = this.incidents[0].alarmid,
-      this.data.faultAlarm.alarmName = this.incidents[0].alarmname,
-      this.data.faultAlarm.alarmType = this.incidents[0].alarmtype,
-      this.data.faultAlarm.faultNumber = this.incidents[0].faultnumber,
-      this.data.faultAlarm.faultSummary = this.incidents[0].faultsummary,
-      this.data.faultAlarm.firstOccurTime = this.incidents[0].firstoccurtime,
-      this.data.faultAlarm.lastOccurTime = this.incidents[0].lastoccurtime,
-      this.data.faultAlarm.siteDown = this.incidents[0].sitedown,
-      this.data.faultAlarm.resultFlag = this.incidents[0].resultflag,
-      this.data.faultAlarm.nodeId = this.incidents[0].nodeid,
-      this.data.faultAlarm.site.siteId = this.incidents[0].siteid,
-      this.data.faultAlarm.site.clusterId = this.incidents[0].clusterid,
-      this.data.faultAlarm.site.zoneId = this.incidents[0].zoneid,
-      this.data.faultAlarm.site.contractorId = this.incidents[0].contractorid,
-      this.data.faultAlarm.deviceId = this.incidents[0].deviceid,
-      console.log(JSON.stringify({ data: this.data }));
-      const req = fetch(
+      this.$store.commit('toggle_spinner');
+      this.data.processor = this.incidents[0].processor;
+      this.data.processors = this.incidents[0].processors;
+      this.data.information.title = this.incidents[0].title;
+      this.data.information.description = this.incidents[0].description;
+      this.data.information.probableCause = this.incidents[0].probablecause;
+      this.data.information.solution = this.incidents[0].solution;
+      this.data.information.source = this.incidents[0].source;
+      this.data.information.initialDiagnosis = this.incidents[0].initialdiagnosis;
+      this.data.faultAlarm.faultLevel = this.incidents[0].faultlevel;
+      this.data.faultAlarm.domain = this.incidents[0].domain;
+      this.data.faultAlarm.networkType = this.incidents[0].networktypes;
+      this.data.faultAlarm.emsId = this.incidents[0].emsid;
+      this.data.faultAlarm.alarmId = this.incidents[0].alarmid;
+      this.data.faultAlarm.alarmName = this.incidents[0].alarmname;
+      this.data.faultAlarm.alarmType = this.incidents[0].alarmtype;
+      this.data.faultAlarm.faultNumber = this.incidents[0].faultnumber;
+      this.data.faultAlarm.faultSummary = this.incidents[0].faultsummary;
+      this.data.faultAlarm.firstOccurTime = this.incidents[0].firstoccurtime;
+      this.data.faultAlarm.lastOccurTime = this.incidents[0].lastoccurtime;
+      this.data.faultAlarm.siteDown = this.incidents[0].sitedown;
+      this.data.faultAlarm.resultFlag = this.incidents[0].resultflag;
+      this.data.faultAlarm.nodeId = this.incidents[0].nodeid;
+      this.data.faultAlarm.site.siteId = this.incidents[0].siteid;
+      this.data.faultAlarm.site.clusterId = this.incidents[0].clusterid;
+      this.data.faultAlarm.site.zoneId = this.incidents[0].zoneid;
+      this.data.faultAlarm.site.contractorId = this.incidents[0].contractorid;
+      this.data.faultAlarm.deviceId = this.incidents[0].deviceid
+        await fetch(
         `http://localhost:8080/api/incidents/${this.$route.params.id}/review/${this.$route.params.taskid}`,
         {
           headers: {
@@ -189,22 +207,25 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data }),
-        }
-      )
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
+  server: {
+    url: "http://localhost:8080/api/attachments",
+  },
+})
         .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
         .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})        
+        this.$store.commit('toggle_spinner')
     },
     async Notification(variant="",title="",msg=""){
         this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },5000)
+        },15000)
         setTimeout(()=>{
-        // this.$router.push({name:'Home'})
-        window.location.href = '/';
-        },500)
+        
+        this.$router.push('/')
+        },800)
         }
     } ,    
     clear_alarm(){
@@ -382,6 +403,25 @@ export default {
                                     v-model="this.incidents[0].processors"/>
                             </pf-form-group>
                         </div>
+                    <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                >
+                  <pf-form-group
+                    label="Attachment"
+                    required
+                    field-id="simple-form-name-01"
+                  >
+                    <file-pond
+                      name="fileupload"
+                      ref="pond"
+                      label-idle="Click or Drop..."
+                      v-bind:allow-multiple="true"
+                      accepted-file-types="image/jpeg, image/png"
+                      v-on:processfile="handleProcessFile"
+                    />
+                  </pf-form-group>
+                  <br />
+                </div>
                     </div>
                     <pf-action-group>
                       <pf-button type="submit" variant="primary">Submit</pf-button>

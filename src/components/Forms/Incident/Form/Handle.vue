@@ -1,4 +1,14 @@
 <script>
+import vueFilePond, { setOptions } from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+
+const FilePond = vueFilePond();
+
+setOptions({
+  server: {
+    url: "http://localhost:8080/api/attachments",
+  },
+});
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
 import Stepper from '../../Stepper.vue'
@@ -13,18 +23,20 @@ const Q2 = gql`
         tasks_potential_users: { user_id: { _eq: $user } }
         _and: { state: { _eq: "Ready" } }
         process: { id: { _eq: $id } }
+        
       }
     ) {
-      id
+      id      
     }
   }
 `;
 
 export default {
   name: "Handle",
-  components: { FormTabs, WorkFlow ,Stepper},
+  components: { FormTabs, WorkFlow , Stepper, FilePond,},
   data() {
     return {
+      attachments:[],
       data: {
         handleDescription: "",
         handleOperationMode: ""
@@ -43,8 +55,16 @@ export default {
   }
   },
   methods: {
+    handleProcessFile: function (error, file) {                  
+      if(!error){
+      const f = JSON.parse(file.serverId)
+      this.attachments.push(f)
+      console.log(this.attachments)
+      }
+    },
     async submitData() {
-      const req = fetch(
+      this.$store.commit('toggle_spinner')
+        await fetch(
         `http://localhost:8080/api/incidents/${this.$route.params.id}/handle/${this.$route.params.taskid}`,
         {
           headers: {
@@ -52,9 +72,11 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data }),
-        }
-      ).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
+  server: {
+    url: "http://localhost:8080/api/attachments",
+  },
+}).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
         .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
     },
     async Notification(variant="",title="",msg=""){
@@ -62,11 +84,11 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },5000)
+        },15000)
         setTimeout(()=>{
-        // this.$router.push({name:'Home'})
-        window.location.href = '/';
-        },500)
+        
+        this.$router.push('/')
+        },800)
         }
     } ,    
     clear_alarm(){
@@ -112,6 +134,25 @@ export default {
                                     v-model="data.handleDescription" />
                             </pf-form-group>
                         </div>
+                    <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                >
+                  <pf-form-group
+                    label="Attachment"
+                    required
+                    field-id="simple-form-name-01"
+                  >
+                    <file-pond
+                      name="fileupload"
+                      ref="pond"
+                      label-idle="Click or Drop..."
+                      v-bind:allow-multiple="true"
+                      accepted-file-types="image/jpeg, image/png"
+                      v-on:processfile="handleProcessFile"
+                    />
+                  </pf-form-group>
+                  <br />
+                </div>
                     </div>
                     <pf-action-group>
                       <pf-button type="submit" variant="primary">Submit</pf-button>

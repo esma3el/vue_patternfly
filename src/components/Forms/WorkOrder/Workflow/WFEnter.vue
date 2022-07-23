@@ -3,6 +3,7 @@ export default {
   name: "WFEnter",
   data() {
     return {
+      attachments:[],
     }
   },props:{
     data:Array

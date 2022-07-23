@@ -3,6 +3,7 @@ export default {
   name: "WFDeparture",
   data() {
     return {
+      attachments:[],
     }
   },props:{
     data:Array

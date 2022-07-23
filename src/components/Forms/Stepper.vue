@@ -15,6 +15,7 @@ export default {
   name: "Stepper",
   data() {
     return {
+      attachments:[],
     };
   },computed:{
     getdata(){

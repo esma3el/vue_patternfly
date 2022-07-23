@@ -2,7 +2,8 @@
 export default {
   name: "WFReview",
   data() {
-    return {};
+    return {
+      attachments:[],};
   },
   props: {
     data: Array,

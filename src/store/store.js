@@ -9,13 +9,17 @@ const initOptions = {
 
 const store = createStore({
     state () {
-      return {
+      return {        
+        spinner:false,
         _keycloak : new Keycloak(initOptions),
         userinfo:Object,
         Notifications:[]
       }
     },
     mutations: {
+      toggle_spinner(state,item){
+        state.spinner = !state.spinner
+      },
       setNotifications(state,item){
         state.Notifications = [...state.Notifications,item]
       },

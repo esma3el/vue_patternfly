@@ -29,6 +29,7 @@ export default {
   name: "CreateNew",
   data() {
     return {
+      attachments:[],
         domains: [],
         networkTypes: [],
         useroptions:[],
@@ -71,6 +72,13 @@ export default {
     
     }
   },methods:{
+    handleProcessFile: function (error, file) {                  
+      if(!error){
+      const f = JSON.parse(file.serverId)
+      this.attachments.push(f)
+      console.log(this.attachments)
+      }
+    },
     searchfunc(query){
       this.$apolloProvider.defaultClient.query({
             query:SEARCH_QUERY,
@@ -88,8 +96,8 @@ export default {
       }).then(res => this.networkTypes = res.data.network_type.map(res=> res.keycode)); 
     },
     async submitData() {
-      console.log(JSON.stringify({ data: this.data }));
-      const req = fetch(
+      this.$store.commit('toggle_spinner')
+      await fetch(
         `http://localhost:8080/api/workOrders`,
         {
           headers: {
@@ -97,21 +105,24 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data }),
-        }
-      ).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
+  server: {
+    url: "http://localhost:8080/api/attachments",
+  },
+}).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
         .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
+        this.$store.commit('toggle_spinner')
     },
       async Notification(variant="",title="",msg=""){
         this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },5000)
+        },15000)
         setTimeout(()=>{
-        // this.$router.push({name:'Home'})
-        window.location.href = '/';
-        },500)
+        
+        this.$router.push('/')
+        },800)
         }
     } ,    
     clear_alarm(){

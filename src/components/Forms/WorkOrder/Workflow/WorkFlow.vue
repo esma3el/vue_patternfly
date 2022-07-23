@@ -23,6 +23,7 @@ const GET_WORKFLOWS = gql`
 export default {
   data() {
     return {
+      attachments:[],
       expanded: 0,
     };
   },components:{WFCreate,WFHandle,WFEnter,WFProcess,WFDeparture},

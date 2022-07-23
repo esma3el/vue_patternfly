@@ -62,7 +62,8 @@ const GET_TAB_FORM_DATA = gql`
 export default {
   name: "FormTabs",
   data() {
-    return {};
+    return {
+      attachments:[],};
   },
   props: {
     ticketid: String,

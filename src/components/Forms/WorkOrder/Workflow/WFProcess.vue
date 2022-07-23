@@ -3,6 +3,7 @@ export default {
   name: "WFProcess",
   data() {
     return {
+      attachments:[],
     }
   },props:{
     data:Array

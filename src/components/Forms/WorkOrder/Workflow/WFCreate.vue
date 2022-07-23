@@ -3,6 +3,7 @@ export default {
   name: "WFCreate",
   data() {
     return {
+      attachments:[],
     }
   },props:{
     data:Array

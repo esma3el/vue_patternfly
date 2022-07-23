@@ -65,7 +65,7 @@ export default {
       search: {
         id: "",
         title: "",
-        state: [1,2,3],
+        state: [1,2,3,5],
         startTime: "",
         endTime: "",
         processname: "",
@@ -84,10 +84,17 @@ export default {
       if(this.search.state.includes(val))
       {
         this.search.state = this.search.state.filter((item)=>{
-          return item !== val
+          if (val == 2) {            
+            return item !== 5 || item !== 2 
+          }else{      
+          return item !== val          
+          }
         })
       }else{
         this.search.state.push(val)
+        if (val == 2) {
+          this.search.state.push(5)
+        }
       }
     },
     setdate(e) {

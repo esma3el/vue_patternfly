@@ -3,6 +3,7 @@ export default {
   name: "WFConfirm",
   data() {
     return {
+      attachments:[],
     }
   },props:{
     data:Array

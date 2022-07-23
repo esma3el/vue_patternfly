@@ -4,32 +4,13 @@ import gql from "graphql-tag";
 import VueUploadComponent from "vue-upload-component";
 
 import vueFilePond, { setOptions } from "vue-filepond";
-
-// Import FilePond styles
 import "filepond/dist/filepond.min.css";
-import SearchVue from "../../../../views/Search.vue";
-
-// Import FilePond plugins
-// Please note that you need to install these plugins separately
-
-// Import image preview plugin styles
-// import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
-
-// Import image preview and file type validation plugins
-// import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-// import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 
 const FilePond = vueFilePond();
-// FilePondPluginFileValidateType,
-// FilePondPluginImagePreview
+
 setOptions({
   server: {
     url: "http://localhost:8080/api/attachments",
-
-    // revert: './revert',
-    // restore: './restore/',
-    // load: './load/',
-    // fetch: './fetch/'
   },
 });
 
@@ -192,9 +173,9 @@ const GET_PORDUCT_ID = gql`
 
 export default {
   name: "Create",
-  components: { VueMultiselect, FileUpload: VueUploadComponent, FilePond },
+  components: { VueMultiselect, VueUploadComponent, FilePond },
   data() {
-    return {
+    return {      
       template_name:"",
       open1: false,
       f: "",
@@ -227,11 +208,12 @@ export default {
         workPlan: "",
         testResult: "",
         changeDescription: "",
-        implementer: ["hsm"],
+        implementer: ["hsm","ismail"],
         implementers: "",
         owner: this.$store.state.userinfo.username,
         owners: this.$store.state.userinfo.username,
       },
+      attachments:[],
       changeCategorydata: [],
       changeTypedata: [],
       changeitemdata: [],
@@ -254,8 +236,12 @@ export default {
     },
   },
   methods: {
-    handleProcessFile: function (error, file) {
-      console.log(file);
+    handleProcessFile: function (error, file) {                  
+      if(!error){
+      const f = JSON.parse(file.serverId)
+      this.attachments.push(f)
+      console.log(this.attachments)
+      }
     },
 
     load_template(search) {
@@ -429,7 +415,6 @@ export default {
       let formData = new FormData();
       this.files.map((file) => {
         formData.append(file.name, file);
-        console.log(file.name);
       });
 
       const req = await fetch(
@@ -447,16 +432,16 @@ export default {
         }
       );
       const res = await req.json();
-      console.log(res);
+      this.attachments.push(JSON.parse(res.serverId));
     },
     del_item(e) {
       this.files = this.files.filter((name) => name != e);
     },
     async submitData() {
-      this.data.affectedServiceId =
-        this.data.affectedServiceId.join(", ") || null;
-      this.data.implementer = this.data.implementer.join(", ") || null;
-      this.data.affectedNEType = this.data.affectedNEType.join(", ") || null;
+      this.$store.commit('toggle_spinner');      
+      this.data.affectedServiceId.join(",") || null;
+      this.data.implementer = this.data.implementer.join(",") || null;
+      this.data.affectedNEType = this.data.affectedNEType.join(",") || null;
 
       const req = await fetch("http://localhost:8080/api/changeRequests", {
         headers: {
@@ -464,7 +449,7 @@ export default {
           Authorization: "Bearer " + this.token,
         },
         method: "POST",
-        body: JSON.stringify({ data: this.data }),
+        body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
       })
         .then((res) => {
           this.Notification(
@@ -480,6 +465,7 @@ export default {
             `${err} , ${new Date().toLocaleString()}.`
           );
         });
+        this.$store.commit('toggle_spinner')
     },
     async Notification(variant = "", title = "", msg = "") {
       this.$store.commit("setNotifications", {
@@ -490,10 +476,10 @@ export default {
       if (variant != "danger") {
         setTimeout(() => {
           this.$store.commit("delNotifications");
-        }, 5000);
-        // setTimeout(() => {
-        //   window.location.href = "/";
-        // }, 500);
+        }, 15000);
+        setTimeout(() => {
+          this.$router.push("/");
+        }, 800);
       }
     },
     clear_alarm() {
@@ -508,17 +494,15 @@ export default {
 };
 </script>
 
-<template>
+<template>        
   <div class="pf-l-grid pf-m-gutter">
     <div class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl">
-      <pf-card>
+      <pf-card>        
         <pf-card-title> <pf-title h="1">Create CR</pf-title></pf-card-title>
-        <pre></pre>
         <pf-divider />
-
-        <pre v-if="$apollo.loading"></pre>
-        <pf-card-body v-else>
-          <pf-form @submit.prevent="submitData" class="pf-l-grid">
+        <pf-spinner v-if="$apollo.loading" size="sm" />
+        <pf-card-body v-else>        
+          <pf-form @submit.prevent="submitData" class="pf-l-grid">          
             <div
               class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
             ></div>
@@ -1015,24 +999,6 @@ export default {
                       v-on:processfile="handleProcessFile"
                     />
                   </pf-form-group>
-
-                  <!-- <pf-chip-group v-for="file in files">
-                    <div class="pf-c-chip">
-                      <span class="pf-c-chip__text" id="chip_one">{{
-                        file.name
-                      }}</span>
-                      <button
-                        @click="del_item(file)"
-                        class="pf-c-button pf-m-plain"
-                        type="button"
-                        aria-labelledby="remove_chip_one chip_one"
-                        aria-label="Remove"
-                        id="remove_chip_one"
-                      >
-                        <i class="fas fa-times" aria-hidden="true"></i>
-                      </button>
-                    </div>
-                  </pf-chip-group> -->
                   <br />
                 </div>
               </pf-card-body>

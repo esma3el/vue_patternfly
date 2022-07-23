@@ -1,38 +1,12 @@
 <script>
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
-import gql from "graphql-tag";
 import Stepper from '../../Stepper.vue'
-
-// const Q2 = gql`
-//   query ($user: String!, $id: String!, $task_id: String!) {
-//     tasks(
-//       where: {
-//         id: { _eq: $task_id }
-//         state: { _eq: "Ready" }
-//         tasks_potential_users: { user_id: { _eq: $user } }
-//         _and: { state: { _eq: "Ready" } }
-//         process: { id: { _eq: $id } }
-//       }
-//     ) {
-//       id
-//     }
-//   }
-// `;
+import Attachemnts from "../../Attachemnts.vue";
 
 export default {
   name: "Index",
-  components: { FormTabs ,WorkFlow, Stepper},
-  data() {
-    return {
-      data: {
-        confirmAccepted: "",
-        confirmDescription: "",
-        confirmSatisfactionDegree: "",
-      },
-
-    };
-  }
+  components: { FormTabs ,WorkFlow, Stepper,Attachemnts}
 };
 </script>
 
@@ -56,6 +30,9 @@ export default {
                 <br />
                 <WorkFlow :ticketid="$route.params.id" />
               </pf-tab>
+              <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
             </pf-tabs>
           </pf-card-body>
         </pf-card>

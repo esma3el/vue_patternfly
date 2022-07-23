@@ -3,6 +3,7 @@ export default {
   name: "WFPlan",
   data() {
     return {
+      attachments:[],
     }
   },props:{
     data:Array

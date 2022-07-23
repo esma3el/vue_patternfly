@@ -1,5 +1,15 @@
 <script>
 import gql from "graphql-tag";
+import vueFilePond, { setOptions } from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+
+const FilePond = vueFilePond();
+
+setOptions({
+  server: {
+    url: "http://localhost:8080/api/attachments",
+  },
+});
 
 const GET_DOMAINS = gql`
  query {
@@ -18,8 +28,10 @@ const GET_NETWORK_TYPES = gql`
 
 export default {
   name: "CreateNew",
+  components:{FilePond},
   data() {
     return {
+      attachments:[],
         domains: [],
         networkTypes: [],
       data: {
@@ -51,6 +63,13 @@ export default {
     };
   },
   methods: {
+    handleProcessFile: function (error, file) {                  
+      if(!error){
+      const f = JSON.parse(file.serverId)
+      this.attachments.push(f)
+      console.log(this.attachments)
+      }
+    },
     getdomains(){
       this.$apolloProvider.defaultClient.query({
         query:GET_DOMAINS
@@ -62,8 +81,8 @@ export default {
       }).then(res => this.networkTypes = res.data.network_type.map(res=> res.keycode)); 
     },
     async submitData() {
-      console.log(JSON.stringify({ data: this.data }));
-      const req = fetch(
+      this.$store.commit('toggle_spinner')
+      await fetch(
         `http://localhost:8080/api/fieldSupport`,
         {
           headers: {
@@ -71,11 +90,13 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data }),
-        }
-      )
-        .then((data) => console.log(data))
-        .error((err) => console.log(err));
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
+  server: {
+    url: "http://localhost:8080/api/attachments",
+  },
+}).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
+        this.$store.commit('toggle_spinner')
     },
   },
 };
@@ -194,6 +215,25 @@ export default {
                                     v-model="data.reviewers"/>
                             </pf-form-group>
                         </div>
+                    <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                >
+                  <pf-form-group
+                    label="Attachment"
+                    required
+                    field-id="simple-form-name-01"
+                  >
+                    <file-pond
+                      name="fileupload"
+                      ref="pond"
+                      label-idle="Click or Drop..."
+                      v-bind:allow-multiple="true"
+                      accepted-file-types="image/jpeg, image/png"
+                      v-on:processfile="handleProcessFile"
+                    />
+                  </pf-form-group>
+                  <br />
+                </div>
                     </div>
                     <pf-action-group>
                       <pf-button type="submit" variant="primary">Submit</pf-button>

@@ -3,6 +3,7 @@ export default {
   name: "WFCabApproval",
   data() {
     return {
+      attachments:[],
     }
   },props:{
     data:Array

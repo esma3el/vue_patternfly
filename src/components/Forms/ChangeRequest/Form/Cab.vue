@@ -1,8 +1,18 @@
 <script>
+import vueFilePond, { setOptions } from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+
+const FilePond = vueFilePond();
+
+setOptions({
+  server: {
+    url: "http://localhost:8080/api/attachments",
+  },
+});
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from "graphql-tag";
-import Stepper from "./Stepper.vue";
+import Stepper from "../../Stepper.vue";
 
 const Q2 = gql`
   query ($user: String!, $id: String!, $task_id: String!) {
@@ -22,9 +32,10 @@ const Q2 = gql`
 
 export default {
   name: "Cab",
-  components: { FormTabs, WorkFlow, Stepper },
+  components: { FormTabs, WorkFlow, Stepper, FilePond,},
   data() {
     return {
+      attachments:[],
       data: {
         authorizeCabDescription: "",
         authorizeCabOperationMode: "",
@@ -46,8 +57,15 @@ export default {
     },
   },
   methods: {
+    handleProcessFile: function (error, file) {                  
+      if(!error){
+      const f = JSON.parse(file.serverId)
+      this.attachments.push(f)
+      console.log(this.attachments)
+      }
+    },
     async submitData() {
-      console.log(JSON.stringify({ data: this.data }));
+      this.$store.commit('toggle_spinner')
       const req = await fetch(
         `http://localhost:8080/api/changeRequests/${this.$route.params.id}/cabApprove/${this.$route.params.taskid}`,
         {
@@ -56,10 +74,13 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data }),
-        }
-      ).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
+  server: {
+    url: "http://localhost:8080/api/attachments",
+  },
+}).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
         .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
+        this.$store.commit('toggle_spinner')
     },
     async Notification(variant = "", title = "", msg = "") {
       this.$store.commit("setNotifications", {
@@ -72,7 +93,7 @@ export default {
           this.$store.commit("delNotifications");
         }, 5000);
         setTimeout(() => {
-          // this.$router.push({name:'Home'})
+          
           window.location.href = "/";
         }, 500);
       }
@@ -152,7 +173,25 @@ export default {
                   />
                 </pf-form-group>
               </div>
-
+              <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                >
+                  <pf-form-group
+                    label="Attachment"
+                    required
+                    field-id="simple-form-name-01"
+                  >
+                    <file-pond
+                      name="fileupload"
+                      ref="pond"
+                      label-idle="Click or Drop..."
+                      v-bind:allow-multiple="true"
+                      accepted-file-types="image/jpeg, image/png"
+                      v-on:processfile="handleProcessFile"
+                    />
+                  </pf-form-group>
+                  <br />
+                </div>
               <div
                 class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
               >

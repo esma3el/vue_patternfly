@@ -1,7 +1,5 @@
 <script>
-import { useQuery } from "@vue/apollo-composable";
 import gql from "graphql-tag";
-// import GET_TAB_FORM_DATA from './GraphQueries.js'
 
 const GET_TAB_FORM_DATA = gql`
   query ($id: String!) {
@@ -39,7 +37,8 @@ const GET_TAB_FORM_DATA = gql`
 export default {
   name: "FormTabs",
   data() {
-    return {};
+    return {
+      attachments:[],};
   },
   props: {
     ticketid: String,

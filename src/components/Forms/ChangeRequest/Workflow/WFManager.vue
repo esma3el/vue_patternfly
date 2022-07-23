@@ -3,6 +3,7 @@ export default {
   name: "WFManager",
   data() {
     return {
+      attachments:[],
     }
   },props:{
     data:Array

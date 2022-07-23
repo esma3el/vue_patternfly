@@ -3,6 +3,7 @@ export default {
   name: "WFHandle",
   data() {
     return {
+      attachments:[],
     }
   },props:{
     data:Array
