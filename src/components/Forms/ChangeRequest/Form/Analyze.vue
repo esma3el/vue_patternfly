@@ -74,8 +74,22 @@ export default {
             },
               method:'POST',
               body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
-          }).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
+          })
+          if(req.ok){
+          this.Notification(
+            "success",
+            `status ${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          )
+        }
+        else{          
+          this.Notification(
+            "danger",
+            `status:${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          );
+        };
+        console.log(req);
         this.$store.commit('toggle_spinner')
     },
     async Notification(variant="",title="",msg=""){

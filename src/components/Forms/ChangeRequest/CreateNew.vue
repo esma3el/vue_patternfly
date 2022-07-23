@@ -5,7 +5,7 @@ import VueUploadComponent from "vue-upload-component";
 
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
-import "../../../../styles/vue-multiselect.css";
+import "../../../styles/vue-multiselect.css";
 
 const FilePond = vueFilePond();
 
@@ -15,13 +15,6 @@ setOptions({
   },
 });
 
-const LOAD_DATA = gql`
-   query($id : String!){
-  processes(where:{id:{_eq:$id}}){
-    variables
-  }
-}
-`;
 const USER_TEMPLATE = gql`
     query ($user: String!,$type:String!) {
     template_create1(where: { user: { _eq: $user },_and:{type:{_eq:$type}} }) {
@@ -447,13 +440,9 @@ export default {
     },
     async submitData() {
       this.$store.commit('toggle_spinner');      
-      try{
       this.data.affectedServiceId = this.data.affectedServiceId.join(",") || null;
-      
       this.data.implementer = this.data.implementer.join(",") || null;
       this.data.affectedNEType = this.data.affectedNEType.join(",") || null;
-      }
-      catch{}
 
       const req = await fetch("http://localhost:8080/api/changeRequests", {
         headers: {
@@ -503,25 +492,6 @@ export default {
     region: {
       query: SEARCH_QUERY,
     },
-    processes:{
-      query: LOAD_DATA,
-      variables(){
-        return{
-          id: this.$route.params.id
-        }
-      },
-      update(data){
-        console.log(data.processes[0]?.variables)
-        this.data = {...data.processes[0]?.variables}
-        this.data.plannedEndTime = this.data.plannedEndTime.substring(0,16)
-        this.data.plannedStartTime = this.data.plannedStartTime.substring(0,16)
-        this.data.startTimeForImpact = this.data.startTimeForImpact.substring(0,16)
-        this.data.endTimeForImpact = this.data.endTimeForImpact.substring(0,16)
-        this.data.implementer = this.data.implementer.split(',')
-        this.data.affectedServiceId = this.data.affectedServiceId.split(',')
-        this.data.affectedNEType = this.data.affectedNEType.split(',')
-      }
-    }
   },
 };
 </script>
@@ -538,7 +508,7 @@ export default {
             <div
               class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
             ></div>
-            <!-- <div
+            <div
               class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
             >
               <pf-form-group>
@@ -560,7 +530,7 @@ export default {
                   
                 </div>
               </pf-form-group>
-            </div> -->
+            </div>
             <pf-divider />
 
             <!-- Row 1 -->
@@ -718,7 +688,6 @@ export default {
                     <pf-text-area
                       id="changeReason_input"
                       name="changeReason"
-                      required
                       v-model="data.changeReason"
                     />
                     <pf-textarea />

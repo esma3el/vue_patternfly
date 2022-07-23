@@ -63,7 +63,7 @@ export default {
     },
     async submitData() {
       this.$store.commit('toggle_spinner')
-      await fetch(
+        const req = await fetch(
         `http://localhost:8080/api/changeRequests/${this.$route.params.id}/managerApprove/${this.$route.params.taskid}`,
         {
           headers: {
@@ -71,12 +71,23 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
-  server: {
-    url: "http://localhost:8080/api/attachments",
-  },
-}).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments})
+})
+if(req.ok){
+          this.Notification(
+            "success",
+            `status ${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          )
+        }
+        else{          
+          this.Notification(
+            "danger",
+            `status:${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          );
+        };
+        console.log(req);
         this.$store.commit('toggle_spinner')
     },
     async Notification(variant = "", title = "", msg = "") {

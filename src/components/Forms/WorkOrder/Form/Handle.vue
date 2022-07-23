@@ -62,8 +62,9 @@ export default {
       }
     },
     async submitData() {
+      console.log(this.data,this.attachments)
       this.$store.commit('toggle_spinner')
-      await fetch(
+      const req = await fetch(
         `http://localhost:8080/api/workOrders/${this.$route.params.id}/handle/${this.$route.params.taskid}`,
         {
           headers: {
@@ -71,12 +72,23 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
-  server: {
-    url: "http://localhost:8080/api/attachments",
-  },
-}).then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
-        .catch(err => {this.Notification("danger",'error',`${err} , ${new Date().toLocaleString()}.`)})
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments})
+})
+if(req.ok){
+          this.Notification(
+            "success",
+            `status ${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          )
+        }
+        else{          
+          this.Notification(
+            "danger",
+            `status:${req.status}`,
+            `${req.statusText} ${new Date().toLocaleString()}.`
+          );
+        };
+        console.log(req);
         this.$store.commit('toggle_spinner')
     },
     async Notification(variant="",title="",msg=""){
@@ -84,7 +96,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },30000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -152,26 +164,7 @@ export default {
                     />
                   </pf-form-group>
                   <br />
-                </div>
-                    <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
-                >
-                  <pf-form-group
-                    label="Attachment"
-                    required
-                    field-id="simple-form-name-01"
-                  >
-                    <file-pond
-                      name="fileupload"
-                      ref="pond"
-                      label-idle="Click or Drop..."
-                      v-bind:allow-multiple="true"
-                      accepted-file-types="image/jpeg, image/png"
-                      v-on:processfile="handleProcessFile"
-                    />
-                  </pf-form-group>
-                  <br />
-                </div>
+                </div>                  
                     </div>
                     <pf-action-group>
                       <pf-button type="submit" variant="primary">Submit</pf-button>

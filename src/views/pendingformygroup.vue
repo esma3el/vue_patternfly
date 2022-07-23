@@ -65,7 +65,7 @@ import gql from "graphql-tag";
 
 const GET_PENDING_DATA = gql`
 query ($groups: [String!]!, $limit: Int!, $offset: Int!) {
-  tasks(where: {tasks_potential_groups: {group_id: {_in: $groups}}, _and: {state: {_eq: "Ready"}}}, limit: $limit, offset: $offset ,order_by: {process: {starttime: desc}}) {
+  tasks(where: {tasks_potential_groups: {group_id: {_in: $groups}}, _and: {state: {_eq: "Ready"}}}, limit: $limit, offset: $offset , order_by: { started : desc }) {
     id
     name
     referencename

@@ -90,7 +90,7 @@ const GET_PENDING_DATA = gql`
       }
       limit: $limit
       offset: $offset
-      order_by: { process: { starttime: desc } }
+      order_by: { started : desc }
     ) {
       id
       name

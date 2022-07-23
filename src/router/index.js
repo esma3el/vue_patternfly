@@ -22,14 +22,19 @@ const routes = [
     component: About,
   },
   {
-    path: "/changeRequests/create",
+    path: "/changeRequests/createNew",
+    name: "create_new_cr",
+    component: ()=> import('../components/Forms/ChangeRequest/CreateNew.vue'),
+  },
+  {
+    path: "/changeRequests/:id/create",
     name: "create_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Create.vue'),
   },
   {
     path: "/changeRequests/:id",
     name: "home_cr",
-    component: ()=> import('../components/Forms/ChangeRequest/Form/Index.vue'),
+    component: ()=> import('../components/Forms/ChangeRequest/Index.vue'),
   },
   {
     path: "/changeRequests/:id/handle/:taskid",
