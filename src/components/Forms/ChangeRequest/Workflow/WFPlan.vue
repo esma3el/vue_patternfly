@@ -12,9 +12,7 @@ export default {
 </script>
 
 <template>
-    <div>
-         <pf-card>
-          <pf-card-body>
+
             <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">                
                 <div
@@ -33,6 +31,7 @@ export default {
                       type="radio"
                       name="operationmode"
                       value="Accept"                                            
+                      readonly
                     />
                   </div>
                 </div>
@@ -47,6 +46,7 @@ export default {
                       type="radio"
                       name="operationmode"
                       value="Reject"                                            
+                      readonly
                     />
                   </div>
                 </div>
@@ -65,6 +65,7 @@ export default {
                 name="startTimeForImpact"
                 type="datetime-local"
                 v-model="data.startTimeForImpact"
+                readonly
               />
             </pf-form-group>
           </div>
@@ -81,6 +82,7 @@ export default {
                 name="endTimeForImpact"
                 type="datetime-local"
                 v-model="data.endTimeForImpact"
+                readonly
               />
             </pf-form-group>
           </div>
@@ -99,6 +101,7 @@ export default {
                 name="plannedStartTime"
                 type="datetime-local"
                 v-model="data.plannedStartTime"
+                readonly
               />
             </pf-form-group>
           </div>
@@ -115,6 +118,7 @@ export default {
                 name="plannedEndTime"
                 type="datetime-local"
                 v-model="data.plannedEndTime"
+                readonly
               />
             </pf-form-group>
           </div>
@@ -133,13 +137,11 @@ export default {
                 id="implementer_input"
                 name="implementer"                
                 v-model="data.implementer"
+                readonly
               />
             </pf-form-group>
           </div>
               </div>
              
-            </pf-form>
-          </pf-card-body>
-        </pf-card>
-    </div>
+            </pf-form>          
 </template>

@@ -27,7 +27,7 @@ const routes = [
     component: ()=> import('../components/Forms/ChangeRequest/CreateNew.vue'),
   },
   {
-    path: "/changeRequests/:id/create",
+    path: "/changeRequests/:id/create/:taskid",
     name: "create_cr",
     component: ()=> import('../components/Forms/ChangeRequest/Form/Create.vue'),
   },

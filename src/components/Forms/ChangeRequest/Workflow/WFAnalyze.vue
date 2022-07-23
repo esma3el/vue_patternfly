@@ -12,9 +12,6 @@ export default {
 </script>
 
 <template>
-    <div>
-        <pf-card>
-          <pf-card-body>
             <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">
                 <div
@@ -36,6 +33,7 @@ export default {
                 >
                   <pf-form-group label="Work Plan" field-id="workPlan">
                     <pf-textarea
+                    readonly
                       id="workPlan_input"
                       name="workPlan"
                       v-model="data.workPlan"
@@ -74,7 +72,4 @@ export default {
             </div>
           </div>             
             </pf-form>
-          </pf-card-body>
-        </pf-card>
-    </div>
 </template>

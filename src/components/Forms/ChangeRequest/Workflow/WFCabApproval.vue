@@ -12,10 +12,7 @@ export default {
 </script>
 
 <template>
-    <div>
-         <pf-card>
-          <pf-card-body>
-            <pf-form @submit.prevent="submitData" class="pf-l-grid">
+            <pf-form @submit.prevent="submitData">
               <div class="pf-l-grid">
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
@@ -47,7 +44,7 @@ export default {
                       id="2"
                       type="radio"
                       name="operationmode"
-                      value="Reject"
+                      value="Reject"                      
                       v-model="data.authorizeCabOperationMode"
                     />
                   </div>
@@ -60,6 +57,7 @@ export default {
                 >
                   <pf-form-group label="Description" field-id="description">
                     <pf-textarea
+                      readonly
                       id="description"
                       name="description"
                       v-model="data.authorizeCabDescription"
@@ -74,20 +72,17 @@ export default {
                 >
                   <pf-form-group
                     label="Customer"
-                    required
+                    
                     field-id="Customer"
                   >
                     <pf-text-input
                       id="Customer_input"
                       name="Customer"
-                      required
+                      readonly  
                       v-model="data.customer"
                     />
                   </pf-form-group>
                 </div>
               </div>              
             </pf-form>
-          </pf-card-body>
-        </pf-card>
-    </div>
 </template>

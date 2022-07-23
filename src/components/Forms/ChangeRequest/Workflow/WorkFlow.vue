@@ -149,6 +149,5 @@ export default {
   font-size: .7vw;
   opacity: .8;
   pointer-events: none;
-
 }
 </style>

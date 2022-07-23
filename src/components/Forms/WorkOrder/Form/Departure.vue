@@ -165,7 +165,7 @@ if(req.ok){
                     </div>
                     <pf-action-group>
                       <pf-button block type="submit" variant="primary">Submit</pf-button>
-                      <pf-button block variant="link">Cancel</pf-button>
+                      <pf-button block variant="tertiary">Cancel</pf-button>
                     </pf-action-group>
                 </pf-form>
               </pf-card-body>
