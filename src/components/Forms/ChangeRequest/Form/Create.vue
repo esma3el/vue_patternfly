@@ -499,7 +499,7 @@ export default {
   <div class="pf-l-grid pf-m-gutter">
     <div class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl">
       <pf-card>        
-        <pf-card-title> <pf-title h="1">Create CR</pf-title></pf-card-title>
+        <pf-card-title>Create Change Request Ticket</pf-card-title>
         <pf-divider />
         <pf-spinner v-if="$apollo.loading" size="sm" />
         <pf-card-body v-else>        
@@ -546,10 +546,11 @@ export default {
                 />
               </pf-form-group>
             </div>
-            <!-- Row 2 -->
-            <pf-card>
-              <pf-card-title>Change Information</pf-card-title>
-              <pf-card-body class="pf-l-grid">
+                <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-6-col-on-xl"
+                ></div>
+                <pf-divider />
+            <!-- Row 2 -->            
                 <!-- Change Request Source -->
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
@@ -672,10 +673,11 @@ export default {
                     </div>
                   </pf-form-group>
                 </div>
+                <pf-divider />
                 <!-- changeReason -->
                 <!--  -->
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
                 >
                   <pf-form-group
                     label="Reason for Change"
@@ -690,6 +692,10 @@ export default {
                     <pf-textarea />
                   </pf-form-group>
                 </div>
+                <div
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
+                ></div>
+                <pf-divider />
                 <!-- Row 5 -->
                 <!-- change product(productId) -->
                 <div
@@ -802,6 +808,7 @@ export default {
                     </div>
                   </pf-form-group>
                 </div>
+                <pf-divider />
                 <!--startTimeForImpact-->
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
@@ -896,16 +903,14 @@ export default {
 
                 <!-- ----------------------------------------------------------------------------------------------- -->
 
-                <!-- Row 8 -->
-              </pf-card-body>
-            </pf-card>
+                <!-- Row 8 -->              
 
-            <!-- Row 9 -->
-            <pf-card>
-              <pf-card-body class="pf-l-grid">
+            <!-- Row 9 -->            
                 <!--  -->
+                <pf-divider />
+                <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-6-col-on-xl"
                 >
                   <pf-form-group label="Work Plan" field-id="workPlan">
                     <pf-textarea
@@ -919,7 +924,7 @@ export default {
                 <!--  -->
                 <!--  -->
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-6-col-on-xl"
                 >
                   <pf-form-group label="Test Result" field-id="testResult">
                     <pf-textarea
@@ -932,7 +937,7 @@ export default {
                 <!--  -->
                 <!--  -->
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-6-col-on-xl"
                 >
                   <pf-form-group
                     label="Description"
@@ -945,9 +950,11 @@ export default {
                     />
                   </pf-form-group>
                 </div>
+                </div>
                 <!--  -->
                 <!-- Row 11 -->
                 <!--  -->
+                <pf-divider />
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
                 >
@@ -1001,9 +1008,10 @@ export default {
                     />
                   </pf-form-group>
                   <br />
-                </div>
-              </pf-card-body>
-            </pf-card>
+                </div>             
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-8-col-on-xl"
+            ></div>
             <div
               class="pf-l-grid__item pf-m-4-col pf-m-12-col-on-md pf-m-8-col-on-xl"
             >

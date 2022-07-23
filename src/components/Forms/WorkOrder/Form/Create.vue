@@ -1,7 +1,7 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
-import "../../../styles/vue-multiselect.css";
+import "../../../../styles/vue-multiselect.css";
 
 const FilePond = vueFilePond();
 
