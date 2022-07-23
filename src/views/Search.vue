@@ -57,6 +57,7 @@ export default {
   name: "Search",
   data() {
     return {
+      openSvgModal: false,
       data: [],
       count: 5,
       filter: {"Running":1,
@@ -310,6 +311,7 @@ export default {
         <th role="columnheader" scope="col">Process Name</th>
         <th role="columnheader" scope="col">Status</th>
         <th role="columnheader" scope="col">Created</th>
+        <th role="columnheader" scope="col">Options</th>
       </tr>
     </thead>
 
@@ -348,6 +350,19 @@ export default {
         <td v-else-if="item.state == 2">Completed</td>
         <td v-else>{{ item.state }}</td>
         <td>{{ item.starttime.slice(0,16).replace("T"," ") }}</td>
+        <td>
+            <pf-dropdown v-model:open="open7" plain>
+                <template #toggle>
+                  <pf-kebab-toggle />
+                </template>
+                <pf-dropdown-item>
+                  <a @click="openSvgModal = !openSvgModal">View SVG</a>
+                </pf-dropdown-item>
+                <pf-modal v-model:open="openSvgModal" title="Process SVG">
+                  <img :src="`http://localhost:8780/svg/processes/${item.processid}/instances/${item.id}`"/>
+                </pf-modal>
+              </pf-dropdown>
+            </td>
       </tr>
     </tbody>
   </table>

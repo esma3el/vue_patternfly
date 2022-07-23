@@ -15,6 +15,7 @@
           <th role="columnheader" scope="col">Handler</th>
           <th role="columnheader" scope="col">Process Name</th>
           <th role="columnheader" scope="col">Created</th>
+          <th role="columnheader" scope="col">Options</th>
         </tr>
       </thead>
 
@@ -67,6 +68,24 @@
           <td role="cell" data-label="Created">
             {{ task.process.starttime.slice(0, 16).replace("T", " ") }}
           </td>
+          <td>
+            <pf-dropdown v-model:open="open7" plain>
+                <template #toggle>
+                  <pf-kebab-toggle />
+                </template>
+                <pf-dropdown-item>
+                  <router-link :to="`/${task.process.processid}/${task.process.id}/${task.name}/${task.id}`">
+                    View Ticket
+                  </router-link>
+                </pf-dropdown-item>
+                <pf-dropdown-item>
+                  <a @click="openSvgModal = !openSvgModal">View SVG</a>
+                </pf-dropdown-item>
+                <pf-modal v-model:open="openSvgModal" title="Process SVG">
+                  <img :src="`http://localhost:8780/svg/processes/${task.process.processid}/instances/${task.process.id}`"/>
+                </pf-modal>
+              </pf-dropdown>
+            </td>
         </tr>
       </tbody>
     </table>
@@ -152,6 +171,7 @@ export default {
   name: "Home",
   data() {
     return {
+      openSvgModal: false,
       perPage: 10,
       page: 1,
       offset: (this.page - 1) * this.perPage,
