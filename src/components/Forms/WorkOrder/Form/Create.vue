@@ -4,6 +4,7 @@ import "filepond/dist/filepond.min.css";
 import "../../../../styles/vue-multiselect.css";
 // import Subprocess from './Form/Subprocess.vue'
 import Attachemnts from "../../Attachemnts.vue";
+import Stepper from '../../Stepper.vue'
 
 const FilePond = vueFilePond();
 
@@ -58,7 +59,7 @@ const GET_NETWORK_TYPES = gql`
   
 export default {
   name: "Create",
-  components: { FormTabs, WorkFlow, VueMultiselect},
+  components: { FormTabs, WorkFlow, VueMultiselect, Stepper, Attachemnts},
   data() {
     return {
       attachments:[],
@@ -203,8 +204,15 @@ export default {
 
 <template>
       <div class="pf-l-grid pf-m-gutter">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
+      <pf-card>
+        <pf-card-body>
+           <Stepper />     
+          </pf-card-body>
+      </pf-card>
+    </div>
         <div
-          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl"
         >
           <div class="phase-action">
             <pf-card>
@@ -397,7 +405,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>
@@ -423,14 +431,3 @@ export default {
         </div>
       </div>
 </template>
-
-<style>
-.pf-l-grid {
-  gap: 2em;
-}
-.content {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-</style>

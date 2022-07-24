@@ -194,7 +194,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+          class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Process Incident</pf-card-title>
@@ -323,7 +323,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>
@@ -343,14 +343,3 @@ export default {
         </div>
       </div>
 </template>
-
-<style>
-.pf-l-grid {
-  gap: 2em;
-}
-.content {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-</style>

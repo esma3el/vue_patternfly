@@ -121,7 +121,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+          class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Assign Support Engineer</pf-card-title>
@@ -130,7 +130,7 @@ export default {
                 <pf-spinner v-if="$apollo.loading" size="lg" />
             <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.legnth != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
-                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Operation Mode" field-id="assignOperationMode" required>
                                 <select class="pf-c-form-control"
                                         v-model="data.assignOperationMode" required >
@@ -186,7 +186,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>
@@ -206,14 +206,3 @@ export default {
         </div>
       </div>
 </template>
-
-<style>
-.pf-l-grid {
-  gap: 2em;
-}
-.content {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-</style>

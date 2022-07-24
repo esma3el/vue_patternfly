@@ -32,7 +32,7 @@
     <pre>{{ total_opened_tickets_data[0][0] || null }}</pre>
     <!-- <pre>{{ tickets_per_date_data}}</pre> -->
     <div class="pf-l-grid" style="gap: 1em; margin-bottom: 1em">
-      <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+      <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
         <fusioncharts
           :type="data.type"
           :width="data.width"
