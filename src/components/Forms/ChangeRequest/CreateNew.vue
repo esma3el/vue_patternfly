@@ -468,6 +468,9 @@ export default {
         };
         console.log(req);
         this.$store.commit('toggle_spinner')
+      setTimeout(() => {
+        this.$router.push("/");
+      }, 800);
     },
     async Notification(variant = "", title = "", msg = "") {
       this.$store.commit("setNotifications", {
@@ -479,9 +482,6 @@ export default {
         setTimeout(() => {
           this.$store.commit("delNotifications");
         }, 15000);
-        // setTimeout(() => {
-        //   this.$router.push("/");
-        // }, 800);
       }
     },
     clear_alarm() {

@@ -75,17 +75,17 @@
                 </template>
                 <pf-dropdown-item>
                   <router-link :to="`/${task.process.processid}/${task.process.id}/${task.name}/${task.id}`">
-                    View Ticket
+                    <i class="fa-solid fa-arrow-right"></i> View Ticket
                   </router-link>
                 </pf-dropdown-item>
                 <pf-dropdown-item>
-                  <a @click="openSvgModal = !openSvgModal">View SVG</a>
+                  <a @click="openSvgModal = !openSvgModal"><i class="fa-solid fa-timeline"></i> View SVG</a>
                 </pf-dropdown-item>
-                <pf-modal v-model:open="openSvgModal" title="Process SVG">
+                <pf-modal variant="large" v-model:open="openSvgModal" title="Process SVG">
                   <img :src="`http://localhost:8780/svg/processes/${task.process.processid}/instances/${task.process.id}`"/>
                 </pf-modal>
-              </pf-dropdown>
-            </td>
+            </pf-dropdown>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -99,6 +99,7 @@
 
 <script>
 import gql from "graphql-tag";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 const GET_PENDING_DATA = gql`
   query ($user: String!, $limit: Int!, $offset: Int!) {
@@ -216,4 +217,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

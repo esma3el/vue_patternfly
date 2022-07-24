@@ -356,10 +356,24 @@ export default {
                   <pf-kebab-toggle />
                 </template>
                 <pf-dropdown-item>
-                  <a @click="openSvgModal = !openSvgModal">View SVG</a>
+                  <router-link
+                    target="_blank"
+                    v-if="item.tasks[0]"
+                    :to="`/${item.processid}/${item.id}/${item.tasks[0]?.name}/${item.tasks[0]?.id}`"
+                    ><i class="fa-solid fa-arrow-right"></i> View Ticket</router-link
+                  >
+                  <router-link
+                    v-else
+                    :to="`/${item.processid}/${item.id}`"
+                    target="_blank"
+                    ><i class="fa-solid fa-arrow-right"></i> View Ticket</router-link
+                  >
                 </pf-dropdown-item>
-                <pf-modal v-model:open="openSvgModal" title="Process SVG">
-                  <img :src="`http://localhost:8780/svg/processes/${item.processid}/instances/${item.id}`"/>
+                <pf-dropdown-item>
+                  <a @click="openSvgModal = !openSvgModal"><i class="fa-solid fa-timeline"></i> View SVG</a>
+                </pf-dropdown-item>
+                <pf-modal variant="large" v-model:open="openSvgModal" title="Process SVG">
+                  <img :src="`http://localhost:8780/svg/processes/${item.processid}/instances/${item.id}`" />
                 </pf-modal>
               </pf-dropdown>
             </td>

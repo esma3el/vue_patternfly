@@ -92,7 +92,8 @@ export default {
           method: "POST",
           body: JSON.stringify({ data: this.data ,attachments: this.attachments})
 })
-if(req.ok){
+
+  if(req.ok){
           this.Notification(
             "success",
             `status ${req.status}`,
@@ -108,8 +109,26 @@ if(req.ok){
         };
         console.log(req);
         this.$store.commit('toggle_spinner')
+    setTimeout(() => {
+      this.$router.push("/");
+    }, 800);
     },
   },
+  async Notification(variant = "", title = "", msg = "") {
+      this.$store.commit("setNotifications", {
+        variant: variant,
+        title: title,
+        msg: msg,
+      });
+      if (variant != "danger") {
+        setTimeout(() => {
+          this.$store.commit("delNotifications");
+        }, 15000);
+      }
+    },
+    clear_alarm() {
+      this.$store.commit("delNotifications");
+    },
 };
 </script>
 

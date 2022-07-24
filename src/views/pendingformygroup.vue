@@ -16,6 +16,7 @@
           <th role="columnheader" scope="col">Group</th>
           <th role="columnheader" scope="col">Process Name</th>
           <th role="columnheader" scope="col">Created</th>
+          <th role="columnheader" scope="col">Options</th>
         </tr>
       </thead>
 
@@ -49,6 +50,24 @@
             {{ task.process.processname }}
           </td>
           <td role="cell" data-label="Created">{{ task.process.starttime.slice(0,16).replace("T"," ") }}</td>
+          <td>
+            <pf-dropdown v-model:open="open7" plain>
+                <template #toggle>
+                  <pf-kebab-toggle />
+                </template>
+                <pf-dropdown-item>
+                  <router-link :to="`/${task.process.processid}/${task.process.id}/${task.name}/${task.id}`">
+                    <i class="fa-solid fa-arrow-right"></i> View Ticket
+                  </router-link>
+                </pf-dropdown-item>
+                <pf-dropdown-item>
+                  <a @click="openSvgModal = !openSvgModal"><i class="fa-solid fa-timeline"></i> View SVG</a>
+                </pf-dropdown-item>
+                <pf-modal variant="large" v-model:open="openSvgModal" title="Process SVG">
+                  <img :src="`http://localhost:8780/svg/processes/${task.process.processid}/instances/${task.process.id}`"/>
+                </pf-modal>
+            </pf-dropdown>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -62,6 +81,7 @@
 
 <script>
 import gql from "graphql-tag";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 const GET_PENDING_DATA = gql`
 query ($groups: [String!]!, $limit: Int!, $offset: Int!) {
@@ -113,6 +133,7 @@ export default {
   name: "pendingformygroup",
   data() {
     return {
+      openSvgModal: false,
       perPage: 10,
       page: 1,
       offset: (this.page - 1) * this.perPage,
