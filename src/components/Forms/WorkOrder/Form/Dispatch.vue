@@ -1,6 +1,8 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import Subprocess from './Subprocess.vue'
+import Attachemnts from "../../Attachemnts.vue";
 
 const FilePond = vueFilePond();
 
@@ -14,7 +16,7 @@ import WorkFlow from "../Workflow/WorkFlow.vue";
 
 export default {
   name: "Dispatch",
-  components: { FormTabs, WorkFlow },
+  components: { FormTabs, WorkFlow ,Subprocess},
   data() {
     return {
       attachments:[],
@@ -153,6 +155,12 @@ if(req.ok){
                   <pf-tab title="WorkFlow Details">
                     <br>
                     <WorkFlow :ticketid="$route.params.id" />
+                  </pf-tab>
+                  <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
+                   <pf-tab title="Subprocess">
+                    <Subprocess />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>

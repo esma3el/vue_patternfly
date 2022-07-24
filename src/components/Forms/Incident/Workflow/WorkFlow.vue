@@ -75,7 +75,9 @@ export default {
         @update:expanded="expanded = $event ? index : null"
         v-else-if="item.name == 'Process'"
       >
-        <WFProcess :data="item.data" />
+      <pre>{{item.data}}</pre>
+
+        <!-- <WFProcess :data="item.data" /> -->
       </pf-accordion-item>
      
      <pf-accordion-item

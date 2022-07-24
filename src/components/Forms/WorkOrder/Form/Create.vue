@@ -2,6 +2,8 @@
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 import "../../../../styles/vue-multiselect.css";
+import Subprocess from './Subprocess.vue'
+import Attachemnts from "../../Attachemnts.vue";
 
 const FilePond = vueFilePond();
 
@@ -49,7 +51,7 @@ const GET_NETWORK_TYPES = gql`
   
 export default {
   name: "Create",
-  components: { FormTabs, WorkFlow, VueMultiselect },
+  components: { FormTabs, WorkFlow, VueMultiselect ,Subprocess},
   data() {
     return {
       attachments:[],
@@ -380,6 +382,12 @@ export default {
                   <pf-tab title="WorkFlow Details">
                     <br>
                     <WorkFlow :ticketid="$route.params.id" />
+                  </pf-tab>
+                  <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
+                   <pf-tab title="Subprocess">
+                    <Subprocess />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>

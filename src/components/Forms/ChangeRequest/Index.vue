@@ -32,7 +32,7 @@ export default {
               </pf-tab>
               <pf-tab title="Attachments">
                     <Attachemnts />
-                  </pf-tab>
+                  </pf-tab>                  
             </pf-tabs>
           </pf-card-body>
         </pf-card>
