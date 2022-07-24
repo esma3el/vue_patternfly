@@ -130,7 +130,7 @@ if(req.ok){
       <div class="phase-action">
         <pf-card>
           <pf-card-body>
-            <pf-spinner v-if="$apollo.loading" size="sm" />
+            <pf-spinner v-if="$apollo.loading" size="lg" />
             <pf-form
               @submit.prevent="submitData"
               class="pf-l-grid"

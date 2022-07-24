@@ -231,7 +231,7 @@ export default {
             <pf-card>
               <pf-card-title>Create Support Request</pf-card-title>
               <pf-card-body>
-                <pf-spinner v-if="$apollo.loading" size="sm" />
+                <pf-spinner v-if="$apollo.loading" size="lg" />
                   <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
@@ -281,7 +281,7 @@ export default {
                                     <select class="pf-c-form-control"
                                         v-model="data.faultAlarm.domain"                                     
                                         @click="getdomains" >
-                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
+                                        <pf-spinner v-if="$apollo.loading" size="lg" />                                    
                                         <option :value="item" v-else v-for="item in domains">{{item}}</option>                  
                                     </select>
                                 </div>
@@ -293,7 +293,7 @@ export default {
                                     <select class="pf-c-form-control"
                                         v-model="data.faultAlarm.networkType"                                     
                                         @click="getnetworktypes" >
-                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
+                                        <pf-spinner v-if="$apollo.loading" size="lg" />                                    
                                         <option :value="item" v-else v-for="item in networkTypes">{{item}}</option>                  
                                     </select>
                                 </div>

@@ -4,7 +4,7 @@
 
   <pf-card>
     <pf-card-body>
-        <pf-spinner v-if="$apollo.loading" size="sm" />
+        <pf-spinner v-if="$apollo.loading" size="lg" />
       <div class="pf-l-grid pf-m-gutter" v-else>
         <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
           <pf-title size="md">Ticket ID</pf-title>
@@ -40,7 +40,7 @@
   </div>
   <!-- <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
       <pf-card>
-          <pf-spinner v-if="$apollo.loading" size="sm" />
+          <pf-spinner v-if="$apollo.loading" size="lg" />
           <pf-card-body v-else>        
         <fusioncharts
           :type="data1.type"

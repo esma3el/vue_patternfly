@@ -16,7 +16,7 @@
           <th role="columnheader" scope="col">Handler</th>          
         </tr>
       </thead>
-      <pf-spinner v-if="$apollo.loading" size="sm" />
+      <pf-spinner v-if="$apollo.loading" size="lg" />
       <tbody role="rowgroup" v-else>
         <tr role="row" v-for="process in data">
           <td role="cell" data-label="Process Name">

@@ -127,7 +127,7 @@ export default {
               <pf-card-title>Assign Support Engineer</pf-card-title>
               <pf-divider />
               <pf-card-body>
-                <pf-spinner v-if="$apollo.loading" size="sm" />
+                <pf-spinner v-if="$apollo.loading" size="lg" />
             <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.legnth != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">

@@ -21,7 +21,7 @@
       </thead>
 
       <tbody role="rowgroup" v-if="$apollo.loading">
-        <pf-spinner v-if="$apollo.loading" size="sm" />      </tbody>
+        <pf-spinner v-if="$apollo.loading" size="lg" />      </tbody>
       
       <tbody role="rowgroup" v-else>
         

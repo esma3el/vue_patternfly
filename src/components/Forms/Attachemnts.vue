@@ -42,7 +42,7 @@ export default {
       id="table-basic"
     >
       <caption></caption>      
-      <pf-spinner v-if="$apollo.loading" size="sm" />    
+      <pf-spinner v-if="$apollo.loading" size="lg" />    
       <tbody role="rowgroup" v-else>        
         <tr role="row" v-for="task in processes[0].tasks">
           <td

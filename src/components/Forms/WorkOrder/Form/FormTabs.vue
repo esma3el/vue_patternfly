@@ -62,7 +62,7 @@ export default {
 </script>
 
 <template>
-      <pf-spinner v-if="$apollo.loading" size="sm" />
+      <pf-spinner v-if="$apollo.loading" size="lg" />
       <div v-else>
         <pf-tabs secondary>
           <pf-tab title="WO Information" :content-ref="$refs.workOrders" />

@@ -541,7 +541,7 @@ export default {
       <pf-card>        
         <pf-card-title>Create Change Request Ticket</pf-card-title>
         <pf-divider />
-        <pf-spinner v-if="$apollo.loading" size="sm" />
+        <pf-spinner v-if="$apollo.loading" size="lg" />
         <pf-card-body v-else>        
           <pf-form @submit.prevent="submitData" class="pf-l-grid">          
             <!-- <div

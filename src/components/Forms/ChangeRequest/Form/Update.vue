@@ -161,7 +161,7 @@ if(req.ok){
           <pf-card-title> Update Ticket Information </pf-card-title>
           <pf-divider />
           <pf-card-body>
-            <pf-spinner v-if="$apollo.loading" size="sm" />
+            <pf-spinner v-if="$apollo.loading" size="lg" />
             <pf-form
               @submit.prevent="submitData"
               class="pf-l-grid"

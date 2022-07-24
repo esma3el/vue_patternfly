@@ -243,7 +243,7 @@ export default {
               <pf-card-title>Create Incident</pf-card-title>
               <pf-divider />
               <pf-card-body>
-                <pf-spinner v-if="$apollo.loading" size="sm" />
+                <pf-spinner v-if="$apollo.loading" size="lg" />
             <pf-form
               @submit.prevent="submitData"
               class="pf-l-grid"
@@ -346,7 +346,7 @@ export default {
                                     <select class="pf-c-form-control" required
                                         v-model="data.faultAlarm.domain"                                     
                                         @click="getdomains" >
-                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
+                                        <pf-spinner v-if="$apollo.loading" size="lg" />                                    
                                         <option :value="item" v-else v-for="item in domains">{{item}}</option>                  
                                     </select>
                                 </div>
@@ -358,7 +358,7 @@ export default {
                                     <select class="pf-c-form-control"
                                         v-model="data.faultAlarm.networkType"                                     
                                         @click="getnetworktypes" >
-                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
+                                        <pf-spinner v-if="$apollo.loading" size="lg" />                                    
                                         <option :value="item" v-else v-for="item in networkTypes">{{item}}</option>                  
                                     </select>
                                 </div>

@@ -247,7 +247,7 @@ export default {
               <pf-card-title>Process Work Order</pf-card-title>
               <pf-divider />
               <pf-card-body>
-                <pf-spinner v-if="$apollo.loading" size="sm" />
+                <pf-spinner v-if="$apollo.loading" size="lg" />
             <pf-form
               @submit.prevent="submitData"
               class="pf-l-grid"
@@ -283,7 +283,7 @@ export default {
                   id=""   
                   @click="getrootcausecategories"               
                 >
-                  <pf-spinner v-if="$apollo.loading" size="sm" />
+                  <pf-spinner v-if="$apollo.loading" size="lg" />
                   <option selected :value="workOrders[0].rootcausecategory" v-else="workOrders[0].rootcausecategory">{{workOrders[0].rootcausecategory}}</option>                                                                        
                   <option :value="item" v-else v-for="item in rootCauseCategories">{{item}}</option>                  
                 </select>
@@ -303,7 +303,7 @@ export default {
                   id=""   
                   @click="getrootcausetypes"               
                 >
-                  <pf-spinner v-if="$apollo.loading" size="sm" />                                    
+                  <pf-spinner v-if="$apollo.loading" size="lg" />                                    
                   <option :value="item" v-else v-for="item in rootCauseTypes">{{item}}</option>                  
                 </select>
               </div>
@@ -323,7 +323,7 @@ export default {
                   id=""   
                   @click="getrootcauseitems"               
                 >
-                  <pf-spinner v-if="$apollo.loading" size="sm" />                                    
+                  <pf-spinner v-if="$apollo.loading" size="lg" />                                    
                   <option :value="item" v-else v-for="item in rootCauseItems">{{item}}</option>                  
                 </select>
               </div>

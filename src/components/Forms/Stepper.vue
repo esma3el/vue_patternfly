@@ -35,7 +35,7 @@ export default {
 </script>
 
 <template>  
-  <pf-spinner v-if="$apollo.loading" size="sm" />
+  <pf-spinner v-if="$apollo.loading" size="lg" />
   <ol v-else class="pf-c-progress-stepper">  
     <li
       v-for="(item,index) in getdata"      
