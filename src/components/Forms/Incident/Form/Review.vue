@@ -34,29 +34,8 @@ import Stepper from '../../Stepper.vue'
 `;
 const QUERY = gql`
   query ($id: String!) {
-    incidents(where: { id: { _eq: $id } }) {
-    alarmid
-    alarmname
-    alarmtype
-    creator
-    creators
-    deviceid
-    domain
-    emsid
-    faultlevel
-    faultnumber
-    firstoccurtime
-    networktype
-    siteid
-    title
-    initialdiagnosis
-    description
-    probablecause
-    lastoccurtime
-    sitedown
-    faultsummary
-    processor
-    processors
+    processes(where: { id: { _eq: $id } }) {
+      variables
     }
   }
 `;
@@ -70,6 +49,13 @@ query ($search: String!) {
 const GET_DOMAINS = gql`
  query {
   domain {
+    keycode
+  }
+}
+`;
+const GET_FAULT_LEVELS = gql`
+ query {
+  fault_level {
     keycode
   }
 }
@@ -89,6 +75,7 @@ export default {
     return {
       attachments:[],
         domains: [],
+      faultlevels: [],
         networkTypes: [],
         useroptions:[],
         data: {
@@ -135,6 +122,17 @@ export default {
       variables() {
         return { id: this.$route.params.id };
       },
+      update(data){
+        this.getdomains()
+        this.getfaultlevels()
+        this.getnetworktypes()
+        this.data = {...data.processes[0]?.variables}
+        this.data.faultAlarm = {...data.processes[0]?.variables.faultAlarm}                
+        this.data.faultAlarm.site = {...data.processes[0]?.variables.faultAlarm.site}                
+        this.data.information = {...data.processes[0]?.variables.information}                
+        this.data.faultAlarm.firstOccurTime = this.data.faultAlarm.firstOccurTime.substring(0,16)
+        this.data.faultAlarm.lastOccurTime = this.data.faultAlarm.lastOccurTime.substring(0,16)
+      }
     },
     tasks: {
       query: Q2,
@@ -166,6 +164,11 @@ export default {
         query:GET_DOMAINS
       }).then(res => this.domains = res.data.domain.map(res=> res.keycode)); 
     },
+    getfaultlevels(){
+      this.$apolloProvider.defaultClient.query({
+        query:GET_FAULT_LEVELS
+      }).then(res => this.faultlevels = res.data.fault_level.map(res=> res.keycode)); 
+    },
     getnetworktypes(){
       this.$apolloProvider.defaultClient.query({
         query:GET_NETWORK_TYPES
@@ -173,33 +176,6 @@ export default {
     },
     async submitData() {
       this.$store.commit('toggle_spinner');
-      this.data.processor = this.incidents[0].processor;
-      this.data.processors = this.incidents[0].processors;
-      this.data.information.title = this.incidents[0].title;
-      this.data.information.description = this.incidents[0].description;
-      this.data.information.probableCause = this.incidents[0].probablecause;
-      this.data.information.solution = this.incidents[0].solution;
-      this.data.information.source = this.incidents[0].source;
-      this.data.information.initialDiagnosis = this.incidents[0].initialdiagnosis;
-      this.data.faultAlarm.faultLevel = this.incidents[0].faultlevel;
-      this.data.faultAlarm.domain = this.incidents[0].domain;
-      this.data.faultAlarm.networkType = this.incidents[0].networktypes;
-      this.data.faultAlarm.emsId = this.incidents[0].emsid;
-      this.data.faultAlarm.alarmId = this.incidents[0].alarmid;
-      this.data.faultAlarm.alarmName = this.incidents[0].alarmname;
-      this.data.faultAlarm.alarmType = this.incidents[0].alarmtype;
-      this.data.faultAlarm.faultNumber = this.incidents[0].faultnumber;
-      this.data.faultAlarm.faultSummary = this.incidents[0].faultsummary;
-      this.data.faultAlarm.firstOccurTime = this.incidents[0].firstoccurtime;
-      this.data.faultAlarm.lastOccurTime = this.incidents[0].lastoccurtime;
-      this.data.faultAlarm.siteDown = this.incidents[0].sitedown;
-      this.data.faultAlarm.resultFlag = this.incidents[0].resultflag;
-      this.data.faultAlarm.nodeId = this.incidents[0].nodeid;
-      this.data.faultAlarm.site.siteId = this.incidents[0].siteid;
-      this.data.faultAlarm.site.clusterId = this.incidents[0].clusterid;
-      this.data.faultAlarm.site.zoneId = this.incidents[0].zoneid;
-      this.data.faultAlarm.site.contractorId = this.incidents[0].contractorid;
-      this.data.faultAlarm.deviceId = this.incidents[0].deviceid
         const req = await fetch(
         `http://localhost:8080/api/incidents/${this.$route.params.id}/review/${this.$route.params.taskid}`,
         {
@@ -271,30 +247,30 @@ export default {
               :class="tasks ? '' : 'hide_unauthorized'"
             >
                     <div class="pf-l-grid">
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Title" field-id="title" required>
                                 <pf-text-input id="title_input" name="title" required
-                                    v-model="this.incidents[0].title"/>
+                                    v-model="data.information.title"/>
                             </pf-form-group>
                         </div>
                         <pf-divider />
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Description" field-id="createDescription">
                                 <pf-textarea id="createDescription_input" name="createDescription"
-                                    v-model="this.incidents[0].description" />
+                                    v-model="data.information.description" />
+                            </pf-form-group>
+                        </div>
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+                            <pf-form-group label="Probable Cause" field-id="probableCause">
+                                <pf-textarea id="probableCause_input" name="probableCause"
+                                    v-model="data.information.probableCause" />
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
-                            <pf-form-group label="Probable Cause" field-id="probableCause">
-                                <pf-textarea id="probableCause_input" name="probableCause"
-                                    v-model="this.incidents[0].probablecause" />
-                            </pf-form-group>
-                        </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Initial Diagnosis?" field-id="initialDiagnosis" required>
                                 <div class="pf-c-form__group-control">
                                     <select class="pf-c-form-control"
-                                        v-model="this.incidents[0].initialdiagnosis" >
+                                        v-model="data.information.initialDiagnosis" >
                                         <option value="Yes" >Yes</option>
                                         <option value="No" >No</option>                                    
                                     </select>
@@ -302,9 +278,9 @@ export default {
                             </pf-form-group>
                         </div>
                         <pf-divider />
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Site ID" field-id="siteId" required>
-                                <VueMultiselect v-model="this.incidents[0].siteid"
+                                <VueMultiselect v-model="data.faultAlarm.site.siteId"
                                   :options="useroptions"
                                   id="site"
                                   :searchable="true"                
@@ -312,47 +288,59 @@ export default {
                               </VueMultiselect>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="EMS ID" field-id="emsId" required>
                                 <pf-text-input id="emsId_input" name="emsId" required
-                                    v-model="this.incidents[0].emsid"/>
+                                    v-model="data.faultAlarm.emsId"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Alarm ID" field-id="alarmId">
                                 <pf-text-input id="alarmId_input" name="alarmId"
-                                    v-model="this.incidents[0].alarmid"/>
+                                    v-model="data.faultAlarm.alarmId"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Alarm Name" field-id="alarmName" required>
                                 <pf-text-input id="alarmName_input" name="alarmName" required
-                                    v-model="this.incidents[0].alarmname"/>
+                                    v-model="data.faultAlarm.alarmName"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Alarm Type" field-id="alarmType" required>
                                 <pf-text-input id="alarmType_input" name="alarmType" required
-                                    v-model="this.incidents[0].alarmtype"/>
+                                    v-model="data.faultAlarm.alarmType"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="First Occur Time" field-id="firstOccurTime" required>
                                 <pf-text-input type="datetime-local" id="firstOccurTime_input" name="firstOccurTime" required
-                                    v-model="this.incidents[0].firstoccurtime"/>
+                                    v-model="data.faultAlarm.firstOccurTime"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Last Occur Time" field-id="firstOccurTime">
                                 <pf-text-input type="datetime-local" id="firstOccurTime_input" name="firstOccurTime"
-                                    v-model="this.incidents[0].lastoccurtime"/>
+                                    v-model="data.faultAlarm.lastOccurTime"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+                            <pf-form-group label="Fault Level" field-id="faultLevel" required>
+                                <div class="pf-c-form__group-control">
+                                    <select class="pf-c-form-control"
+                                        v-model="data.faultAlarm.faultLevel"                                     
+                                        @click="getfaultlevels" >
+                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <option :value="item" v-else v-for="item in faultlevels">{{item}}</option>                  
+                                    </select>
+                                </div>
+                            </pf-form-group>
+                        </div>
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Domain" field-id="domain" required>
                                 <div class="pf-c-form__group-control">
                                     <select class="pf-c-form-control" required
-                                        v-model="this.incidents[0].domain"                                     
+                                        v-model="data.faultAlarm.domain"                                     
                                         @click="getdomains" >
                                         <option value="" v-if="$apollo.loading">...loading</option>                                    
                                         <option :value="item" v-else v-for="item in domains">{{item}}</option>                  
@@ -360,11 +348,11 @@ export default {
                                 </div>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Network Type" field-id="networkType">
                                 <div class="pf-c-form__group-control">
                                     <select class="pf-c-form-control"
-                                        v-model="this.incidents[0].networktype"                                     
+                                        v-model="data.faultAlarm.networkType"                                     
                                         @click="getnetworktypes" >
                                         <option value="" v-if="$apollo.loading">...loading</option>                                    
                                         <option :value="item" v-else v-for="item in networkTypes">{{item}}</option>                  
@@ -372,46 +360,46 @@ export default {
                                 </div>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Device ID" field-id="deviceId">
                                 <pf-text-input id="deviceId_input" name="deviceId"
-                                    v-model="this.incidents[0].deviceid"/>
+                                    v-model="data.faultAlarm.deviceId"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Site Down?" field-id="domain" required>
                                 <div class="pf-c-form__group-control">
                                     <select class="pf-c-form-control"
-                                        v-model="this.incidents[0].sitedown" >
+                                        v-model="data.faultAlarm.siteDown" >
                                         <option value="Yes" >Yes</option>
                                         <option value="No" >No</option>                                    
                                     </select>
                                 </div>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Fault NO." field-id="faultNumber">
                                 <pf-text-input id="faultNumber_input" name="faultNumber"
-                                    v-model="this.incidents[0].faultnumber"/>
+                                    v-model="data.faultAlarm.faultNumber"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Fault Summary" field-id="faultSummary">
                                 <pf-textarea id="faultSummary_input" name="faultSummary"
-                                    v-model="this.incidents[0].faultsummary" />
+                                    v-model="data.faultAlarm.faultSummary" />
                             </pf-form-group>
                         </div>              
                         <pf-divider />
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Assign to User" field-id="processor" required>
                                 <pf-text-input id="processor_input" name="processor" required
-                                    v-model="this.incidents[0].processor"/>
+                                    v-model="data.processor"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Assign to Group" field-id="processors" required>
                                 <pf-text-input id="processors_input" name="processors" required
-                                    v-model="this.incidents[0].processors"/>
+                                    v-model="data.processors"/>
                             </pf-form-group>
                         </div>
                     <div
@@ -431,7 +419,6 @@ export default {
                       v-on:processfile="handleProcessFile"
                     />
                   </pf-form-group>
-                  <br />
                 </div>
                     </div>
                     <pf-action-group>

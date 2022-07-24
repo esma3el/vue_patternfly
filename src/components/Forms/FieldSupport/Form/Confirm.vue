@@ -119,7 +119,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
+          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Confirm Support</pf-card-title>
@@ -172,7 +172,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-7-col-on-xl">
+        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>

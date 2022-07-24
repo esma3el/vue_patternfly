@@ -39,6 +39,13 @@ const GET_DOMAINS = gql`
   }
 }
 `;
+const GET_FAULT_LEVELS = gql`
+ query {
+  fault_level {
+    keycode
+  }
+}
+`;
 const GET_NETWORK_TYPES = gql`
  query {
   network_type {
@@ -69,6 +76,7 @@ export default {
       siteOptions:[],
       attachments:[],
       domains: [],
+      faultlevels: [],
       networkTypes: [],
       data: {
         information: {
@@ -161,6 +169,11 @@ export default {
         query:GET_DOMAINS
       }).then(res => this.domains = res.data.domain.map(res=> res.keycode)); 
     },
+    getfaultlevels(){
+      this.$apolloProvider.defaultClient.query({
+        query:GET_FAULT_LEVELS
+      }).then(res => this.faultlevels = res.data.fault_level.map(res=> res.keycode)); 
+    },
     getnetworktypes(){
       this.$apolloProvider.defaultClient.query({
         query:GET_NETWORK_TYPES
@@ -187,9 +200,12 @@ export default {
       },
       update(data){
         this.getdomains()
+        this.getfaultlevels()
         this.getnetworktypes()
         this.data = {...data.processes[0]?.variables}
         this.data.faultAlarm = {...data.processes[0]?.variables.faultAlarm}                
+        this.data.information = {...data.processes[0]?.variables.information}                
+        this.data.supportRequest = {...data.processes[0]?.variables.supportRequest}                
         this.data.faultAlarm.site = {...data.processes[0]?.variables.faultAlarm.site}                
         this.data.faultAlarm.firstOccurTime = this.data.faultAlarm.firstOccurTime.substring(0,16)
         this.data.faultAlarm.lastOccurTime = this.data.faultAlarm.lastOccurTime.substring(0,16)
@@ -209,7 +225,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl"
+          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
         >
           <div class="phase-action">
             <pf-card>
@@ -245,6 +261,18 @@ export default {
                             <pf-form-group label="First Occur Time" field-id="firstOccurTime" required>
                                 <pf-text-input type="datetime-local" id="firstOccurTime_input" name="firstOccurTime" required
                                     v-model="data.faultAlarm.firstOccurTime"/>
+                            </pf-form-group>
+                        </div>
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+                            <pf-form-group label="Fault Level" field-id="faultLevel" required>
+                                <div class="pf-c-form__group-control">
+                                    <select class="pf-c-form-control"
+                                        v-model="data.faultAlarm.faultLevel"                                     
+                                        @click="getfaultlevels" >
+                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <option :value="item" v-else v-for="item in faultlevels">{{item}}</option>                  
+                                    </select>
+                                </div>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
@@ -337,7 +365,6 @@ export default {
                       v-on:processfile="handleProcessFile"
                     />
                   </pf-form-group>
-                  <br />
                 </div>
                     </div>
                     <pf-action-group>
@@ -349,7 +376,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-7-col-on-xl">
+        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>

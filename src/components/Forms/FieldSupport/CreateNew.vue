@@ -50,6 +50,13 @@ const GET_DOMAINS = gql`
   }
 }
 `;
+const GET_FAULT_LEVELS = gql`
+ query {
+  fault_level {
+    keycode
+  }
+}
+`;
 const GET_NETWORK_TYPES = gql`
  query {
   network_type {
@@ -76,6 +83,7 @@ export default {
       loaded_template_data: [],
       attachments:[],
       domains: [],
+      faultlevels: [],
       networkTypes: [],
       data: {
         information: {
@@ -120,6 +128,7 @@ export default {
         .then((res) =>
         {
           this.getdomains()
+        this.getfaultlevels()
           this.getnetworktypes()
           this.data = {...res.data.template_create1[0]?.template}
           this.data.supportRequest = {...this.data.supportRequest}
@@ -199,6 +208,11 @@ export default {
       this.$apolloProvider.defaultClient.query({
         query:GET_DOMAINS
       }).then(res => this.domains = res.data.domain.map(res=> res.keycode)); 
+    },
+    getfaultlevels(){
+      this.$apolloProvider.defaultClient.query({
+        query:GET_FAULT_LEVELS
+      }).then(res => this.faultlevels = res.data.fault_level.map(res=> res.keycode)); 
     },
     getnetworktypes(){
       this.$apolloProvider.defaultClient.query({
@@ -329,6 +343,18 @@ export default {
                             <pf-form-group label="First Occur Time" field-id="firstOccurTime" required>
                                 <pf-text-input type="datetime-local" id="firstOccurTime_input" name="firstOccurTime" required
                                     v-model="data.faultAlarm.firstOccurTime"/>
+                            </pf-form-group>
+                        </div>
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+                            <pf-form-group label="Fault Level" field-id="faultLevel" required>
+                                <div class="pf-c-form__group-control">
+                                    <select class="pf-c-form-control"
+                                        v-model="data.faultAlarm.faultLevel"                                     
+                                        @click="getfaultlevels" >
+                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <option :value="item" v-else v-for="item in faultlevels">{{item}}</option>                  
+                                    </select>
+                                </div>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">

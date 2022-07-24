@@ -1,6 +1,7 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 const FilePond = vueFilePond();
 
@@ -71,9 +72,10 @@ query($type: String!){
 
 export default {
   name: "Process",
-  components: { VueMultiselect, FormTabs, WorkFlow , Stepper, FilePond,},
+  components: { VueMultiselect, FormTabs, WorkFlow , Stepper, FilePond},
   data() {
     return {
+      open1:false,
       attachments:[],
       rootCauseCategories: [],
       rootCauseTypes: [],
@@ -110,7 +112,6 @@ export default {
           task_id: this.$route.params.taskid,
         };
       },
-      fetchPolicy: "cache-and-network"
     },
   },   
   computed: {
@@ -144,19 +145,10 @@ export default {
       }).then(res => this.rootCauseCategories = res.data.root_cause_category.map(row=> row.keycode)); 
     },
     async submitData() {
-      
-      this.data.processDescription,
-      this.data.processOperationMode,
-      this.data.faultSolution.recoveryTime,
-      this.data.faultSolution.interruptionTime,
-      this.data.faultSolution.rootCauseCategory,
-      this.data.faultSolution.rootCauseType,
-      this.data.faultSolution.rootCauseItem,
-      this.data.faultSolution.rootCauseDescription,
-      this.data.faultSolution.faultReasonDescription,
-      this.data.faultSolution.faultSolutionDescription,
+      this.data.processOperationMode = "Resolve",
+
       this.$store.commit('toggle_spinner')
-      const req = await fetch(
+        await fetch(
         `http://localhost:8080/api/workOrders/${this.$route.params.id}/process/${this.$route.params.taskid}`,
         {
           headers: {
@@ -164,9 +156,42 @@ export default {
             Authorization: "Bearer " + this.$store.state._keycloak.token,
           },
           method: "POST",
-          body: JSON.stringify({ data: this.data ,attachments: this.attachments})
+          body: JSON.stringify({ data: this.data ,attachments: this.attachments}),
 })
-if(req.ok){
+        .then(res=> {this.Notification("success","Saved Successfuly",`Ticket Submited Successfuly At ${new Date().toLocaleString()}.`)})
+        .catch(err => {this.Notification("danger","Unknown Error",`Unknown error , ${new Date().toLocaleString()}.`)})        
+        this.$store.commit('toggle_spinner')
+    },
+    async Notification(variant="",title="",msg=""){
+        this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
+        if(variant != 'danger'){
+        setTimeout(()=>{
+          this.$store.commit('delNotifications')
+        },15000)
+        setTimeout(()=>{
+        
+        this.$router.push('/')
+        },800)
+        }
+    } ,    
+    clear_alarm(){
+      this.$store.commit('delNotifications')
+    },
+  async submitWO() {
+      this.data.processOperationMode = "Support-Request",
+
+      this.$store.commit('toggle_spinner')
+        const req = await fetch(
+        `http://localhost:8080/api/workOrders/${this.$route.params.id}/process/${this.$route.params.taskid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + this.$store.state._keycloak.token,
+          },
+          method: "POST",
+          body: JSON.stringify({ data: this.data}),
+})
+        if(req.ok){
           this.Notification(
             "success",
             `status ${req.status}`,
@@ -198,7 +223,7 @@ if(req.ok){
     clear_alarm(){
       this.$store.commit('delNotifications')
     }
-  },
+  }
 };
 </script>
 
@@ -212,15 +237,24 @@ if(req.ok){
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
+          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Process Work Order</pf-card-title>
               <pf-divider />
               <pf-card-body>
                 <pf-spinner v-if="$apollo.loading" size="sm" />
-                <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
+            <pf-form
+              @submit.prevent="submitData"
+              class="pf-l-grid"
+              v-else
+              :class="tasks ? '' : 'hide_unauthorized'"
+            >
                     <div class="pf-l-grid">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+                            <pf-button block variant="tertiary" @click="open1 = !open1"><i class="fa-solid fa-screwdriver-wrench"></i> Support Request Request</pf-button>
+                        </div>
+                        <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Service Recovery Time" field-id="recoveryTime" required>
                                 <pf-text-input type="datetime-local" id="recoveryTime_input" name="recoveryTime" required
@@ -309,7 +343,7 @@ if(req.ok){
                                     v-model="data.faultSolution.faultSolutionDescription" />
                             </pf-form-group>
                         </div>
-                        <div
+                    <div
                   class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
@@ -326,19 +360,40 @@ if(req.ok){
                       v-on:processfile="handleProcessFile"
                     />
                   </pf-form-group>
-                  <br />
-                </div>                    
+                </div>
                     </div>
                     <pf-action-group>
                       <pf-button block type="submit" variant="primary">Submit</pf-button>
-                      <pf-button block variant="link">Cancel</pf-button>
+                      <pf-button block variant="tertiary">Cancel</pf-button>
                     </pf-action-group>
                 </pf-form>
+                <pf-modal variant="medium" v-model:open="open1" title="Support Request Request">
+                              <template #description>
+                            <pf-form @submit.prevent="submitWO" class="pf-l-grid">
+                              <div class="pf-l-grid">                                  
+                                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                                            <pf-form-group label="Support Request Description" field-id="processDescription">
+                                                <pf-textarea id="processDescription_input" name="processDescription"
+                                                    v-model="data.processDescription" />
+                                            </pf-form-group>
+                                        </div>
+                              </div>
+                              <pf-action-group>
+                                <pf-button type="submit" block variant="primary">
+                                  Submit
+                                </pf-button>
+                                <pf-button block variant="tertiary" @click="open1 = !open1">
+                                  Cancel
+                                </pf-button>
+                                  </pf-action-group>                              
+                          </pf-form>
+                              </template>
+                            </pf-modal>
               </pf-card-body>
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-7-col-on-xl">
+        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>
