@@ -120,7 +120,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')

@@ -33,7 +33,7 @@ const Q2 = gql`
 `;
 export default {
   name: "Handle",
-  components: { FormTabs, WorkFlow , Stepper, FilePond,Subprocess},
+  components: { FormTabs, WorkFlow , Stepper, FilePond,Subprocess,Attachemnts},
   data() {
     return {
       attachments:[],

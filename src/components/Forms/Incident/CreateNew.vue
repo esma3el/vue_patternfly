@@ -358,7 +358,7 @@ if(req.ok){
                                     <select class="pf-c-form-control" required
                                         v-model="data.faultAlarm.domain"                                     
                                         @click="getdomains" >
-                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                                         <option :value="item" v-else v-for="item in domains">{{item}}</option>                  
                                     </select>
                                 </div>
@@ -370,7 +370,7 @@ if(req.ok){
                                     <select class="pf-c-form-control"
                                         v-model="data.faultAlarm.networkType"                                     
                                         @click="getnetworktypes" >
-                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                                         <option :value="item" v-else v-for="item in networkTypes">{{item}}</option>                  
                                     </select>
                                 </div>

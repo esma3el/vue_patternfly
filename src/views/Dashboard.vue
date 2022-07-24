@@ -44,7 +44,7 @@
       </div>
 
       <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-7-col-on-xl">
-        <pre v-if="$apollo.loading">...loading</pre>
+        <pf-spinner v-if="$apollo.loading" size="sm" />
         <fusioncharts
           v-else
           :type="type"

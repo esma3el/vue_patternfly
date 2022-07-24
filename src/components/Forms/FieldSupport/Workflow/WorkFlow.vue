@@ -52,7 +52,7 @@ export default {
 
 <template>
   <div>
-    <pf-accordion v-if="$apollo.loading">loading...</pf-accordion>
+    <pf-spinner v-if="$apollo.loading" size="sm" />
     <pf-accordion v-else v-for="(item, index) in workflow_data">
 
       <pf-accordion-item

@@ -83,7 +83,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="$apollo.loading">...loading</div>
+  <pf-spinner v-if="$apollo.loading" size="sm" />
   <div class="adjust-font" v-else>
     <pf-tabs secondary>
       <pf-tab title="Incident Ticket" :content-ref="$refs.incidents" />

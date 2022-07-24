@@ -73,7 +73,7 @@ query($type: String!){
 
 export default {
   name: "Process",
-  components: { VueMultiselect, FormTabs, WorkFlow , Stepper, FilePond,Subprocess},
+  components: { VueMultiselect, FormTabs, WorkFlow , Stepper, FilePond,Subprocess,Attachemnts},
   data() {
     return {
       attachments:[],
@@ -191,7 +191,7 @@ if(req.ok){
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -248,7 +248,7 @@ if(req.ok){
                   id=""   
                   @click="getrootcausecategories"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>
+                  <pf-spinner v-if="$apollo.loading" size="sm" />
                   <option selected :value="workOrders[0].rootcausecategory" v-else="workOrders[0].rootcausecategory">{{workOrders[0].rootcausecategory}}</option>                                                                        
                   <option :value="item" v-else v-for="item in rootCauseCategories">{{item}}</option>                  
                 </select>
@@ -268,7 +268,7 @@ if(req.ok){
                   id=""   
                   @click="getrootcausetypes"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                   <option :value="item" v-else v-for="item in rootCauseTypes">{{item}}</option>                  
                 </select>
               </div>
@@ -288,7 +288,7 @@ if(req.ok){
                   id=""   
                   @click="getrootcauseitems"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                   <option :value="item" v-else v-for="item in rootCauseItems">{{item}}</option>                  
                 </select>
               </div>

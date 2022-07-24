@@ -1,8 +1,8 @@
 <script>
 import FormTabs from "./Form/FormTabs.vue";
 import WorkFlow from "./Workflow/WorkFlow.vue";
-import Subprocess from './Subprocess.vue'
-import Attachemnts from "../../Attachemnts.vue";
+import Subprocess from './Form/Subprocess.vue'
+import Attachemnts from "../Attachemnts.vue";
 
 export default {
   name: "Index",

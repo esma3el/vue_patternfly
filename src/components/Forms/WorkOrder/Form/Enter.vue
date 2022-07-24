@@ -33,7 +33,7 @@ const Q2 = gql`
 `;
 export default {
   name: "Enter",
-  components: { FormTabs, WorkFlow , Stepper, FilePond,Subprocess},
+  components: { FormTabs, WorkFlow , Stepper, FilePond,Subprocess,Attachemnts},
   data() {
     return {
       attachments:[],
@@ -97,7 +97,7 @@ if(req.ok){
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')

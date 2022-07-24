@@ -515,7 +515,7 @@ export default {
       if (variant != "danger") {
         setTimeout(() => {
           this.$store.commit("delNotifications");
-        }, 15000);
+        }, 6000);
       }
     },
     clear_alarm() {

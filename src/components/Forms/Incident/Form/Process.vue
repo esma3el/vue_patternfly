@@ -186,7 +186,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -232,7 +232,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -313,7 +313,7 @@ export default {
                   id=""   
                   @click="getrootcausecategories"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>
+                  <pf-spinner v-if="$apollo.loading" size="sm" />
                   <option selected :value="incidents[0].rootcausecategory" v-else="incidents[0].rootcausecategory">{{incidents[0].rootcausecategory}}</option>                                                                        
                   <option :value="item" v-else v-for="item in rootCauseCategories">{{item}}</option>                  
                 </select>
@@ -333,7 +333,7 @@ export default {
                   id=""   
                   @click="getrootcausetypes"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                   <option :value="item" v-else v-for="item in rootCauseTypes">{{item}}</option>                  
                 </select>
               </div>
@@ -353,7 +353,7 @@ export default {
                   id=""   
                   @click="getrootcauseitems"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                   <option :value="item" v-else v-for="item in rootCauseItems">{{item}}</option>                  
                 </select>
               </div>

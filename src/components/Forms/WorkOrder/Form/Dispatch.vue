@@ -16,7 +16,7 @@ import WorkFlow from "../Workflow/WorkFlow.vue";
 
 export default {
   name: "Dispatch",
-  components: { FormTabs, WorkFlow ,Subprocess},
+  components: { FormTabs, WorkFlow ,Subprocess,Attachemnts},
   data() {
     return {
       attachments:[],
@@ -70,7 +70,7 @@ if(req.ok){
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')

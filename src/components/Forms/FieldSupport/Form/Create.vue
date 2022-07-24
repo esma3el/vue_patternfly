@@ -146,7 +146,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -253,7 +253,7 @@ export default {
                                     <select class="pf-c-form-control"
                                         v-model="data.faultAlarm.domain"                                     
                                         @click="getdomains" >
-                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                                         <option :value="item" v-else v-for="item in domains">{{item}}</option>                  
                                     </select>
                                 </div>
@@ -265,7 +265,7 @@ export default {
                                     <select class="pf-c-form-control"
                                         v-model="data.faultAlarm.networkType"                                     
                                         @click="getnetworktypes" >
-                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                                         <option :value="item" v-else v-for="item in networkTypes">{{item}}</option>                  
                                     </select>
                                 </div>
