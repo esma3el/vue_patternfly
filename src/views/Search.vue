@@ -180,7 +180,7 @@ export default {
               <option value="Incident Management">Incident Management</option>
               <option value="Change Management">Change Management</option>
               <option value="Work Orders">Work Orders</option>
-              <option value="Field Support">Field Support</option>
+              <option value="Support Request">Support Request</option>
             </select>
           </div>
             </pf-form-group>

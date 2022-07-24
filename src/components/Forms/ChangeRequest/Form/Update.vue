@@ -1,6 +1,7 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import Attachemnts from "../../Attachemnts.vue";
 
 const FilePond = vueFilePond();
 
@@ -46,7 +47,7 @@ const QUERY = gql`
 `;
 export default {
   name: "Update",
-  components: { FormTabs ,WorkFlow , Stepper, FilePond,},
+  components: { FormTabs ,WorkFlow , Stepper, FilePond,Attachemnts},
   data() {
     return {
       attachments:[],
@@ -298,6 +299,9 @@ if(req.ok){
                 <br />
                 <WorkFlow :ticketid="$route.params.id" />
               </pf-tab>
+              <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
             </pf-tabs>
           </pf-card-body>
         </pf-card>

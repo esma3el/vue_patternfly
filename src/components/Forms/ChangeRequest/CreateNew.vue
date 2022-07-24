@@ -1,11 +1,11 @@
 <script>
 import VueMultiselect from "vue-multiselect";
+import "../../../styles/vue-multiselect.css";
 import gql from "graphql-tag";
 import VueUploadComponent from "vue-upload-component";
 
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
-import "../../../styles/vue-multiselect.css";
 
 const FilePond = vueFilePond();
 
@@ -222,8 +222,8 @@ export default {
       prioritydata: [],
       affectedservicedata: [],
       affectedNETypeydata: [],
-      user_templates: [],
       productservicedata: [],
+      user_templates: [],
       loaded_template_data: [],
     };
   },
