@@ -126,12 +126,14 @@ if(req.ok){
   apollo: {
     requests: {
       query: QUERY,
+     fetchPolicy: "cache-and-network",
       variables() {
         return { id: this.$route.params.id };
       },
     },
     tasks: {
       query: Q2,
+     fetchPolicy: "cache-and-network",
       variables() {
         return{
           user: this.$store.state.userinfo.username,

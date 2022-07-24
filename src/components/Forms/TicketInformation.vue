@@ -120,6 +120,7 @@ export default {
   apollo: {
     processes: {
       query: GET_TICKET_INFO,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           id: this.$route.params.id,

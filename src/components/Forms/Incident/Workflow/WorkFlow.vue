@@ -38,6 +38,7 @@ export default {
   apollo: {
     incidents: {
       query: GET_WORKFLOWS,
+     fetchPolicy: "cache-and-network",
       variables() {
         return { id: this.ticketid };
       },
@@ -109,7 +110,7 @@ export default {
   gap: 2em;
 }
 .wf-style ,.wf-style input{
-  font-size: .7vw;
+  
   opacity: .8;
   pointer-events: none;
 }

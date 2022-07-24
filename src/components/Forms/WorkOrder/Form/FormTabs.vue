@@ -50,6 +50,7 @@ export default {
   apollo: {
     workorders: {
       query: GET_TAB_FORM_DATA,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           id: this.ticketid,

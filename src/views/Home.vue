@@ -69,17 +69,17 @@
             {{ task.process.starttime.slice(0, 16).replace("T", " ") }}
           </td>
           <td>
-            <pf-dropdown v-model:open="open7" plain>
+            <pf-dropdown class="dd" v-model:open="open7" plain>
                 <template #toggle>
                   <pf-kebab-toggle />
                 </template>
                 <pf-dropdown-item>
                   <router-link :to="`/${task.process.processid}/${task.process.id}/${task.name}/${task.id}`">
-                    <i class="fa-solid fa-arrow-right"></i> View Ticket
+                    <pf-button variant="link"><i class="fa-solid fa-arrow-right"></i> View Ticket</pf-button>
                   </router-link>
                 </pf-dropdown-item>
                 <pf-dropdown-item>
-                  <a @click="openSvgModal = !openSvgModal"><i class="fa-solid fa-timeline"></i> View SVG</a>
+                  <pf-button variant="link" @click="openSvgModal = !openSvgModal"><i class="fa-solid fa-timeline"></i> View SVG</pf-button>
                 </pf-dropdown-item>
                 <pf-modal variant="large" v-model:open="openSvgModal" title="Process SVG">
                   <img :src="`http://localhost:8780/svg/processes/${task.process.processid}/instances/${task.process.id}`"/>
@@ -218,4 +218,7 @@ export default {
 </script>
 
 <style>
+.dd a{
+  padding: 0;
+}
 </style>

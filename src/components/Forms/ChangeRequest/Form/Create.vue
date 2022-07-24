@@ -192,6 +192,7 @@ export default {
       files: [],
       selected: [],
       options: [],
+      selectedTemplate:"",
       isLoading: false,
       token: this.$store.state._keycloak.token,
       err: "",
@@ -218,7 +219,7 @@ export default {
         workPlan: "",
         testResult: "",
         changeDescription: "",
-        implementer: [],
+        implementer: "",
         implementers: "",
         owner: this.$store.state.userinfo.username,
         owners: this.$store.state.userinfo.username,
@@ -256,7 +257,6 @@ export default {
 
     load_template(search) {
       console.log(search)
-      this.data.implementer = [];
       this.data.affectedServiceId = [];
       this.data.affectedNEType = [];
       this.$apolloProvider.defaultClient

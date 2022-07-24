@@ -64,6 +64,7 @@ export default {
   apollo: {
     processes: {
       query: GET_DATA,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           id:this.$route.params.id

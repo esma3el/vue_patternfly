@@ -42,6 +42,7 @@ export default {
   apollo: {
     requests: {
       query: GET_WORKFLOWS,
+     fetchPolicy: "cache-and-network",
       variables() {
         return { id: this.ticketid };
       },
@@ -147,7 +148,6 @@ export default {
 
 <style>
 .wfstyle form{
-  font-size: .7vw;
   opacity: .8;
   pointer-events: none;
 }

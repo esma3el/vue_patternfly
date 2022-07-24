@@ -52,8 +52,7 @@ export default {
           id:this.$route.params.id,
           task_id:this.$route.params.taskid
         }
-      },
-      fetchPolicy: "cache-and-network"
+      }
     }
   },
   methods: {

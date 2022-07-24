@@ -355,8 +355,7 @@ export default {
                     v-else
                     :to="`/${item.processid}/${item.id}`"
                     target="_blank"
-                    ><i class="fa-solid fa-arrow-right"></i> View Ticket</router-link
-                  >
+                    ><i class="fa-solid fa-arrow-right"></i> View Ticket</router-link>
                 </pf-dropdown-item>
                 <pf-dropdown-item>
                   <a @click="openSvgModal = !openSvgModal"><i class="fa-solid fa-timeline"></i> View SVG</a>

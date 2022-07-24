@@ -140,6 +140,20 @@ const GET_PRIORITY = gql`
     }
   }
 `;
+const GET_USERS = gql`
+ query($user: String!){
+  user_entity(where:{username:{_iregex:$user}}){
+    username   
+  }
+}
+`;
+const GET_GROUPS = gql`
+ query($group: String!){
+  keycloak_group(where:{name:{_iregex:$group}}){
+    name   
+  }
+}
+`;
 
 const SEARCH_QUERY = gql`
   query {
@@ -182,6 +196,7 @@ export default {
       f: "",
       files: [],
       selected: [],
+      selectedTemplate:"",
       options: [],
       isLoading: false,
       token: this.$store.state._keycloak.token,
@@ -209,7 +224,7 @@ export default {
         workPlan: "",
         testResult: "",
         changeDescription: "",
-        implementer: [],
+        implementer: "",
         implementers: "",
         owner: this.$store.state.userinfo.username,
         owners: this.$store.state.userinfo.username,
@@ -225,6 +240,8 @@ export default {
       productservicedata: [],
       user_templates: [],
       loaded_template_data: [],
+      users:[],
+      groups:[]
     };
   },
   mounted() {},
@@ -237,6 +254,22 @@ export default {
     },
   },
   methods: {
+    getusers(search){
+      this.$apolloProvider.defaultClient.query({
+        query: GET_USERS,
+        variables:{
+            user:search          
+        }
+      }).then((res)=> this.users = res.data.user_entity.map(user => user.username))
+    },
+    getgroups(search){      
+      this.$apolloProvider.defaultClient.query({
+        query: GET_GROUPS,
+        variables:{
+            group:search          
+        }
+      }).then((res)=> this.groups = res.data.keycloak_group.map(group => group.name))
+    },
     handleProcessFile: function (error, file) {                  
       if(!error){
       const f = JSON.parse(file.serverId)
@@ -441,7 +474,8 @@ export default {
     async submitData() {
       this.$store.commit('toggle_spinner');      
       this.data.affectedServiceId = this.data.affectedServiceId.join(",") || null;
-      this.data.implementer = this.data.implementer.join(",") || null;
+      // this.data.implementer = this.data.implementer.join(",") || null;
+      // this.data.implementers = this.data.implementers.join(",") || null;
       this.data.affectedNEType = this.data.affectedNEType.join(",") || null;
 
       const req = await fetch("http://localhost:8080/api/changeRequests", {
@@ -458,6 +492,9 @@ export default {
             `status ${req.status}`,
             `${req.statusText} ${new Date().toLocaleString()}.`
           )
+          setTimeout(() => {
+            this.$router.push("/");
+          }, 800);
         }
         else{          
           this.Notification(
@@ -468,9 +505,6 @@ export default {
         };
         console.log(req);
         this.$store.commit('toggle_spinner')
-      setTimeout(() => {
-        this.$router.push("/");
-      }, 800);
     },
     async Notification(variant = "", title = "", msg = "") {
       this.$store.commit("setNotifications", {
@@ -499,7 +533,7 @@ export default {
 <template>        
   <div class="pf-l-grid pf-m-gutter">
     <div class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl">
-      <pf-card>        
+      <pf-card>   
         <pf-card-title>Create Change Request Ticket</pf-card-title>
         <pf-divider />
         <pf-spinner v-if="$apollo.loading" size="sm" />
@@ -525,6 +559,7 @@ export default {
                     @click="get_user_template"
                     @select="load_template"
                     :show-labels="false"
+                    v-model="selectedTemplate"
                   >
                   </VueMultiselect>
                   
@@ -686,11 +721,11 @@ export default {
                     field-id="changeReason"
                   >
                     <pf-text-area
+                      required
                       id="changeReason_input"
                       name="changeReason"
                       v-model="data.changeReason"
-                    />
-                    <pf-textarea />
+                    /><pf-textarea />
                   </pf-form-group>
                 </div>
                 <div
@@ -962,14 +997,16 @@ export default {
                   <pf-form-group label="implementer" field-id="implementer">
                     <VueMultiselect
                       v-model="data.implementer"
-                      :multiple="true"
-                      :options="useroptions"
+                      :multiple="false"
+                      :options="users"
                       id="ajax"
                       :searchable="true"
                       :loading="isLoading"
-                      @search-change="searchfunc"
-                      :closeOnSelect="false"
+                      @search-change="getusers"
+                      :closeOnSelect="true"
                       :show-labels="false"
+                      :limit="4"
+                      :options-limit="2"
                     >
                     </VueMultiselect>
                   </pf-form-group>
@@ -978,12 +1015,22 @@ export default {
                 <div
                   class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
                 >
-                  <pf-form-group label="implementers" field-id="implementers">
-                    <pf-text-input
-                      id="implementers"
-                      name="implementers"
+                  <pf-form-group required label="implementer Group" field-id="implementerGroup">
+                    <VueMultiselect
+                      required
                       v-model="data.implementers"
-                    />
+                      :multiple="false"
+                      :options="groups"
+                      id="ajax"
+                      :searchable="true"
+                      :loading="isLoading"
+                      @search-change="getgroups"
+                      :closeOnSelect="true"
+                      :show-labels="false"
+                      :limit="3"
+                      :options-limit="5"
+                    >
+                    </VueMultiselect>
                   </pf-form-group>
                 </div>
                 <!--  -->

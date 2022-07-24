@@ -169,14 +169,14 @@ export default {
   },apollo:{
     tasks: {
       query: Q2,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           user: this.$store.state.userinfo.username,
           id: this.$route.params.id,
           task_id: this.$route.params.taskid,
         };
-      },
-      fetchPolicy: "cache-and-network"
+      }
     },
     processes:{
       query: LOAD_DATA,

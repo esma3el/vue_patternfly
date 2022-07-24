@@ -86,6 +86,7 @@ export default {
   apollo: {
     processes: {
       query: QUERY,
+     fetchPolicy: "cache-and-network",
       variables() {
         return { id: this.$route.params.id };
       },
@@ -96,11 +97,11 @@ export default {
         this.getrootcausecategories()
         this.getrootcausetypes()
         this.getrootcauseitems()
-      },
-      fetchPolicy: "cache-and-network"
+      }
     },
     tasks: {
       query: Q2,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           user: this.$store.state.userinfo.username,

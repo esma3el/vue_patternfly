@@ -407,7 +407,7 @@ export default {
 }
 
 /* .wf-style ,.wf-style input{
-  font-size: .7vw;
+  
   opacity: .8;
 } */
 </style>

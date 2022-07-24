@@ -41,6 +41,7 @@ export default {
   apollo: {
     requests: {
       query: GET_WORKFLOWS,
+     fetchPolicy: "cache-and-network",
       variables() {
         return { id: this.ticketid };
       },

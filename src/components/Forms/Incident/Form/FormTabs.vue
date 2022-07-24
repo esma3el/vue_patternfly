@@ -71,6 +71,7 @@ export default {
   apollo: {
     incidents: {
       query: GET_TAB_FORM_DATA,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           id: this.$route.params.id,
@@ -493,7 +494,6 @@ export default {
 }
 .adjust-font,
 .pf-c-form-control {
-  font-size: 0.7vw;
   opacity: 0.8;
 }
 .adjust-font input,
