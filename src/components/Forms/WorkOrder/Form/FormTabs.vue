@@ -145,10 +145,3 @@ export default {
         </pf-tab-content>
       </div>
 </template>
-
-<style>
-.pf-l-grid {
-  gap: 2em;
-}
-
-</style>

@@ -498,14 +498,3 @@ export default {
         </div>
       </div>
 </template>
-
-<style>
-.pf-l-grid {
-  gap: 2em;
-}
-.content {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-</style>

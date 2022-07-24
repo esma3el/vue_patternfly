@@ -67,7 +67,7 @@ export default {
           </pf-page-header-tools-group>
         </pf-page-header-tools>
       </pf-page-header>
-      <pf-page-sidebar nav-open class="side">
+      <pf-page-sidebar>
         <Nav />
       </pf-page-sidebar>
     </template>
