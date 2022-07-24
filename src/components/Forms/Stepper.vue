@@ -28,6 +28,7 @@ export default {
       variables() {
         return { id: this.$route.params.id };
       },
+      fetchPolicy: "cache-and-network"
     },
   },
 };

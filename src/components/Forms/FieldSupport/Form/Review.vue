@@ -1,7 +1,37 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import FormTabs from "./FormTabs.vue";
+import WorkFlow from "../Workflow/WorkFlow.vue";
+import Stepper from '../../Stepper.vue'
+import gql from "graphql-tag";
 
+ const Q2 = gql`
+  query ($user: String!, $id: String!, $task_id: String!) {
+    tasks(
+      where: {
+        id: { _eq: $task_id }
+        state: { _eq: "Ready" }
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+        process: { id: { _eq: $id } }
+      }
+    ) {
+      id
+    }
+  }
+`;
+ const Q = gql`
+  query ($id: String!) {
+    fieldsupport(
+      where: {
+        id: { _eq: $id }
+      }
+    ) {
+      incidentsupportcategory
+    }
+  }
+`;
 const FilePond = vueFilePond();
 
 setOptions({
@@ -9,9 +39,6 @@ setOptions({
     url: "http://localhost:8080/api/attachments",
   },
 });
-import FormTabs from "./FormTabs.vue";
-import WorkFlow from "../Workflow/WorkFlow.vue";
-import Stepper from '../../Stepper.vue'
 
 export default {
   name: "Review",
@@ -24,8 +51,30 @@ export default {
         reviewOperationMode: "",
         processor: "",
         processors: "",
+        assigner: "",
+        assigners: "",
       },
     };
+  },
+   apollo: {
+    tasks: {
+      query: Q2,
+      variables() {
+        return {
+          user: this.$store.state.userinfo.username,
+          id: this.$route.params.id,
+          task_id: this.$route.params.taskid,
+        };
+      },
+    },
+    fieldsupport: {
+      query: Q,
+      variables() {
+        return {
+          id: this.$route.params.id,
+        };
+      },
+    },
   },
   methods: {
     handleProcessFile: function (error, file) {                  
@@ -75,7 +124,7 @@ export default {
         this.$router.push('/')
         },800)
         }
-    } ,    
+    },
     clear_alarm(){
       this.$store.commit('delNotifications')
     }
@@ -100,12 +149,15 @@ export default {
               <pf-divider />
               <pf-card-body>
                 <pf-spinner v-if="$apollo.loading" size="sm" />
-            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
+            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Operation Mode" field-id="reviewOperationMode" required>
-                                <pf-text-input id="reviewOperationMode_input" name="reviewOperationMode" required
-                                    v-model="data.reviewOperationMode"/>
+                                    <select class="pf-c-form-control"
+                                        v-model="data.reviewOperationMode" required >
+                                        <option value="Accept" >Accept</option>                                    
+                                        <option value="Reject" >Reject</option>                                    
+                                    </select>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
@@ -114,13 +166,25 @@ export default {
                                     v-model="data.reviewDescription" />
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div v-if="fieldsupport[0]?.incidentsupportcategory == 'BO-Support'" class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                            <pf-form-group label="FO User" field-id="assigner" required>
+                                <pf-text-input id="assigner_input" name="assigner" required
+                                    v-model="data.assigner"/>
+                            </pf-form-group>
+                        </div>
+                        <div v-else class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="FM User" field-id="processor" required>
                                 <pf-text-input id="processor_input" name="processor" required
                                     v-model="data.processor"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div v-if="fieldsupport[0]?.incidentsupportcategory == 'BO-Support'" class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                            <pf-form-group label="FO Group" field-id="assigners" required>
+                                <pf-text-input id="assigners_input" name="assigners" required
+                                    v-model="data.assigners"/>
+                            </pf-form-group>
+                        </div>
+                        <div v-else class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="FM Group" field-id="processors" required>
                                 <pf-text-input id="processors_input" name="processors" required
                                     v-model="data.processors"/>

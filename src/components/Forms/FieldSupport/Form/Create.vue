@@ -1,6 +1,7 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import "../../../../styles/vue-multiselect.css";
 
 const FilePond = vueFilePond();
 
@@ -11,8 +12,40 @@ setOptions({
 });
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
+import gql from "graphql-tag";
+import Stepper from '../../Stepper.vue'
+import VueMultiselect from "vue-multiselect";
 
 
+ const Q2 = gql`
+  query ($user: String!, $id: String!, $task_id: String!) {
+    tasks(
+      where: {
+        id: { _eq: $task_id }
+        state: { _eq: "Ready" }
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+        process: { id: { _eq: $id } }
+      }
+    ) {
+      id
+    }
+  }
+`;
+const GET_DOMAINS = gql`
+ query {
+  domain {
+    keycode
+  }
+}
+`;
+const GET_NETWORK_TYPES = gql`
+ query {
+  network_type {
+    keycode
+  }
+}
+`;
 const LOAD_DATA = gql`
    query($id : String!){
   processes(where:{id:{_eq:$id}}){
@@ -20,13 +53,23 @@ const LOAD_DATA = gql`
   }
 }
 `;
+const SEARCH_QUERY = gql`
+query ($search: String!) {
+  site(where: {keycode: {_iregex: $search}}, limit: 10) {
+    keycode
+  }
+}
+`;
 
 export default {
   name: "Create",
-  components: { FormTabs, WorkFlow ,FilePond},
+  components: { FormTabs, WorkFlow ,FilePond, Stepper, VueMultiselect},
   data() {
     return {
+      siteOptions:[],
       attachments:[],
+      domains: [],
+      networkTypes: [],
       data: {
         information: {
             title: ""
@@ -56,6 +99,12 @@ export default {
     };
   },
   methods: {
+    searchfunc(query){
+      this.$apolloProvider.defaultClient.query({
+            query:SEARCH_QUERY,
+            variables:{search:query}
+        }).then(res=>this.siteOptions = res.data.site.map(row=>row.keycode))
+    },
     handleProcessFile: function (error, file) {                  
       if(!error){
       const f = JSON.parse(file.serverId)
@@ -106,8 +155,29 @@ export default {
     } ,    
     clear_alarm(){
       this.$store.commit('delNotifications')
-    }
+    },
+    getdomains(){
+      this.$apolloProvider.defaultClient.query({
+        query:GET_DOMAINS
+      }).then(res => this.domains = res.data.domain.map(res=> res.keycode)); 
+    },
+    getnetworktypes(){
+      this.$apolloProvider.defaultClient.query({
+        query:GET_NETWORK_TYPES
+      }).then(res => this.networkTypes = res.data.network_type.map(res=> res.keycode)); 
+    },
   },apollo:{
+    tasks: {
+      query: Q2,
+      variables() {
+        return {
+          user: this.$store.state.userinfo.username,
+          id: this.$route.params.id,
+          task_id: this.$route.params.taskid,
+        };
+      },
+      fetchPolicy: "cache-and-network"
+    },
     processes:{
       query: LOAD_DATA,
       variables(){
@@ -116,8 +186,8 @@ export default {
         }
       },
       update(data){
-        console.log(data.processes[0]?.variables)
-        console.log(data.processes[0]?.variables)
+        this.getdomains()
+        this.getnetworktypes()
         this.data = {...data.processes[0]?.variables}
         this.data.faultAlarm = {...data.processes[0]?.variables.faultAlarm}                
         this.data.faultAlarm.site = {...data.processes[0]?.variables.faultAlarm.site}                
@@ -131,6 +201,13 @@ export default {
 
 <template>
       <div class="pf-l-grid pf-m-gutter">
+        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+      <pf-card>
+        <pf-card-body>
+           <Stepper />     
+          </pf-card-body>
+      </pf-card>
+    </div>
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl"
         >
@@ -138,7 +215,8 @@ export default {
             <pf-card>
               <pf-card-title>Create Support Request</pf-card-title>
               <pf-card-body>
-                <pf-form @submit.prevent="submitData">
+                <pf-spinner v-if="$apollo.loading" size="sm" />
+                  <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Title" field-id="title" required>
@@ -149,8 +227,12 @@ export default {
                         <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Site ID" field-id="siteId" required>
-                                <pf-text-input id="siteId_input" name="siteId" required
-                                    v-model="data.faultAlarm.site.siteId"/>
+                                <VueMultiselect v-model="data.faultAlarm.site.siteId"
+                                  :options="siteOptions"
+                                  id="site"
+                                  :searchable="true"                
+                                  @search-change="searchfunc">
+                              </VueMultiselect>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
@@ -165,16 +247,28 @@ export default {
                                     v-model="data.faultAlarm.firstOccurTime"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Domain" field-id="domain" required>
-                                <pf-text-input id="domain_input" name="domain" required
-                                    v-model="data.faultAlarm.domain"/>
+                                <div class="pf-c-form__group-control">
+                                    <select class="pf-c-form-control"
+                                        v-model="data.faultAlarm.domain"                                     
+                                        @click="getdomains" >
+                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <option :value="item" v-else v-for="item in domains">{{item}}</option>                  
+                                    </select>
+                                </div>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Network Type" field-id="networkType">
-                                <pf-text-input id="networkType_input" name="networkType"
-                                    v-model="data.faultAlarm.networkType"/>
+                                <div class="pf-c-form__group-control">
+                                    <select class="pf-c-form-control"
+                                        v-model="data.faultAlarm.networkType"                                     
+                                        @click="getnetworktypes" >
+                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <option :value="item" v-else v-for="item in networkTypes">{{item}}</option>                  
+                                    </select>
+                                </div>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">

@@ -1,7 +1,26 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import gql from "graphql-tag";
+import FormTabs from "./FormTabs.vue";
+import WorkFlow from "../Workflow/WorkFlow.vue";
+import Stepper from '../../Stepper.vue'
 
+ const Q2 = gql`
+  query ($user: String!, $id: String!, $task_id: String!) {
+    tasks(
+      where: {
+        id: { _eq: $task_id }
+        state: { _eq: "Ready" }
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+        process: { id: { _eq: $id } }
+      }
+    ) {
+      id
+    }
+  }
+`;
 const FilePond = vueFilePond();
 
 setOptions({
@@ -9,9 +28,6 @@ setOptions({
     url: "http://localhost:8080/api/attachments",
   },
 });
-import FormTabs from "./FormTabs.vue";
-import WorkFlow from "../Workflow/WorkFlow.vue";
-import Stepper from '../../Stepper.vue'
 
 export default {
   name: "Assign",
@@ -26,6 +42,18 @@ export default {
         processors: "",
       },
     };
+  },
+  apollo: {
+    tasks: {
+      query: Q2,
+      variables() {
+        return {
+          user: this.$store.state.userinfo.username,
+          id: this.$route.params.id,
+          task_id: this.$route.params.taskid,
+        };
+      },
+    },
   },
   methods: {
     handleProcessFile: function (error, file) {                  
@@ -95,16 +123,19 @@ export default {
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
           <div class="phase-action">
             <pf-card>
-              <pf-card-title>Review Support Request</pf-card-title>
+              <pf-card-title>Assign Support Engineer</pf-card-title>
               <pf-divider />
               <pf-card-body>
                 <pf-spinner v-if="$apollo.loading" size="sm" />
-            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
+            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.legnth != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Operation Mode" field-id="assignOperationMode" required>
-                                <pf-text-input id="assignOperationMode_input" name="assignOperationMode" required
-                                    v-model="data.assignOperationMode"/>
+                                <select class="pf-c-form-control"
+                                        v-model="data.assignOperationMode" required >
+                                        <option value="Accept" >Accept</option>                                    
+                                        <option value="Reject" >Reject</option>                                    
+                                    </select>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">

@@ -11,8 +11,24 @@ setOptions({
 });
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
+import gql from "graphql-tag";
 import Stepper from '../../Stepper.vue'
 
+ const Q2 = gql`
+  query ($user: String!, $id: String!, $task_id: String!) {
+    tasks(
+      where: {
+        id: { _eq: $task_id }
+        state: { _eq: "Ready" }
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+        process: { id: { _eq: $id } }
+      }
+    ) {
+      id
+    }
+  }
+`;
 export default {
   name: "Process",
   components: { FormTabs, WorkFlow , Stepper, FilePond,},
@@ -24,6 +40,18 @@ export default {
         processCompleteTime: "",
       },
     };
+  },
+  apollo: {
+    tasks: {
+      query: Q2,
+      variables() {
+        return {
+          user: this.$store.state.userinfo.username,
+          id: this.$route.params.id,
+          task_id: this.$route.params.taskid,
+        };
+      },
+    },
   },
   methods: {
     handleProcessFile: function (error, file) {                  
@@ -97,7 +125,8 @@ export default {
               <pf-card-title>Process Field Support Request</pf-card-title>
               <pf-divider />
               <pf-card-body>
-                <pf-form @submit.prevent="submitData">
+                  <pf-spinner v-if="$apollo.loading" size="sm" />
+                  <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Complete Time" field-id="processCompleteTime" required>
@@ -106,7 +135,7 @@ export default {
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
-                            <pf-form-group label="Description" field-id="processDescription">
+                            <pf-form-group label="Support Description" field-id="processDescription">
                                 <pf-textarea id="processDescription_input" name="processDescription"
                                     v-model="data.processDescription" />
                             </pf-form-group>

@@ -1,7 +1,26 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
+import FormTabs from "./FormTabs.vue";
+import WorkFlow from "../Workflow/WorkFlow.vue";
+import Stepper from '../../Stepper.vue'
 import "filepond/dist/filepond.min.css";
+import gql from "graphql-tag";
 
+ const Q2 = gql`
+  query ($user: String!, $id: String!, $task_id: String!) {
+    tasks(
+      where: {
+        id: { _eq: $task_id }
+        state: { _eq: "Ready" }
+        tasks_potential_users: { user_id: { _eq: $user } }
+        _and: { state: { _eq: "Ready" } }
+        process: { id: { _eq: $id } }
+      }
+    ) {
+      id
+    }
+  }
+`;
 const FilePond = vueFilePond();
 
 setOptions({
@@ -9,9 +28,6 @@ setOptions({
     url: "http://localhost:8080/api/attachments",
   },
 });
-import FormTabs from "./FormTabs.vue";
-import WorkFlow from "../Workflow/WorkFlow.vue";
-import Stepper from '../../Stepper.vue'
 
 export default {
   name: "Handle",
@@ -24,6 +40,18 @@ export default {
         handleOperationMode: ""
       },
     };
+  },
+  apollo: {
+    tasks: {
+      query: Q2,
+      variables() {
+        return {
+          user: this.$store.state.userinfo.username,
+          id: this.$route.params.id,
+          task_id: this.$route.params.taskid,
+        };
+      },
+    },
   },
   methods: {
     handleProcessFile: function (error, file) {                  
@@ -98,12 +126,15 @@ export default {
               <pf-divider />
               <pf-card-body>
                 <pf-spinner v-if="$apollo.loading" size="sm" />
-            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
+            <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Operation Mode" field-id="handleOperationMode" required>
-                                <pf-text-input id="handleOperationMode_input" name="handleOperationMode" required
-                                    v-model="data.handleOperationMode"/>
+                                <select class="pf-c-form-control"
+                                        v-model="data.handleOperationMode" required >
+                                        <option value="Accept" >Accept</option>                                    
+                                        <option value="Reject" >Reject</option>                                    
+                                    </select>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">

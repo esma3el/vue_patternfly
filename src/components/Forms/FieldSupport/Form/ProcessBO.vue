@@ -31,16 +31,8 @@ import Stepper from '../../Stepper.vue'
 `;
 const QUERY = gql`
   query ($id: String!) {
-    fieldSupport(where: { id: { _eq: $id } }) {
-      processdescription
-      recoverytime
-      interruptiontime
-      rootcausecategory
-      rootcausetype
-      rootcauseitem
-      rootcausedescription
-      faultreasondescription
-      faultsolutiondescription
+    processes(where: { id: { _eq: $id } }) {
+      variables
     }
   }
 `;
@@ -92,11 +84,20 @@ export default {
     };
   },
   apollo: {
-    fieldSupport: {
+    processes: {
       query: QUERY,
       variables() {
         return { id: this.$route.params.id };
       },
+      update(data) {
+        this.data = { ...data.processes[0]?.variables }
+        this.data.faultSolution = { ...data.processes[0]?.variables.faultSolution }
+        this.data.faultSolution.recoveryTime = this.data.faultSolution.recoveryTime.substring(0, 16)
+        this.getrootcausecategories()
+        this.getrootcausetypes()
+        this.getrootcauseitems()
+      },
+      fetchPolicy: "cache-and-network"
     },
     tasks: {
       query: Q2,
@@ -135,15 +136,6 @@ export default {
       }).then(res => this.rootCauseCategories = res.data.root_cause_category.map(row=> row.keycode)); 
     },
     async submitData() {
-      this.data.faultSolution.recoveryTime = this.fieldSupport[0].recoverytime,
-      this.data.faultSolution.interruptionTime = this.fieldSupport[0].interruptiontime,
-      this.data.faultSolution.rootCauseCategory = this.fieldSupport[0].rootcausecategory,
-      this.data.faultSolution.rootCauseType = this.fieldSupport[0].rootcausetype,
-      this.data.faultSolution.rootCauseItem = this.fieldSupport[0].rootcauseitem,
-      this.data.faultSolution.rootCauseDescription = this.fieldSupport[0].rootcausedescription,
-      this.data.faultSolution.faultReasonDescription = this.fieldSupport[0].faultreasondescription,
-      this.data.faultSolution.faultSolutionDescription = this.fieldSupport[0].faultsolutiondescription,
-
       this.$store.commit('toggle_spinner')
       const req = await fetch(
         `http://localhost:8080/api/fieldSupport/${this.$route.params.id}/boProcess/${this.$route.params.taskid}`,
@@ -212,19 +204,19 @@ export default {
               @submit.prevent="submitData"
               class="pf-l-grid"
               v-else
-              :class="tasks ? '' : 'hide_unauthorized'"
+              :class="tasks.length != 0 ? '' : 'hide_unauthorized'"
             >
                     <div class="pf-l-grid">
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Service Recovery Time" field-id="recoveryTime" required>
                                 <pf-text-input type="datetime-local" id="recoveryTime_input" name="recoveryTime" required
-                                    v-model="fieldSupport[0].recoverytime"/>
+                                    v-model="data.faultSolution.recoveryTime"/>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Service Interruption Time" field-id="interruptionTime" readonly>
                                 <pf-text-input type="number" id="interruptionTime_input" name="interruptionTime" readonly
-                                    v-model="fieldSupport[0].interruptiontime"/>
+                                    v-model="data.faultSolution.interruptionTime"/>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
@@ -232,7 +224,7 @@ export default {
               <div class="pf-c-form__group-control">
                 <select
                   class="pf-c-form-control"
-                  v-model="fieldSupport[0].rootcausecategory"
+                  v-model="data.faultSolution.rootCauseCategory"
                   required
                   name=""
                   id=""   
@@ -247,11 +239,11 @@ export default {
           <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
           >
-              <pf-form-group label="Root Cause Category" field-id="rootCauseCategory" required>
+              <pf-form-group label="Root Cause Type" field-id="rootCauseType" required>
               <div class="pf-c-form__group-control">
                 <select
                   class="pf-c-form-control"
-                  v-model="fieldSupport[0].rootcausetype"
+                  v-model="data.faultSolution.rootCauseType"
                   required
                   name=""
                   id=""   
@@ -266,13 +258,13 @@ export default {
            <div
             class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
           >
-                      <pf-form-group label="Root Cause Category" field-id="rootCauseCategory" required>
+                      <pf-form-group label="Root Cause Item" field-id="rootCauseItem" required>
 
               <div class="pf-c-form__group-control">
                 <select
                 required
                   class="pf-c-form-control"
-                  v-model="fieldSupport[0].rootcauseitem"                                    
+                  v-model="data.faultSolution.rootCauseItem"                                    
                   name=""
                   id=""   
                   @click="getrootcauseitems"               
@@ -286,19 +278,19 @@ export default {
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Root Cause Description" field-id="rootCauseDescription">
                                 <pf-text-input id="rootCauseDescription_input" name="rootCauseDescription"
-                                    v-model="fieldSupport[0].rootcausedescription"/>
+                                    v-model="data.faultSolution.rootCauseDescription"/>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Fault Reason Description" field-id="faultReasonDescription">
                                 <pf-textarea id="faultReasonDescription_input" name="faultReasonDescription"
-                                    v-model="fieldSupport[0].faultreasondescription" />
+                                    v-model="data.faultSolution.faultReasonDescription" />
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Fault Solution Description" field-id="faultSolutionDescription">
                                 <pf-textarea id="faultSolutionDescription_input" name="faultSolutionDescription"
-                                    v-model="fieldSupport[0].faultsolutiondescription" />
+                                    v-model="data.faultSolution.faultSolutionDescription" />
                             </pf-form-group>
                         </div>
                     <div

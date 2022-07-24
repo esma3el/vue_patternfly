@@ -57,6 +57,7 @@ export default {
   name: "Search",
   data() {
     return {
+      openSvgModal: false,
       data: [],
       count: 5,
       filter: {"Running":1,
@@ -164,7 +165,6 @@ export default {
 <template>
   <pf-card>
     <pf-card-body>
-      <!-- <pf-form @submit.prevent="searchdata" class="pf-l-grid"> -->
       <section class="pf-l-grid">
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-3-col-on-xl"
@@ -223,17 +223,6 @@ export default {
               <pf-select-option :checked="true" value="Completed"/>
               <pf-select-option :checked="true" value="Pending" />
             </pf-select>
-            <!-- <select
-              class="pf-c-form-control"
-              v-model="search.state"
-              name=""
-              id=""
-            >
-              <option value="">All ticket Status</option>
-              <option value="Completed">Completed</option>
-              <option value="Ready">Running</option>
-              <option value="Closed">Closed</option>
-            </select> -->
           </div>
         </div>
         <div
@@ -311,6 +300,7 @@ export default {
         <th role="columnheader" scope="col">Process Name</th>
         <th role="columnheader" scope="col">Status</th>
         <th role="columnheader" scope="col">Created</th>
+        <th role="columnheader" scope="col">Options</th>
       </tr>
     </thead>
 
@@ -349,6 +339,33 @@ export default {
         <td v-else-if="item.state == 2 || item.state == 5 ">Completed</td>
         <td v-else >{{ item.state }}</td>
         <td>{{ item.starttime.slice(0,16).replace("T"," ") }}</td>
+        <td>
+            <pf-dropdown v-model:open="open7" plain>
+                <template #toggle>
+                  <pf-kebab-toggle />
+                </template>
+                <pf-dropdown-item>
+                  <router-link
+                    target="_blank"
+                    v-if="item.tasks[0]"
+                    :to="`/${item.processid}/${item.id}/${item.tasks[0]?.name}/${item.tasks[0]?.id}`"
+                    ><i class="fa-solid fa-arrow-right"></i> View Ticket</router-link
+                  >
+                  <router-link
+                    v-else
+                    :to="`/${item.processid}/${item.id}`"
+                    target="_blank"
+                    ><i class="fa-solid fa-arrow-right"></i> View Ticket</router-link
+                  >
+                </pf-dropdown-item>
+                <pf-dropdown-item>
+                  <a @click="openSvgModal = !openSvgModal"><i class="fa-solid fa-timeline"></i> View SVG</a>
+                </pf-dropdown-item>
+                <pf-modal variant="large" v-model:open="openSvgModal" title="Process SVG">
+                  <img :src="`http://localhost:8780/svg/processes/${item.processid}/instances/${item.id}`" />
+                </pf-modal>
+              </pf-dropdown>
+            </td>
       </tr>
     </tbody>
   </table>

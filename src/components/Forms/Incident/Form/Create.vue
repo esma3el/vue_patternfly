@@ -85,7 +85,7 @@ export default {
       attachments:[],
         domains: [],
         networkTypes: [],
-        useroptions:[],
+        siteOptions:[],
         user_templates: [],
         productservicedata: [],
         loaded_template_data: [],
@@ -201,7 +201,7 @@ export default {
       this.$apolloProvider.defaultClient.query({
             query:SEARCH_QUERY,
             variables:{search:query}
-        }).then(res=>this.useroptions = res.data.site.map(row=>row.keycode))
+        }).then(res=>this.siteOptions = res.data.site.map(row=>row.keycode))
         },
     getdomains(){
       this.$apolloProvider.defaultClient.query({
@@ -351,7 +351,7 @@ export default {
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Site ID" field-id="siteId" required>
                                 <VueMultiselect v-model="data.faultAlarm.site.siteId"
-                                  :options="useroptions"
+                                  :options="siteOptions"
                                   id="site"
                                   :searchable="true"                
                                   @search-change="searchfunc">

@@ -57,19 +57,26 @@ const GET_NETWORK_TYPES = gql`
   }
 }
 `;
-
+const SEARCH_QUERY = gql`
+query ($search: String!) {
+  site(where: {keycode: {_iregex: $search}}, limit: 10) {
+    keycode
+  }
+}
+`;
 export default {
   name: "CreateNew",
   components:{FilePond,VueMultiselect},
   data() {
     return {
+      siteOptions:[],
       open1:false,
       template_name:"",
       user_templates: [],
       loaded_template_data: [],
       attachments:[],
-        domains: [],
-        networkTypes: [],
+      domains: [],
+      networkTypes: [],
       data: {
         information: {
             title: ""
@@ -198,6 +205,12 @@ export default {
         query:GET_NETWORK_TYPES
       }).then(res => this.networkTypes = res.data.network_type.map(res=> res.keycode)); 
     },
+    searchfunc(query){
+      this.$apolloProvider.defaultClient.query({
+            query:SEARCH_QUERY,
+            variables:{search:query}
+        }).then(res=>this.siteOptions = res.data.site.map(row=>row.keycode))
+    },
     async submitData() {
       this.$store.commit('toggle_spinner')
       const req = await fetch(
@@ -210,7 +223,8 @@ export default {
           method: "POST",
           body: JSON.stringify({ data: this.data ,attachments: this.attachments})
 })
-if(req.ok){
+
+  if(req.ok){
           this.Notification(
             "success",
             `status ${req.status}`,
@@ -226,8 +240,26 @@ if(req.ok){
         };
         console.log(req);
         this.$store.commit('toggle_spinner')
+    setTimeout(() => {
+      this.$router.push("/");
+    }, 800);
     },
   },
+  async Notification(variant = "", title = "", msg = "") {
+      this.$store.commit("setNotifications", {
+        variant: variant,
+        title: title,
+        msg: msg,
+      });
+      if (variant != "danger") {
+        setTimeout(() => {
+          this.$store.commit("delNotifications");
+        }, 15000);
+      }
+    },
+    clear_alarm() {
+      this.$store.commit("delNotifications");
+    },
 };
 </script>
 
@@ -279,8 +311,12 @@ if(req.ok){
                         <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Site ID" field-id="siteId" required>
-                                <pf-text-input id="siteId_input" name="siteId" required
-                                    v-model="data.faultAlarm.site.siteId"/>
+                                <VueMultiselect v-model="data.faultAlarm.site.siteId"
+                                  :options="siteOptions"
+                                  id="site"
+                                  :searchable="true"                
+                                  @search-change="searchfunc">
+                              </VueMultiselect>
                             </pf-form-group>
                         </div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
