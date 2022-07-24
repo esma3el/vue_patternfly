@@ -2,7 +2,9 @@
 import VueMultiselect from "vue-multiselect";
 import gql from "graphql-tag";
 import VueUploadComponent from "vue-upload-component";
-
+import FormTabs from "./FormTabs.vue";
+import WorkFlow from "../Workflow/WorkFlow.vue";
+import Stepper from '../../Stepper.vue'
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 import "../../../../styles/vue-multiselect.css";
@@ -181,7 +183,7 @@ const GET_PORDUCT_ID = gql`
 
 export default {
   name: "Create",
-  components: { VueMultiselect, VueUploadComponent, FilePond },
+  components: { VueMultiselect, VueUploadComponent, FilePond ,FormTabs,WorkFlow,Stepper},
   data() {
     return {      
       template_name:"",
@@ -216,7 +218,7 @@ export default {
         workPlan: "",
         testResult: "",
         changeDescription: "",
-        implementer: ["hsm"],
+        implementer: [],
         implementers: "",
         owner: this.$store.state.userinfo.username,
         owners: this.$store.state.userinfo.username,
@@ -528,16 +530,23 @@ export default {
 
 <template>        
   <div class="pf-l-grid pf-m-gutter">
-    <div class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl">
+    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+      <pf-card>
+        <pf-card-body>
+           <Stepper />     
+          </pf-card-body>
+      </pf-card>
+    </div>      
+    <div class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-6-col-on-xl">
       <pf-card>        
         <pf-card-title>Create Change Request Ticket</pf-card-title>
         <pf-divider />
         <pf-spinner v-if="$apollo.loading" size="sm" />
         <pf-card-body v-else>        
           <pf-form @submit.prevent="submitData" class="pf-l-grid">          
-            <div
+            <!-- <div
               class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
-            ></div>
+            ></div> -->
             <!-- <div
               class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
             >
@@ -561,7 +570,7 @@ export default {
                 </div>
               </pf-form-group>
             </div> -->
-            <pf-divider />
+            <!-- <pf-divider /> -->
 
             <!-- Row 1 -->
             <!-- Title -->
@@ -1023,7 +1032,7 @@ export default {
                   class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
                 ></div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
+                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Attachment"
@@ -1039,58 +1048,39 @@ export default {
                       v-on:processfile="handleProcessFile"
                     />
                   </pf-form-group>
-                  <br />
-                </div>             
+                </div>                         
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-8-col-on-xl"
-            ></div>
-            <div
-              class="pf-l-grid__item pf-m-4-col pf-m-12-col-on-md pf-m-8-col-on-xl"
+              class="pf-l-grid__item pf-m-4-col pf-m-12-col-on-md pf-m-12-col-on-xl"
             >
               <pf-action-group>
-                <pf-button type="submit" variant="primary">Submit</pf-button>
-                <pf-button variant="secondary" @click="open1 = !open1"
-                  >Save as Template</pf-button
-                >
-                <pf-modal
-                  v-model:open="open1"
-                  variant="small"
-                  title="Save Template"
-                >
-                  <div class="pf-l-grid">
-                    <div
-                      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
-                    >
-                      <pf-form-group
-                        label="Name"
-                        field-id="templateName-group"
-                      >
-                        <pf-text-input
-                          id="templateName"
-                          name="TemplateName"
-                          v-model="template_name"
-                          required
-                        />
-                        <pre>{{template_name}}</pre>
-                      </pf-form-group>
-                      <br>
-                      <pf-button
-                        type="submit"
-                        @click.prevent="save_template_func"
-                        >Save</pf-button
-                      >
-                      <pf-button @click="open1 = !open1" variant="link">Cancel</pf-button>
-                    </div>
-                  </div>
-                </pf-modal>
-                <pf-button variant="link">Cancel</pf-button>
+                <pf-button block type="submit" variant="primary">Submit</pf-button>
+                  <pf-button block variant="tertiary">Cancel</pf-button>
               </pf-action-group>
             </div>
           </pf-form>
         </pf-card-body>
       </pf-card>
     </div>
-  </div>
+    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+      <div class="side">
+        <pf-card>
+          <pf-card-body>
+            <pf-tabs>
+              <pf-tab title="Ticket Information">
+                <br />
+                <form-tabs :ticketid="$route.params.id" />
+              </pf-tab>
+              <pf-tab title="WorkFlow Details">
+                <br />
+                <WorkFlow :ticketid="$route.params.id" />
+              </pf-tab>
+            </pf-tabs>
+          </pf-card-body>
+        </pf-card>
+      </div>
+    </div>
+                </div>
+
 </template>
 
 <style>
@@ -1099,5 +1089,10 @@ export default {
 }
 .multiselect__tag {
   background: #444548;
+}
+.content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 </style>

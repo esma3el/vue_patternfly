@@ -288,10 +288,10 @@ export default {
               <pf-card-body>
                 <pf-form @submit.prevent="submitData">
                     <div class="pf-l-grid">
-                      <div
+                      <!-- <div
               class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
-            ></div>
-                      <div
+            ></div> -->
+                      <!-- <div
               class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
             >
               <pf-form-group>
@@ -313,8 +313,8 @@ export default {
                   
                 </div>
               </pf-form-group>
-            </div>
-            <pf-divider />
+            </div> -->
+            <!-- <pf-divider /> -->
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Title" field-id="title" required>
                                 <pf-text-input id="title_input" name="title" required
@@ -479,8 +479,8 @@ export default {
                 </div>
                     </div>
                     <pf-action-group>
-                      <pf-button type="submit" variant="primary">Submit</pf-button>
-                      <pf-button variant="link">Cancel</pf-button>
+                      <pf-button block type="submit" variant="primary">Submit</pf-button>
+                      <pf-button block variant="tertiary">Cancel</pf-button>
                     </pf-action-group>
                 </pf-form>
               </pf-card-body>

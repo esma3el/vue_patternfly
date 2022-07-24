@@ -51,7 +51,8 @@ export default {
 </script>
 
 <template>
-  <div class="wf-style">
+  <div class="wfstyle">
+    <!-- <pre>{{workflow_data}}</pre> -->
     <pf-accordion v-if="$apollo.loading">loading...</pf-accordion>
     <pf-accordion v-else v-for="(item, index) in workflow_data">
 
@@ -77,7 +78,7 @@ export default {
         :title="item.name"
         :expanded="expanded == index"
         @update:expanded="expanded = $event ? index : null"
-        v-else-if="item.name == 'Manager'"
+        v-else-if="item.name == 'Manager Approval'"
       >
         <WFManager :data="item.data" />
       </pf-accordion-item>
@@ -145,10 +146,9 @@ export default {
 </template>
 
 <style>
-.wf-style form{
+.wfstyle form{
   font-size: .7vw;
   opacity: .8;
   pointer-events: none;
-
 }
 </style>

@@ -12,9 +12,6 @@ export default {
 </script>
 
 <template>
-  <div>
-    <pf-card>
-      <pf-card-body>
         <pf-form @submit.prevent="submitData" class="pf-l-grid">
           <div class="pf-l-grid">
             <div
@@ -116,8 +113,5 @@ export default {
               </pf-form-group>
             </div>
           </div>
-        </pf-form>
-      </pf-card-body>
-    </pf-card>
-  </div>
+        </pf-form>      
 </template>

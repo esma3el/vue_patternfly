@@ -3,6 +3,35 @@ import gql from "graphql-tag";
 import VueMultiselect from "vue-multiselect";
 import "../../../styles/vue-multiselect.css";
 
+const USER_TEMPLATE = gql`
+    query ($user: String!,$type:String!) {
+    template_create1(where: { user: { _eq: $user },_and:{type:{_eq:$type}} }) {
+			template_name   
+    }
+  }
+`;
+const GET_TEMPLATE_DATA = gql`
+  query ($user: String!, $type: String!,$template_name:String!) {
+    template_create1(
+      where: { user: { _eq: $user }, _and: { type: { _eq: $type },_and:{template_name:{_eq:$template_name}} } }
+    ) {
+      user
+      template_name
+      type
+      template
+    }
+  }
+`;
+const SAVE_TEMPLATE1 = gql`
+  mutation ($type: String!, $template: json!, $user: String!, $template_name : String!) {
+    insert_template_create1_one(
+      object: { type: $type, user: $user, template: $template ,template_name:$template_name }
+    ) {
+      template
+    }
+  }
+`;
+
 const SEARCH_QUERY = gql`
 query ($search: String!) {
   site(where: {keycode: {_iregex: $search}}, limit: 10) {
@@ -30,6 +59,10 @@ export default {
   name: "CreateNew",
   data() {
     return {
+      open1:false,
+      template_name:"",
+      user_templates: [],
+      loaded_template_data: [],
       attachments:[],
         domains: [],
         networkTypes: [],
@@ -73,6 +106,76 @@ export default {
     
     }
   },methods:{
+    load_template(search) {
+      console.log(search)
+      this.$apolloProvider.defaultClient
+        .query({
+          query: GET_TEMPLATE_DATA,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "workOrders",
+            template_name: search
+          },
+        })
+        .then((res) =>
+        {
+          console.log(res.data.template_create1[0]?.template);
+          this.getdomains()
+          this.getnetworktypes()
+          this.data = {...res.data.template_create1[0]?.template}          
+          this.data.faultAlarm = {...this.data.faultAlarm}
+          this.data.faultAlarm.site = {...this.data.faultAlarm.site}
+          this.data.information = {...this.data.information}
+          this.data.faultAlarm.firstOccurTime = this.data.faultAlarm.firstOccurTime.substring(0,16)
+          this.data.faultAlarm.lastOccurTime = this.data.faultAlarm.lastOccurTime.substring(0,16)
+        }
+        )
+    },
+    save_template_func() {
+      this.$apolloProvider.defaultClient
+        .mutate({
+          mutation: SAVE_TEMPLATE1,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "workOrders",
+            template_name: this.template_name,
+            template: this.data
+          },
+        })
+        .then((res) => {
+          setTimeout(() => {            
+            if(!open1) this.open1 = !this.open1;
+          }, 1000);
+          this.Notification(
+            "info",
+            "Saved Successfuly",
+            `Template Saved Successfuly.`
+          );
+        })
+        .catch((err) => {
+          console.log(err)
+          this.Notification(
+            "danger",
+            `${err}`,
+            `Unknown error , ${new Date().toLocaleString()}.`
+          );
+        });
+    },
+    get_user_template() {
+      this.$apolloProvider.defaultClient
+        .query({
+          query: USER_TEMPLATE,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "workOrders"
+          },
+        })
+        .then((res) => {
+          this.user_templates = res.data.template_create1.map(
+            (row) => row.template_name
+          );
+        });
+    },
     handleProcessFile: function (error, file) {                  
       if(!error){
       const f = JSON.parse(file.serverId)
@@ -124,22 +227,25 @@ if(req.ok){
         };
         console.log(req);
         this.$store.commit('toggle_spinner')
-    },
-      async Notification(variant="",title="",msg=""){
-        this.$store.commit('setNotifications',{'variant':variant,'title':title,'msg':msg})   
-        if(variant != 'danger'){
         setTimeout(()=>{
-          this.$store.commit('delNotifications')
-        },15000)
-        setTimeout(()=>{
-        
         this.$router.push('/')
         },800)
-        }
-    } ,    
-    clear_alarm(){
-      this.$store.commit('delNotifications')
-    }
+    },
+   async Notification(variant = "", title = "", msg = "") {
+      this.$store.commit("setNotifications", {
+        variant: variant,
+        title: title,
+        msg: msg,
+      });
+      if (variant != "danger") {
+        setTimeout(() => {
+          this.$store.commit("delNotifications");
+        },5000);
+      }
+    },
+    clear_alarm() {
+      this.$store.commit("delNotifications");
+    },
   },
 };
 </script>
@@ -156,6 +262,33 @@ if(req.ok){
               <pf-card-body>
                 <pf-form @submit.prevent="submitData">
                     <div class="pf-l-grid">
+                      <div
+              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
+            ></div>
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
+            >
+              <pf-form-group>
+                <div class="pf-c-form__group-label">
+                  <label class="pf-c-form__label" for="user_template">
+                    <span class="pf-c-form__label-text">Template</span>
+                  </label>
+                </div>
+                <div class="pf-c-form__group-control">
+                  <VueMultiselect
+                    :multiple="false"
+                    :options="user_templates"
+                    id="ajax"
+                    @click="get_user_template"
+                    @select="load_template"
+                    :show-labels="false"
+                  >
+                  </VueMultiselect>
+                  
+                </div>
+              </pf-form-group>
+            </div>
+            <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Title" field-id="title" required>
                                 <pf-text-input id="title_input" name="title" required
@@ -303,6 +436,40 @@ if(req.ok){
                     <pf-action-group>
                       <pf-button type="submit" variant="primary">Submit</pf-button>
                       <pf-button variant="link">Cancel</pf-button>
+                      <pf-button variant="secondary" @click="open1 = !open1"
+                  >Save as Template</pf-button
+                >
+                <pf-modal
+                  v-model:open="open1"
+                  variant="small"
+                  title="Save Template"
+                >
+                  <div class="pf-l-grid">
+                    <div
+                      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                    >
+                      <pf-form-group
+                        label="Name"
+                        field-id="templateName-group"
+                      >
+                        <pf-text-input
+                          id="templateName"
+                          name="TemplateName"
+                          v-model="template_name"
+                          required
+                        />
+                        <pre>{{template_name}}</pre>
+                      </pf-form-group>
+                      <br>
+                      <pf-button
+                        type="submit"
+                        @click.prevent="save_template_func"
+                        >Save</pf-button
+                      >
+                      <pf-button @click="open1 = !open1" variant="link">Cancel</pf-button>
+                    </div>
+                  </div>
+                </pf-modal>
                     </pf-action-group>
                 </pf-form>
               </pf-card-body>

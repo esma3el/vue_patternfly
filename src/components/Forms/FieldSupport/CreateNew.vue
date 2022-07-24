@@ -1,5 +1,7 @@
 <script>
 import gql from "graphql-tag";
+import VueMultiselect from "vue-multiselect";
+import "../../../styles/vue-multiselect.css";
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 
@@ -10,6 +12,36 @@ setOptions({
     url: "http://localhost:8080/api/attachments",
   },
 });
+
+const USER_TEMPLATE = gql`
+    query ($user: String!,$type:String!) {
+    template_create1(where: { user: { _eq: $user },_and:{type:{_eq:$type}} }) {
+			template_name   
+    }
+  }
+`;
+
+const GET_TEMPLATE_DATA = gql`
+  query ($user: String!, $type: String!,$template_name:String!) {
+    template_create1(
+      where: { user: { _eq: $user }, _and: { type: { _eq: $type },_and:{template_name:{_eq:$template_name}} } }
+    ) {
+      user
+      template_name
+      type
+      template
+    }
+  }
+`;
+const SAVE_TEMPLATE1 = gql`
+  mutation ($type: String!, $template: json!, $user: String!, $template_name : String!) {
+    insert_template_create1_one(
+      object: { type: $type, user: $user, template: $template ,template_name:$template_name }
+    ) {
+      template
+    }
+  }
+`;
 
 const GET_DOMAINS = gql`
  query {
@@ -28,9 +60,13 @@ const GET_NETWORK_TYPES = gql`
 
 export default {
   name: "CreateNew",
-  components:{FilePond},
+  components:{FilePond,VueMultiselect},
   data() {
     return {
+      open1:false,
+      template_name:"",
+      user_templates: [],
+      loaded_template_data: [],
       attachments:[],
         domains: [],
         networkTypes: [],
@@ -63,6 +99,88 @@ export default {
     };
   },
   methods: {
+    load_template(search) {
+      console.log(search)
+      this.$apolloProvider.defaultClient
+        .query({
+          query: GET_TEMPLATE_DATA,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "fieldSupport",
+            template_name: search
+          },
+        })
+        .then((res) =>
+        {
+          this.getdomains()
+          this.getnetworktypes()
+          this.data = {...res.data.template_create1[0]?.template}
+          this.data.supportRequest = {...this.data.supportRequest}
+          this.data.faultAlarm = {...this.data.faultAlarm}
+          this.data.information = {...this.data.information}
+        }
+        )
+    },
+    save_template_func() {
+      this.$apolloProvider.defaultClient
+        .mutate({
+          mutation: SAVE_TEMPLATE1,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "fieldSupport",
+            template_name: this.template_name,
+            template: this.data
+          },
+        })
+        .then((res) => {
+          setTimeout(() => {            
+            this.open1 = !this.open1;
+          }, 1000);
+          this.Notification(
+            "info",
+            "Saved Successfuly",
+            `Template Saved Successfuly.`
+          );
+        })
+        .catch((err) => {
+          console.log(err)
+          this.Notification(
+            "danger",
+            `${err}`,
+            `Unknown error , ${new Date().toLocaleString()}.`
+          );
+        });
+    },
+    get_user_template() {
+      this.$apolloProvider.defaultClient
+        .query({
+          query: USER_TEMPLATE,
+          variables: {
+            user: this.$store.state.userinfo.username,
+            type: "fieldSupport"
+          },
+        })
+        .then((res) => {
+          this.user_templates = res.data.template_create1.map(
+            (row) => row.template_name
+          );
+        });
+    },
+    async Notification(variant = "", title = "", msg = "") {
+      this.$store.commit("setNotifications", {
+        variant: variant,
+        title: title,
+        msg: msg,
+      });
+      if (variant != "danger") {
+        setTimeout(() => {
+          this.$store.commit("delNotifications");
+        },5000);
+      }
+    },
+    clear_alarm() {
+      this.$store.commit("delNotifications");
+    },
     handleProcessFile: function (error, file) {                  
       if(!error){
       const f = JSON.parse(file.serverId)
@@ -144,6 +262,33 @@ export default {
               <pf-card-body>
                 <pf-form @submit.prevent="submitData">
                     <div class="pf-l-grid">
+                      <div
+              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-8-col-on-xl"
+            ></div>
+            <div
+              class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
+            >
+              <pf-form-group>
+                <div class="pf-c-form__group-label">
+                  <label class="pf-c-form__label" for="user_template">
+                    <span class="pf-c-form__label-text">Template</span>
+                  </label>
+                </div>
+                <div class="pf-c-form__group-control">
+                  <VueMultiselect
+                    :multiple="false"
+                    :options="user_templates"
+                    id="ajax"
+                    @click="get_user_template"
+                    @select="load_template"
+                    :show-labels="false"
+                  >
+                  </VueMultiselect>
+                  
+                </div>
+              </pf-form-group>
+            </div>
+            <pf-divider />
                         <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
                             <pf-form-group label="Title" field-id="title" required>
                                 <pf-text-input id="title_input" name="title" required
@@ -268,6 +413,40 @@ export default {
                     <pf-action-group>
                       <pf-button type="submit" variant="primary">Submit</pf-button>
                       <pf-button variant="link">Cancel</pf-button>
+                      <pf-button variant="secondary" @click="open1 = !open1"
+                  >Save as Template</pf-button
+                >
+                <pf-modal
+                  v-model:open="open1"
+                  variant="small"
+                  title="Save Template"
+                >
+                  <div class="pf-l-grid">
+                    <div
+                      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                    >
+                      <pf-form-group
+                        label="Name"
+                        field-id="templateName-group"
+                      >
+                        <pf-text-input
+                          id="templateName"
+                          name="TemplateName"
+                          v-model="template_name"
+                          required
+                        />
+                        <pre>{{template_name}}</pre>
+                      </pf-form-group>
+                      <br>
+                      <pf-button
+                        type="submit"
+                        @click.prevent="save_template_func"
+                        >Save</pf-button
+                      >
+                      <pf-button @click="open1 = !open1" variant="link">Cancel</pf-button>
+                    </div>
+                  </div>
+                </pf-modal>
                     </pf-action-group>
                 </pf-form>
               </pf-card-body>

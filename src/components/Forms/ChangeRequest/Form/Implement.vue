@@ -1,6 +1,7 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import Attachemnts from "../../Attachemnts.vue";
 
 const FilePond = vueFilePond();
 
@@ -10,7 +11,7 @@ setOptions({
   },
 });
 import FormTabs from "./FormTabs.vue";
-import TicketInformation from "./TicketInformation.vue";
+import TicketInformation from "../../TicketInformation.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
 import gql from "graphql-tag";
 import Stepper from '../../Stepper.vue'
@@ -34,7 +35,7 @@ const Q2 = gql`
 
 export default {
   name: "Implement",
-  components: { FormTabs,WorkFlow , Stepper, FilePond,TicketInformation},
+  components: { FormTabs,WorkFlow , Stepper, FilePond,TicketInformation,Attachemnts},
   data() {
     return {
       attachments:[],
@@ -260,10 +261,8 @@ export default {
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-action-group>
-                    <pf-button type="submit" variant="primary"
-                      >Submit</pf-button
-                    >
-                    <pf-button variant="link">Cancel</pf-button>
+                    <pf-button block type="submit" variant="primary">Submit</pf-button>
+                  <pf-button block variant="tertiary">Cancel</pf-button>
                   </pf-action-group>
                 </div>
             </pf-form>
@@ -287,6 +286,9 @@ export default {
                 <br />
                 <WorkFlow :ticketid="$route.params.id" />
               </pf-tab>
+              <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
             </pf-tabs>
           </pf-card-body>
         </pf-card>

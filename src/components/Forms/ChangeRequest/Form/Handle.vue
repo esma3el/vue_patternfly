@@ -1,6 +1,7 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import Attachemnts from "../../Attachemnts.vue";
 
 const FilePond = vueFilePond();
 
@@ -32,7 +33,7 @@ const Q2 = gql`
 
 export default {
   name: "Handle",
-  components: { FormTabs, WorkFlow , Stepper, FilePond,},
+  components: { FormTabs, WorkFlow , Stepper, FilePond,Attachemnts},
   data() {
     return {
       attachments:[],
@@ -248,8 +249,8 @@ if(req.ok){
                 class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
               >
                 <pf-action-group>
-                  <pf-button type="submit" variant="primary">Submit</pf-button>
-                  <pf-button variant="link">Cancel</pf-button>
+                  <pf-button block type="submit" variant="primary">Submit</pf-button>
+                  <pf-button block variant="tertiary">Cancel</pf-button>
                 </pf-action-group>
               </div>
             </pf-form>
@@ -270,6 +271,9 @@ if(req.ok){
                 <br />
                 <WorkFlow :ticketid="$route.params.id" />
               </pf-tab>
+            <pf-tab title="Attachments">
+                <Attachemnts />
+            </pf-tab>
             </pf-tabs>
           </pf-card-body>
         </pf-card>

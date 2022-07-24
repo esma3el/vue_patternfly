@@ -12,9 +12,7 @@ export default {
 </script>
 
 <template>
-    <div>
-        <pf-card>
-          <pf-card-body>
+
             <pf-form @submit.prevent="submitData" class="pf-l-grid" >
               <div
                 class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
@@ -49,19 +47,8 @@ export default {
                     name="description"
                     v-model="data.authorizeManagerDescription"
                   />
-                </pf-form-group>
-              </div>
-
-              <div
-                class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
-              >
-                <pf-action-group>
-                  <pf-button type="submit" variant="primary">Submit</pf-button>
-                  <pf-button variant="link">Cancel</pf-button>
-                </pf-action-group>
+                </pf-form-group>                            
               </div>
             </pf-form>
-          </pf-card-body>
-        </pf-card>
-    </div>
+
 </template>

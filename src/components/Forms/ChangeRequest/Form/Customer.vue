@@ -11,8 +11,8 @@ setOptions({
 });
 import FormTabs from "./FormTabs.vue";
 import WorkFlow from "../Workflow/WorkFlow.vue";
-import gql from "graphql-tag";
 import Stepper from '../../Stepper.vue'
+import gql from "graphql-tag";
 
 const Q2 = gql`
   query ($user: String!, $id: String!, $task_id: String!) {
@@ -182,10 +182,8 @@ export default {
                   class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-action-group>
-                    <pf-button type="submit" variant="primary"
-                      >Submit</pf-button
-                    >
-                    <pf-button variant="link">Cancel</pf-button>
+                    <pf-button block type="submit" variant="primary">Submit</pf-button>
+                  <pf-button block variant="tertiary">Cancel</pf-button>
                   </pf-action-group>
                 </div>
             </pf-form>

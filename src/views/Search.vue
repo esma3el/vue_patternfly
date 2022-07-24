@@ -170,13 +170,9 @@ export default {
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-3-col-on-xl"
         >
-          <div class="pf-c-form__group-label">
-            <label class="pf-c-form__label" for="Change Category">
-              <span class="pf-c-form__label-text">Workflow</span>
-            </label>
-          </div>
-          <div class="pf-c-form__group-control">
-            <select
+          <pf-form-group required label="Workflow" field-id="workflow-group">            
+            <div class="pf-c-form__group-control">
+              <select
               class="pf-c-form-control"
               v-model="search.processname"
               name=""
@@ -185,9 +181,10 @@ export default {
               <option value="Incident Management">Incident Management</option>
               <option value="Change Management">Change Management</option>
               <option value="Work Orders">Work Orders</option>
-              <option value="Field Support">Field Support</option>
+              <option value="Support Request">Support Request</option>
             </select>
           </div>
+            </pf-form-group>
         </div>
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-3-col-on-xl"
@@ -243,20 +240,20 @@ export default {
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-3-col-on-xl"
         >
-          <pf-form-group label="From" field-id="startTime">
+          <pf-form-group label="From" required field-id="startTime">
             <pf-text-input
               type="datetime-local"
               id="startTimeForinput"
               name="startTime"
               v-model="search.startTime"
-              :auto-validate="false"
+              :auto-validate="false"              
             />
           </pf-form-group>
         </div>
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-3-col-on-xl"
         >
-          <pf-form-group label="To" field-id="endTime">
+          <pf-form-group label="To" required field-id="endTime">
             <pf-text-input
               type="datetime-local"
               id="endTimeForinput"
@@ -277,15 +274,19 @@ export default {
           </div>
         </div>
         
+        <br>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-1-col-on-xl"
+          class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-2-col-on-xl"
+        ></div>
+        <div
+          class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
         >
           <pf-action-group class="btn">
             <pf-button
               type="submit"
               variant="primary"
               @click.prevent="reset"
-              :disabled="!search.processname"
+              :disabled="!search.processname || !search.endTime || !search.startTime"
               small
               >Search</pf-button
             >
@@ -347,8 +348,8 @@ export default {
         <td>{{ item.tasks[0]?.tasks_potential_users[0]?.user_id }}</td>
         <td>{{ item.processname }}</td>
         <td v-if="item.state == 1">Running</td>
-        <td v-else-if="item.state == 2">Completed</td>
-        <td v-else>{{ item.state }}</td>
+        <td v-else-if="item.state == 2 || item.state == 5 ">Completed</td>
+        <td v-else >{{ item.state }}</td>
         <td>{{ item.starttime.slice(0,16).replace("T"," ") }}</td>
         <td>
             <pf-dropdown v-model:open="open7" plain>
@@ -400,5 +401,8 @@ export default {
 }
 .search-date a {
   margin-left: 1em;
+}
+section{
+  gap: 1em;
 }
 </style>
