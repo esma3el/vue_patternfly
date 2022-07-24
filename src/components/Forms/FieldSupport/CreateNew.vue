@@ -242,7 +242,7 @@ export default {
           this.Notification(
             "success",
             `status ${req.status}`,
-            `${req.statusText} ${new Date().toLocaleString()}.`
+            `Saved Successfuly ${new Date().toLocaleString()}.`
           )
         }
         else{          
@@ -414,7 +414,7 @@ export default {
                             </pf-form-group>
                         </div>
                         <pf-divider />
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Description" field-id="createDescription">
                                 <pf-textarea id="createDescription_input" name="createDescription"
                                     v-model="data.createDescription" />

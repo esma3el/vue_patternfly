@@ -14,7 +14,7 @@ export default {
 <template>
     <pf-form @submit.prevent="submitData" class="pf-l-grid">
                     <div class="pf-l-grid wf-style">
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Enter Time" field-id="enterTime">
                                 <div class="pf-c-form__group-control">
                                     <pf-text-input type="text" id="enterTime_input" name="enterTime" readonly

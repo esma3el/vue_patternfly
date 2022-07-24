@@ -14,14 +14,14 @@ export default {
 <template>
 <pf-form @submit.prevent="submitData" class="pf-l-grid">
                     <div class="pf-l-grid wf-style">
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                           <pf-form-group label="Operation Mode" field-id="confirmOperationMode" >
                                 <pf-text-input readonly type="text" id="confirmOperationMode_input" name="confirmOperationMode" 
                                     v-model="data.confirmOperationMode"/>
                             </pf-form-group>                            
                         </div>
                         
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                           <pf-form-group label="Breached SLA?" field-id="slaBreached" >
                                 <pf-text-input readonly type="text" id="slaBreached_input" name="slaBreached" 
                                     v-model="data.slaBreached"/>

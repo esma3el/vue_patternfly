@@ -15,7 +15,7 @@ export default {
             <pf-form @submit.prevent="submitData">
               <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
                   <label>Operation Mode</label>
                 </div>

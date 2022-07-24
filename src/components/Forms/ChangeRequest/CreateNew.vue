@@ -490,7 +490,7 @@ export default {
           this.Notification(
             "success",
             `status ${req.status}`,
-            `${req.statusText} ${new Date().toLocaleString()}.`
+            `Saved Successfuly ${new Date().toLocaleString()}.`
           )
           setTimeout(() => {
             this.$router.push("/");
@@ -583,7 +583,7 @@ export default {
               </pf-form-group>
             </div>
                 <div
-                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 ></div>
                 <pf-divider />
             <!-- Row 2 -->            
@@ -946,7 +946,7 @@ export default {
                 <pf-divider />
                 <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
                   <pf-form-group label="Work Plan" field-id="workPlan">
                     <pf-textarea
@@ -960,7 +960,7 @@ export default {
                 <!--  -->
                 <!--  -->
                 <div
-                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
                   <pf-form-group label="Test Result" field-id="testResult">
                     <pf-textarea
@@ -973,7 +973,7 @@ export default {
                 <!--  -->
                 <!--  -->
                 <div
-                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
                   <pf-form-group
                     label="Description"

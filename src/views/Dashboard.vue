@@ -43,13 +43,8 @@
         ></fusioncharts>
       </div>
 
-<<<<<<< HEAD
-      <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
-        <pre v-if="$apollo.loading">...loading</pre>
-=======
-      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-7-col-on-xl">
+      <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
         <pf-spinner v-if="$apollo.loading" size="sm" />
->>>>>>> a45ab13aeaf05ab853a8e61fe680d7c04036ac82
         <fusioncharts
           v-else
           :type="type"
@@ -61,7 +56,7 @@
       </div>
     </div>
     <div class="pf-l-grid" style="gap: 1em; margin-bottom: 1em">
-      <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl">
+      <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
         <fusioncharts
           :type="data1.type"
           :width="data1.width"
@@ -70,7 +65,7 @@
           :dataSource="data1.dataSource"
         ></fusioncharts>
       </div>
-      <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
+      <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-4-col-on-xl">
         <table
           class="pf-c-table pf-m-compact pf-m-grid-md"
           role="grid"

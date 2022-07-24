@@ -21,19 +21,19 @@ export default {
                             </pf-form-group>
                         </div>
                         <pf-divider />
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Description" field-id="createDescription">
                                 <pf-textarea readonly id="createDescription_input" name="createDescription"
                                     v-model="data.information.description" />
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Probable Cause" field-id="probableCause">
                                 <pf-textarea readonly id="probableCause_input" name="probableCause"
                                     v-model="data.information.probableCause" />
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Initial Diagnosis?" field-id="initialDiagnosis">
                                 <pf-textarea readonly id="initialDiagnosis_input" name="initialDiagnosis"
                                     v-model="data.information.initialDiagnosis" />
@@ -112,7 +112,7 @@ export default {
                                     v-model="data.faultAlarm.faultNumber"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Fault Summary" field-id="faultSummary">
                                 <pf-textarea readonly id="faultSummary_input" name="faultSummary"
                                     v-model="data.faultAlarm.faultSummary" />

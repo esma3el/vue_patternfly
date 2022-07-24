@@ -91,7 +91,7 @@ if(req.ok){
           this.Notification(
             "success",
             `status ${req.status}`,
-            `${req.statusText} ${new Date().toLocaleString()}.`
+            `Saved Successfuly ${new Date().toLocaleString()}.`
           )
         }
         else{          
@@ -155,7 +155,7 @@ if(req.ok){
           </pf-card-body>
       </pf-card>
     </div>
-    <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+    <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
       <div class="phase-action">        
         <pf-card>
           <pf-card-title> Update Ticket Information </pf-card-title>
@@ -174,7 +174,7 @@ if(req.ok){
                 <pf-switch v-model:checked="checked" />
               </div>
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Start Time For Impact"
@@ -191,7 +191,7 @@ if(req.ok){
                 </pf-form-group>
               </div>
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="End Time For Impact"
@@ -208,7 +208,7 @@ if(req.ok){
                 </pf-form-group>
               </div>
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Planned Start Time"
@@ -225,7 +225,7 @@ if(req.ok){
                 </pf-form-group>
               </div>
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Planned End Time"
@@ -288,7 +288,7 @@ if(req.ok){
         </pf-card>
       </div>
     </div>
-    <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+    <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
       <div class="side">
         <pf-card>
           <pf-card-body>
@@ -311,14 +311,3 @@ if(req.ok){
     </div>
   </div>
 </template>
-
-<style>
-.pf-l-grid {
-  gap: 2em;
-}
-.content {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-</style>
