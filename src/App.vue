@@ -77,7 +77,7 @@ export default {
       </div>
       <div class="pf-c-page__main-body" :class="{ op: $store.state.spinner }">
         <router-view />
-            <div class="alert" v-for="item in $store.state.Notifications">
+            <div class="alert" v-for="item in $store.state.Notifications">                        
               <pf-alert
                 inline
                 :variant="item.variant"
@@ -117,9 +117,27 @@ export default {
 }
 .alert {
   width: 30%;
-  position: fixed;
-  top: 11%;
-  right: 1.2%;  
+  position: fixed;  
+  z-index: 101;
+  top: 10%;
+  transform: translatex(calc(100% + 10%));
+  right: 1.7%;
+  overflow: hidden;
+  box-shadow: 0 0 2px black;
+}
+
+@keyframes slideIn {
+    0% { transform: translatex(100% + 5%); }
+    50% { transform: translatex(100% + 10%); }
+    100% { transform: translatex(0); }
+}
+// @keyframes slideOut {
+//   0% { transform: translatex(0); }
+//   50% { transform: translatex(50% - 5%); }
+//   100% { transform: translatex(100% - 10px); }
+// }
+.alert {
+    animation: slideIn 700ms ease forwards;
 }
 .spinner {
   position: fixed;

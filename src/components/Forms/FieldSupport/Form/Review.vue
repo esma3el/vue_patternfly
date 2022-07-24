@@ -59,6 +59,7 @@ export default {
    apollo: {
     tasks: {
       query: Q2,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           user: this.$store.state.userinfo.username,
@@ -69,6 +70,7 @@ export default {
     },
     fieldsupport: {
       query: Q,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           id: this.$route.params.id,
@@ -118,7 +120,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')

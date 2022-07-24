@@ -25,10 +25,10 @@ export default {
   apollo: {
     tasks: {
       query: WFSTEPPER,
+     fetchPolicy: "cache-and-network",
       variables() {
         return { id: this.$route.params.id };
-      },
-      fetchPolicy: "cache-and-network"
+      }
     },
   },
 };

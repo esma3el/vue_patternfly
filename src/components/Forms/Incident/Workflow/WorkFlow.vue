@@ -38,6 +38,7 @@ export default {
   apollo: {
     incidents: {
       query: GET_WORKFLOWS,
+     fetchPolicy: "cache-and-network",
       variables() {
         return { id: this.ticketid };
       },
@@ -48,7 +49,7 @@ export default {
 
 <template>
   <div>
-    <pf-accordion v-if="$apollo.loading">loading...</pf-accordion>
+    <pf-spinner v-if="$apollo.loading" size="sm" />
     <pf-accordion v-else v-for="(item, index) in workflow_data">
 
       <pf-accordion-item
@@ -75,7 +76,9 @@ export default {
         @update:expanded="expanded = $event ? index : null"
         v-else-if="item.name == 'Process'"
       >
-        <WFProcess :data="item.data" />
+      <pre>{{item.data}}</pre>
+
+        <!-- <WFProcess :data="item.data" /> -->
       </pf-accordion-item>
      
      <pf-accordion-item
@@ -107,7 +110,7 @@ export default {
   gap: 2em;
 }
 .wf-style ,.wf-style input{
-  font-size: .7vw;
+  
   opacity: .8;
   pointer-events: none;
 }

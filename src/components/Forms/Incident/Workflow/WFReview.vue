@@ -140,7 +140,7 @@ export default {
   gap: 2em;
 }
 .wf-style ,.wf-style input{
-  font-size: .7vw;
+  
   opacity: .8;
   pointer-events: none;
 }

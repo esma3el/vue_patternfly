@@ -22,6 +22,7 @@ export default {
   apollo: {
     processes: {
       query: GET_ATTACHMENTS,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           id: this.$route.params.id,
@@ -40,18 +41,9 @@ export default {
       aria-label="This is a simple table example"
       id="table-basic"
     >
-      <caption></caption>
-      <!-- <thead>
-        <tr role="row">
-          <th role="columnheader" scope="col">Phase</th>
-        </tr>
-      </thead> -->
-
-      <tbody role="rowgroup" v-if="$apollo.loading">
-        ...loading
-      </tbody>
-    
-      <tbody role="rowgroup" v-else>
+      <caption></caption>      
+      <pf-spinner v-if="$apollo.loading" size="sm" />    
+      <tbody role="rowgroup" v-else>        
         <tr role="row" v-for="task in processes[0].tasks">
           <td
             v-if="task.attachments.length != 0"
@@ -67,15 +59,7 @@ export default {
             role="grid"            
             aria-label="This is a simple table example"
             id="table-basic"
-          >
-            <!-- <thead v-if="task.attachments.length != 0"> 
-              <tr>
-                <th role="columnheader" scope="col">File Name</th>
-                <th role="columnheader" scope="col">Uploaded by</th>
-                <th role="columnheader" scope="col">Uploaded At</th>
-                <th role="columnheader" scope="col">Link</th>
-              </tr>
-            </thead> -->
+          >            
             <tbody class="attach_tbody" role="rowgroup">
               <tr class="attach_tr" role="row" v-for="item in task.attachments">
                 <td role="cell" data-label="File Name">
@@ -96,11 +80,6 @@ export default {
         </tr>
       </tbody>
     </table>
-    <!-- <pf-pagination
-      v-model:page="page"
-      v-model:per-page="perPage"
-      :count="tasks_aggregate?.aggregate?.count"
-    /> -->
   </div>
 </template>
 
@@ -110,7 +89,6 @@ export default {
 }
 .wf-style,
 .wf-style input {
-  font-size: 0.7vw;
   opacity: 0.8;
   pointer-events: none;
 }

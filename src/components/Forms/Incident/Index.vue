@@ -1,10 +1,12 @@
 <script>
 import FormTabs from "./Form/FormTabs.vue";
 import WorkFlow from "./Workflow/WorkFlow.vue";
+import Subprocess from './Form/Subprocess.vue'
+import Attachemnts from "../Attachemnts.vue";
 
 export default {
   name: "Index",
-  components: { FormTabs, WorkFlow },
+  components: { FormTabs, WorkFlow ,Subprocess},
 };
 
 </script>
@@ -35,6 +37,9 @@ export default {
                   <pf-tab title="WorkFlow Details">
                     <br>
                     <WorkFlow :ticketid="$route.params.id" />
+                  </pf-tab>
+                   <pf-tab title="Subprocess">
+                    <Subprocess />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>

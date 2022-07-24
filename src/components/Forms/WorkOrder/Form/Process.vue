@@ -2,6 +2,8 @@
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
+import Subprocess from './Subprocess.vue'
+import Attachemnts from "../../Attachemnts.vue";
 
 const FilePond = vueFilePond();
 
@@ -72,7 +74,7 @@ query($type: String!){
 
 export default {
   name: "Process",
-  components: { VueMultiselect, FormTabs, WorkFlow , Stepper, FilePond},
+  components: { VueMultiselect, FormTabs, WorkFlow , Stepper, FilePond,Subprocess,Attachemnts},
   data() {
     return {
       open1:false,
@@ -99,19 +101,21 @@ export default {
   apollo: {
     workOrders: {
       query: QUERY,
+     fetchPolicy: "cache-and-network",
       variables() {
         return { id: this.$route.params.id };
       },
     },
     tasks: {
       query: Q2,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           user: this.$store.state.userinfo.username,
           id: this.$route.params.id,
           task_id: this.$route.params.taskid,
         };
-      },
+      }
     },
   },   
   computed: {
@@ -213,7 +217,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -279,7 +283,7 @@ export default {
                   id=""   
                   @click="getrootcausecategories"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>
+                  <pf-spinner v-if="$apollo.loading" size="sm" />
                   <option selected :value="workOrders[0].rootcausecategory" v-else="workOrders[0].rootcausecategory">{{workOrders[0].rootcausecategory}}</option>                                                                        
                   <option :value="item" v-else v-for="item in rootCauseCategories">{{item}}</option>                  
                 </select>
@@ -299,7 +303,7 @@ export default {
                   id=""   
                   @click="getrootcausetypes"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                   <option :value="item" v-else v-for="item in rootCauseTypes">{{item}}</option>                  
                 </select>
               </div>
@@ -319,7 +323,7 @@ export default {
                   id=""   
                   @click="getrootcauseitems"               
                 >
-                  <option value="" v-if="$apollo.loading">...loading</option>                                    
+                  <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                   <option :value="item" v-else v-for="item in rootCauseItems">{{item}}</option>                  
                 </select>
               </div>
@@ -405,6 +409,12 @@ export default {
                   <pf-tab title="WorkFlow Details">
                     <br>
                     <WorkFlow :ticketid="$route.params.id" />
+                  </pf-tab>
+                  <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
+                   <pf-tab title="Subprocess">
+                    <Subprocess />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>

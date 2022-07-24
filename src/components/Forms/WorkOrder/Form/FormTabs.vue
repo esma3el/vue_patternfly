@@ -50,6 +50,7 @@ export default {
   apollo: {
     workorders: {
       query: GET_TAB_FORM_DATA,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           id: this.ticketid,
@@ -61,7 +62,7 @@ export default {
 </script>
 
 <template>
-      <div v-if="$apollo.loading"> ...loading</div>
+      <pf-spinner v-if="$apollo.loading" size="sm" />
       <div v-else>
         <pf-tabs secondary>
           <pf-tab title="WO Information" :content-ref="$refs.workOrders" />

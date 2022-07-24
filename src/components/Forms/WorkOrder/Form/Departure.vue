@@ -1,6 +1,9 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import Subprocess from './Subprocess.vue'
+import Attachemnts from "../../Attachemnts.vue";
+
 
 const FilePond = vueFilePond();
 
@@ -31,7 +34,7 @@ const Q2 = gql`
 `;
 export default {
   name: "Departure",
-  components: { FormTabs, WorkFlow , Stepper, FilePond,},
+  components: { FormTabs, WorkFlow , Stepper, FilePond,Subprocess,Attachemnts},
   data() {
     return {
       attachments:[],
@@ -95,7 +98,7 @@ if(req.ok){
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -184,6 +187,12 @@ if(req.ok){
                   <pf-tab title="WorkFlow Details">
                     <br>
                     <WorkFlow :ticketid="$route.params.id" />
+                  </pf-tab>
+                  <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
+                   <pf-tab title="Subprocess">
+                    <Subprocess />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>

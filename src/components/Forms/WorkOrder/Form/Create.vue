@@ -2,6 +2,8 @@
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
 import "../../../../styles/vue-multiselect.css";
+// import Subprocess from './Form/Subprocess.vue'
+import Attachemnts from "../../Attachemnts.vue";
 
 const FilePond = vueFilePond();
 
@@ -56,7 +58,7 @@ const GET_NETWORK_TYPES = gql`
   
 export default {
   name: "Create",
-  components: { FormTabs, WorkFlow, VueMultiselect },
+  components: { FormTabs, WorkFlow, VueMultiselect},
   data() {
     return {
       attachments:[],
@@ -132,8 +134,8 @@ export default {
       }).then(res => this.networkTypes = res.data.network_type.map(res=> res.keycode)); 
     },
     async submitData() {
-      const req = this.$store.commit('toggle_spinner')
-      await fetch(
+       this.$store.commit('toggle_spinner')
+     const req = await fetch(
         `http://localhost:8080/api/workOrders/${this.$route.params.id}/create/${this.$route.params.taskid}`,
         {
           headers: {
@@ -165,7 +167,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -306,7 +308,7 @@ export default {
                                     <select class="pf-c-form-control" required
                                         v-model="data.faultAlarm.domain"                                     
                                         @click="getdomains" >
-                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                                         <option :value="item" v-else v-for="item in domains">{{item}}</option>                  
                                     </select>
                                 </div>
@@ -318,7 +320,7 @@ export default {
                                     <select class="pf-c-form-control"
                                         v-model="data.faultAlarm.networkType"                                     
                                         @click="getnetworktypes" >
-                                        <option value="" v-if="$apollo.loading">...loading</option>                                    
+                                        <pf-spinner v-if="$apollo.loading" size="sm" />                                    
                                         <option :value="item" v-else v-for="item in networkTypes">{{item}}</option>                  
                                     </select>
                                 </div>
@@ -407,6 +409,12 @@ export default {
                   <pf-tab title="WorkFlow Details">
                     <br>
                     <WorkFlow :ticketid="$route.params.id" />
+                  </pf-tab>
+                  <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
+                   <pf-tab title="Subprocess">
+                    <Subprocess />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>

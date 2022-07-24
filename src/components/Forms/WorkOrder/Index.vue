@@ -3,10 +3,12 @@ import FormTabs from "./Form/FormTabs.vue";
 import WorkFlow from "./Workflow/WorkFlow.vue";
 import Stepper from '../Stepper.vue'
 import Attachemnts from "../Attachemnts.vue";
+import Subprocess from './Subprocess.vue'
+
 
 export default {
   name: "Index",
-  components: { FormTabs, WorkFlow ,Attachemnts, Stepper},
+  components: { FormTabs, WorkFlow ,Attachemnts, Stepper,Subprocess},
 };
 
 </script>
@@ -35,6 +37,9 @@ export default {
                   </pf-tab>
                   <pf-tab title="Attachments">
                     <Attachemnts />
+                  </pf-tab>
+                   <pf-tab title="Subprocess">
+                    <Subprocess />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>

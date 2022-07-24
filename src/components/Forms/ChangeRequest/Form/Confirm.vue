@@ -1,6 +1,7 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import Attachemnts from "../../Attachemnts.vue";
 
 const FilePond = vueFilePond();
 
@@ -32,7 +33,7 @@ const Q2 = gql`
 
 export default {
   name: "Confirm",
-  components: { FormTabs ,WorkFlow, Stepper},
+  components: { FormTabs ,WorkFlow, Stepper,FilePond ,Attachemnts},
   data() {
     return {
       attachments:[],
@@ -96,7 +97,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -236,6 +237,9 @@ export default {
                 <br />
                 <WorkFlow :ticketid="$route.params.id" />
               </pf-tab>
+              <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
             </pf-tabs>
           </pf-card-body>
         </pf-card>

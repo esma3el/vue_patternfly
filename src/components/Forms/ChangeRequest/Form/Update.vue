@@ -113,7 +113,7 @@ if(req.ok){
       if (variant != "danger") {
         setTimeout(() => {
           this.$store.commit("delNotifications");
-        }, 15000);
+        }, 6000);
         setTimeout(() => {
           this.$router.push('/');        
         }, 800);
@@ -126,12 +126,14 @@ if(req.ok){
   apollo: {
     requests: {
       query: QUERY,
+     fetchPolicy: "cache-and-network",
       variables() {
         return { id: this.$route.params.id };
       },
     },
     tasks: {
       query: Q2,
+     fetchPolicy: "cache-and-network",
       variables() {
         return{
           user: this.$store.state.userinfo.username,

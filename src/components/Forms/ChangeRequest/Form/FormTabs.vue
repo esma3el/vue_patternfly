@@ -46,6 +46,7 @@ export default {
   apollo: {
     requests: {
       query: GET_TAB_FORM_DATA,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           // id: this.ticketid,
@@ -58,7 +59,7 @@ export default {
 </script>
 
 <template>
-      <div v-if="$apollo.loading"> ...loading</div>
+     <pf-spinner v-if="$apollo.loading" size="sm" />
       <div class="adjust-font" v-else>
         <pf-tabs secondary>
           <pf-tab title="General" :content-ref="$refs.tabGeneral" />
@@ -593,7 +594,6 @@ export default {
   width: 100%;
 } */
 .adjust-font,.pf-c-form-control{
-  font-size: .7vw;
   opacity: .8;
 }
 .adjust-font input,.adjust-font textarea{

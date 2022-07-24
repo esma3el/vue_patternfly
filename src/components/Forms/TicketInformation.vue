@@ -40,7 +40,7 @@
   </div>
   <!-- <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
       <pf-card>
-          <pre v-if="$apollo.loading"></pre>
+          <pf-spinner v-if="$apollo.loading" size="sm" />
           <pf-card-body v-else>        
         <fusioncharts
           :type="data1.type"
@@ -120,6 +120,7 @@ export default {
   apollo: {
     processes: {
       query: GET_TICKET_INFO,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           id: this.$route.params.id,

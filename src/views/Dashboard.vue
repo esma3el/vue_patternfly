@@ -43,8 +43,13 @@
         ></fusioncharts>
       </div>
 
+<<<<<<< HEAD
       <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
         <pre v-if="$apollo.loading">...loading</pre>
+=======
+      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-7-col-on-xl">
+        <pf-spinner v-if="$apollo.loading" size="sm" />
+>>>>>>> a45ab13aeaf05ab853a8e61fe680d7c04036ac82
         <fusioncharts
           v-else
           :type="type"

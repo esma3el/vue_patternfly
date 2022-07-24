@@ -1,6 +1,9 @@
 <script>
 import vueFilePond, { setOptions } from "vue-filepond";
 import "filepond/dist/filepond.min.css";
+import Subprocess from './Subprocess.vue'
+import Attachemnts from "../../Attachemnts.vue";
+
 
 const FilePond = vueFilePond();
 
@@ -31,7 +34,7 @@ import gql from "graphql-tag";
 `;
 export default {
   name: "Confirm",
-  components: { FormTabs, WorkFlow , Stepper, FilePond,},
+  components: { FormTabs, WorkFlow , Stepper, FilePond,Subprocess,Attachemnts},
   data() {
     return {
       attachments:[],
@@ -45,6 +48,7 @@ export default {
   apollo: {
     tasks: {
       query: Q2,
+     fetchPolicy: "cache-and-network",
       variables() {
         return {
           user: this.$store.state.userinfo.username,
@@ -96,7 +100,7 @@ export default {
         if(variant != 'danger'){
         setTimeout(()=>{
           this.$store.commit('delNotifications')
-        },15000)
+        },6000)
         setTimeout(()=>{
         
         this.$router.push('/')
@@ -198,6 +202,12 @@ export default {
                   <pf-tab title="WorkFlow Details">
                     <br>
                     <WorkFlow :ticketid="$route.params.id" />
+                 </pf-tab>                
+                  <pf-tab title="Attachments">
+                    <Attachemnts />
+                  </pf-tab>
+                  <pf-tab title="Subprocess">
+                    <Subprocess />
                   </pf-tab>
                 </pf-tabs>
               </pf-card-body>

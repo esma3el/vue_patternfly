@@ -223,6 +223,6 @@ export default {
     </tbody>
   </table>
   
-  <pre v-if="$apollo.loading"></pre>
+<pf-spinner v-if="$apollo.loading" size="sm" />
   <pf-pagination v-else v-model:page="page" v-model:per-page="perPage" :count="count" />
 </template>

@@ -103,9 +103,9 @@ services:
     environment:
       QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION: update
       QUARKUS_DATASOURCE_DB_KIND: postgresql
-      QUARKUS_DATASOURCE_USERNAME: data-index
-      QUARKUS_DATASOURCE_PASSWORD: data-index
-      QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://postgres:5432/data-index
+      QUARKUS_DATASOURCE_USERNAME: posgtres
+      QUARKUS_DATASOURCE_PASSWORD: posgtres
+      QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://postgres:5432/posgtres
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       KOGITO_DATA_INDEX_PROPS: -Dkogito.protobuf.folder=/home/kogito/data/protobufs/
 
