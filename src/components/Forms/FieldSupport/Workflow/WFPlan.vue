@@ -18,12 +18,12 @@ export default {
             <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">                
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
                   <label>Update Ticket Information</label>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
                     <label class="pf-c-radio__label" for="1">Yes</label>
@@ -37,7 +37,7 @@ export default {
                   </div>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
                     <label class="pf-c-radio__label" for="2">No</label>
@@ -53,7 +53,7 @@ export default {
               </div>
               <div class="pf-l-grid">
                 <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Start Time For Impact"
@@ -69,7 +69,7 @@ export default {
             </pf-form-group>
           </div>
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="End Time For Impact"
@@ -87,7 +87,7 @@ export default {
               </div>
               <div class="pf-l-grid">
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Planned Start Time"
@@ -103,7 +103,7 @@ export default {
             </pf-form-group>
           </div>
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Planned End Time"
@@ -122,7 +122,7 @@ export default {
 
               <div class="pf-l-grid">
                 <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="implementer"

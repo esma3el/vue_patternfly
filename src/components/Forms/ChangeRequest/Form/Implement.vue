@@ -117,21 +117,21 @@ export default {
 
 <template>
  <div class="pf-l-grid pf-m-gutter">
-  <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+  <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
       <pf-card>
         <pf-card-body>
            <Stepper />     
           </pf-card-body>
       </pf-card>
     </div>
-    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+    <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
       <div class="phase-action">
         <pf-card>
           <pf-card-body>
             <pf-spinner v-if="$apollo.loading" size="sm" />
             <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
                   <pf-form-group
                     label="Implementation Start Time"
@@ -149,7 +149,7 @@ export default {
                   </pf-form-group>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
                   <pf-form-group
                     label="Implementation End Time"
@@ -168,7 +168,7 @@ export default {
 
               <!--  -->
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Implementation Quality Approve"
@@ -183,7 +183,7 @@ export default {
                   </pf-form-group>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="osTicketForDb"
@@ -201,7 +201,7 @@ export default {
               <!--  -->
                 <!--  -->
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Description"
@@ -220,7 +220,7 @@ export default {
               <!--  -->
                 <!--  -->
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Implementation Result"
@@ -238,7 +238,7 @@ export default {
               <!--  -->
               <!--  -->
               <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Attachment"
@@ -258,7 +258,7 @@ export default {
                 </div>
               <!--  -->
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-action-group>
                     <pf-button block type="submit" variant="primary">Submit</pf-button>
@@ -271,7 +271,7 @@ export default {
       </div>
      
     </div>
-    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+    <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
       <div class="side">
         <TicketInformation />
           <br>

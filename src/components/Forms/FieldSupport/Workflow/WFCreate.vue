@@ -16,7 +16,7 @@ export default {
     <div class="pf-l-grid">
       <!-- Row 1 -->
       <!-- Title -->
-      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl">
+      <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
         <pf-form-group label="Title" required field-id="form-title-group">
           <pf-text-input
             required
@@ -32,7 +32,7 @@ export default {
         <div class="pf-l-grid">
           <!-- Change Request Source -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Change Request Source"
@@ -47,7 +47,7 @@ export default {
           </div>
           <!-- sourceTicketId -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Source Ticket ID"
@@ -62,7 +62,7 @@ export default {
           </div>
           <!-- changeIntention -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Change Intention"
@@ -81,7 +81,7 @@ export default {
         <div class="pf-l-grid">
           <!-- changeCategory -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Change Category"
@@ -98,7 +98,7 @@ export default {
           </div>
           <!-- Change Type -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group label="Change Type" required field-id="changeType">
               <pf-text-input
@@ -111,7 +111,7 @@ export default {
           </div>
           <!-- changeItem -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group label="Change Item" required field-id="changeItem">
               <pf-text-input
@@ -127,7 +127,7 @@ export default {
         <div class="pf-l-grid">
           <!--  -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl"
           >
             <pf-form-group
               label="Reason for Change"
@@ -147,7 +147,7 @@ export default {
         <div class="pf-l-grid">
           <!-- change product(productId) -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group label="Change Product" required field-id="productId">
               <pf-text-input
@@ -160,7 +160,7 @@ export default {
           </div>
           <!-- affectedNEType -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group label="AffectedNEType" field-id="affectedNEType">
               <pf-text-input
@@ -172,7 +172,7 @@ export default {
           </div>
           <!-- affectedNEId -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group label="AffectedNEId" field-id="affectedNEId">
               <pf-text-input
@@ -188,7 +188,7 @@ export default {
           <!--  -->
           <!-- priority -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group label="Priority" required field-id="priority">
               <pf-text-input
@@ -201,7 +201,7 @@ export default {
           </div>
           <!-- vendorId -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group label="Vendor" field-id="vendorId">
               <pf-text-input
@@ -212,7 +212,7 @@ export default {
             </pf-form-group>
           </div>
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group label="Region" required field-id="region">
               <pf-text-input
@@ -227,7 +227,7 @@ export default {
         <!--startTimeForImpact-->
         <div class="pf-l-grid">
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Affected ServiceId"
@@ -243,7 +243,7 @@ export default {
             </pf-form-group>
           </div>
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Start Time For Impact"
@@ -261,7 +261,7 @@ export default {
 
           <!-- endTimeForImpact -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="End Time For Impact"
@@ -280,7 +280,7 @@ export default {
         </div>
         <div class="pf-l-grid">
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Planned Start Time"
@@ -296,7 +296,7 @@ export default {
             </pf-form-group>
           </div>
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group
               label="Planned End Time"
@@ -325,7 +325,7 @@ export default {
         <div class="pf-l-grid">
           <!--  -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl"
           >
             <pf-form-group label="Work Plan" field-id="workPlan">
               <pf-textarea
@@ -347,7 +347,7 @@ export default {
           <div class="pf-l-grid">
             <!--  -->
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl"
             >
               <pf-form-group label="Test Result" field-id="testResult">
                 <pf-textarea
@@ -362,7 +362,7 @@ export default {
           <div class="pf-l-grid">
             <!--  -->
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl"
             >
               <pf-form-group
                 label="Description"
@@ -400,7 +400,7 @@ export default {
         <div class="pf-l-grid">
           <!--  -->
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
           >
             <pf-form-group label="implementer" required field-id="implementer">
               <pf-text-input

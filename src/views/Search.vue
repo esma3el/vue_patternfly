@@ -167,7 +167,7 @@ export default {
     <pf-card-body>
       <section class="pf-l-grid">
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-3-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
         >
           <pf-form-group required label="Workflow" field-id="workflow-group">            
             <div class="pf-c-form__group-control">
@@ -186,7 +186,7 @@ export default {
             </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-3-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
         >
           <pf-form-group label="Ticket ID" field-id="form-id-group">
             <pf-text-input
@@ -198,7 +198,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
         >
           <pf-form-group label="Ticket Title" field-id="form-title-group">
             <pf-text-input
@@ -210,7 +210,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
         >
           <div class="pf-c-form__group-label">
             <label class="pf-c-form__label" for="Change Category">
@@ -226,7 +226,7 @@ export default {
           </div>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-3-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
         >
           <pf-form-group label="From" required field-id="startTime">
             <pf-text-input
@@ -239,7 +239,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-3-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
         >
           <pf-form-group label="To" required field-id="endTime">
             <pf-text-input
@@ -253,7 +253,7 @@ export default {
         </div>
         
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-2-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-2-col-on-xl"
         >
           <div class="search-date">
             <a href="#" @click="setdate" id="1">Today</a>
@@ -264,10 +264,10 @@ export default {
         
         <br>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-2-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-2-col-on-xl"
         ></div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-4-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
         >
           <pf-action-group class="btn">
             <pf-button

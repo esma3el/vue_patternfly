@@ -71,7 +71,7 @@ export default {
         <Nav />
       </pf-page-sidebar>
     </template>
-    <section class="pf-c-page__main-section pf-m-limit-width">
+    <section class="pf-c-page__main-section">
       <div class="spinner" v-if="$store.state.spinner">
         <pf-spinner />
       </div>
@@ -100,13 +100,13 @@ export default {
 // @import "@carbon/styles/css/styles.css";
 // @import "@carbon/charts/styles.css";
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+// #app {
+//   font-family: Avenir, Helvetica, Arial, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   text-align: center;
+//   color: #2c3e50;
+// }
 .pf-c-page__main-section {
   min-height: calc(100vh - 4.75rem);
   height: 100%;

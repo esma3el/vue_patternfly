@@ -111,7 +111,7 @@ if(req.ok){
 
 <template>
       <div class="pf-l-grid pf-m-gutter">
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
       <pf-card>
         <pf-card-body>
            <Stepper />     
@@ -119,7 +119,7 @@ if(req.ok){
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Handle Incident</pf-card-title>
@@ -128,7 +128,7 @@ if(req.ok){
                 <pf-spinner v-if="$apollo.loading" size="sm" />
             <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Operation Mode" field-id="handleOperationMode" required>
                                 <div class="pf-c-form__group-control">
                                     <select class="pf-c-form-control"
@@ -139,14 +139,14 @@ if(req.ok){
                                 </div>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Description" field-id="handleDescription">
                                 <pf-textarea id="handleDescription_input" name="handleDescription"
                                     v-model="data.handleDescription" />
                             </pf-form-group>
                         </div>
                     <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Attachment"
@@ -174,7 +174,7 @@ if(req.ok){
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>

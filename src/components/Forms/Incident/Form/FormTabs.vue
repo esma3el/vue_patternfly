@@ -95,7 +95,7 @@ export default {
       <br />
       <div class="pf-l-grid">
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Title" field-id="title">
             <pf-text-input id="title_input" name="title" readonly 
@@ -103,7 +103,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Initial Diagnosis?" field-id="initialDiagnosis">
             <div class="pf-c-form__group-control">
@@ -117,7 +117,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Description" field-id="createDescription">
             <pf-textarea
@@ -129,7 +129,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Probable Cause" field-id="probableCause">
             <pf-textarea
@@ -146,7 +146,7 @@ export default {
       <br />
       <div class="pf-l-grid">
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Fault Level">
             <pf-text-input
@@ -157,7 +157,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Domain">
             <pf-text-input
@@ -168,7 +168,7 @@ export default {
           </pf-form-group>
         </div>        
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Network type">
             <pf-text-input
@@ -179,7 +179,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Alarm ID">
             <pf-text-input
@@ -190,7 +190,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Alarm Name">
             <pf-text-input
@@ -201,7 +201,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="First Occur Time">
             <pf-text-input
@@ -212,7 +212,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Site ID">
             <pf-text-input
@@ -223,7 +223,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Cluster ID">
             <pf-text-input
@@ -234,7 +234,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Zone ID">
             <pf-text-input
@@ -245,7 +245,7 @@ export default {
           </pf-form-group>
         </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Device ID">
             <pf-text-input
@@ -259,7 +259,7 @@ export default {
     </pf-tab-content>
     <pf-tab-content ref="ProcessIncident">
       <div class="pf-l-grid">
-      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+      <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
         <pf-form-group
           label="Service Recovery Time"
           field-id="recoveryTime"
@@ -274,7 +274,7 @@ export default {
           />
         </pf-form-group>
       </div>
-      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+      <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
         <pf-form-group
           label="Service Interruption Time"
           field-id="interruptionTime"
@@ -289,7 +289,7 @@ export default {
           />
         </pf-form-group>
       </div>
-      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+      <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
         <pf-form-group
           label="Root Cause Category"
           field-id="rootCauseCategory"
@@ -304,7 +304,7 @@ export default {
           </div>
         </pf-form-group>
       </div>
-      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+      <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
         <pf-form-group
           label="Root Cause Category"
           field-id="rootCauseCategory"
@@ -319,7 +319,7 @@ export default {
           </div>
         </pf-form-group>
       </div>
-      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+      <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
         <pf-form-group
           label="Root Cause Category"
           field-id="rootCauseCategory"
@@ -334,7 +334,7 @@ export default {
           </div>
         </pf-form-group>
       </div>
-      <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+      <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
         <pf-form-group
           label="Root Cause Description"
           field-id="rootCauseDescription"
@@ -348,7 +348,7 @@ export default {
         </pf-form-group>
       </div>
       <div
-        class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+        class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
       >
         <pf-form-group
           label="Fault Reason Description"
@@ -363,7 +363,7 @@ export default {
         </pf-form-group>
       </div>
       <div
-        class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+        class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
       >
         <pf-form-group
           label="Fault Solution Description"
@@ -383,7 +383,7 @@ export default {
       <br />
       <div class="pf-l-grid">
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <pf-form-group label="Title" field-id="title">
             <pf-text-input id="title_input" name="title" readonly 
@@ -400,7 +400,7 @@ export default {
         <pf-card-body>
           <div class="pf-l-grid">
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Status" field-id="status">
               <pf-text-input id="status_input" name="status" readonly 
@@ -408,7 +408,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Trigger Time" field-id="trigger">
               <pf-text-input id="trigger_input" name="trigger" readonly 
@@ -416,7 +416,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Target Time" field-id="target">
               <pf-text-input id="target_input" name="target" readonly 
@@ -424,7 +424,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Actual Time" field-id="actual">
               <pf-text-input id="actual_input" name="actual" readonly 
@@ -441,7 +441,7 @@ export default {
         <pf-card-body>
           <div class="pf-l-grid">
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Status" field-id="status">
               <pf-text-input id="status_input" name="status" readonly 
@@ -449,7 +449,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Trigger Time" field-id="trigger">
               <pf-text-input id="trigger_input" name="trigger" readonly 
@@ -457,7 +457,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Milestone Time" field-id="milestone">
               <pf-text-input id="milestone_input" name="milestone" readonly 
@@ -465,7 +465,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Target Time" field-id="target">
               <pf-text-input id="target_input" name="target" readonly 
@@ -473,7 +473,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Actual Time" field-id="actual">
               <pf-text-input id="actual_input" name="actual" readonly 

@@ -76,18 +76,18 @@ export default {
         <pf-tab-content ref="supportRequest">
           <br>
           <div class="pf-l-grid">
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Originator">
                 <pf-text-input disabled v-model="fieldsupport[0].originator"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Incident Support Category">
                 <pf-text-input disabled v-model="fieldsupport[0].incidentSupportGroup"/>
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Support Request Category">
                 <pf-text-input disabled
@@ -96,7 +96,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Support Request Type">
                 <pf-text-input disabled
@@ -105,7 +105,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Support Request Item">
                 <pf-text-input disabled
@@ -114,7 +114,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
             >
               <pf-form-group label="Support Request Description">
                 <pf-textarea
@@ -124,7 +124,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Support Complete Time">
                 <pf-text-input disabled
@@ -137,52 +137,52 @@ export default {
         <pf-tab-content ref="faultAlarm">
           <br>
           <div class="pf-l-grid">
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Fault Level">
                 <pf-text-input disabled v-model="fieldsupport[0].faultlevel"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Domain">
                 <pf-text-input disabled v-model="fieldsupport[0].domain"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Network type">
                 <pf-text-input disabled v-model="fieldsupport[0].networktype"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Alarm ID">
                 <pf-text-input disabled v-model="fieldsupport[0].alarmid"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Alarm Name">
                 <pf-text-input disabled v-model="fieldsupport[0].alarmname"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="First Occur Time">
                 <pf-text-input disabled v-model="fieldsupport[0].firstoccurtime"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Site ID">
                 <pf-text-input disabled v-model="fieldsupport[0].siteid"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Cluster ID">
                 <pf-text-input disabled v-model="fieldsupport[0].clusterid"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Zone ID">
                 <pf-text-input disabled v-model="fieldsupport[0].zoneid"/>
               </pf-form-group>
             </div>
-            <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+            <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
               <pf-form-group label="Device ID">
                 <pf-text-input disabled v-model="fieldsupport[0].deviceid"/>
               </pf-form-group>

@@ -15,12 +15,12 @@ export default {
             <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
                   <label>Operation Mode</label>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
                     <label class="pf-c-radio__label" for="1">Yes</label>
@@ -35,7 +35,7 @@ export default {
                   </div>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
                     <label class="pf-c-radio__label" for="2">No</label>
@@ -55,12 +55,12 @@ export default {
               <!--  -->
               <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <label>SatisfactionDegree</label>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
                     <label class="pf-c-radio__label" for="1">Poor</label>
@@ -75,7 +75,7 @@ export default {
                   </div>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
                     <label class="pf-c-radio__label" for="2">Fair</label>
@@ -90,7 +90,7 @@ export default {
                   </div>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
                     <label class="pf-c-radio__label" for="2">Excellent</label>
@@ -110,7 +110,7 @@ export default {
                 <!--  -->
               <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group label="Description" field-id="description">
                     <pf-textarea

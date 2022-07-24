@@ -83,7 +83,7 @@ export default {
 <pf-card>
   <pf-card-body>
   <pf-form @submit.prevent="searchdata" class="pf-l-grid">
-    <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl">
+    <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl">
       <div class="pf-c-form__group-label">
         <label class="pf-c-form__label" for="Change Category">
           <span class="pf-c-form__label-text">Workflow</span>
@@ -102,12 +102,12 @@ export default {
         </select>
       </div>
     </div>
-    <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl">
+    <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl">
       <pf-form-group label="Ticket ID" field-id="form-id-group">
         <pf-text-input id="form-id-input" name="id" v-model="search.id" />
       </pf-form-group>
     </div>
-    <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl">
+    <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl">
       <pf-form-group label="Ticket Title" field-id="form-title-group">
         <pf-text-input
           id="form-title-input"
@@ -116,7 +116,7 @@ export default {
         />
       </pf-form-group>
     </div>
-    <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl">
+    <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl">
       <div class="pf-c-form__group-label">
         <label class="pf-c-form__label" for="Change Category">
           <span class="pf-c-form__label-text">Ticket Status</span>
@@ -138,10 +138,10 @@ export default {
       </div>
 
       <div
-      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-3-col-on-xl"
+      class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
     ></div>
       <div
-      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-3-col-on-xl"
+      class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
     >
       <pf-form-group
         label="From"
@@ -158,7 +158,7 @@ export default {
       </pf-form-group>
     </div>
       <div
-      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-3-col-on-xl"
+      class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
     >
       <pf-form-group
         label="End"
@@ -175,10 +175,10 @@ export default {
       </pf-form-group>
       </div>
        <div
-      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-1-col-on-xl"
+      class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-1-col-on-xl"
     ></div>
      <div
-      class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-2-col-on-xl"
+      class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-2-col-on-xl"
     >
     <pf-action-group class="btn">
       <pf-button type="submit" variant="primary" @click="reset" :disabled="!search.processname">Search</pf-button>

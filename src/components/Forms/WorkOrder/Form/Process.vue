@@ -229,7 +229,7 @@ export default {
 
 <template>
       <div class="pf-l-grid pf-m-gutter">
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
       <pf-card>
         <pf-card-body>
            <Stepper />     
@@ -237,7 +237,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Process Work Order</pf-card-title>
@@ -251,24 +251,24 @@ export default {
               :class="tasks ? '' : 'hide_unauthorized'"
             >
                     <div class="pf-l-grid">
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                             <pf-button block variant="tertiary" @click="open1 = !open1"><i class="fa-solid fa-screwdriver-wrench"></i> Support Request Request</pf-button>
                         </div>
                         <pf-divider />
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Service Recovery Time" field-id="recoveryTime" required>
                                 <pf-text-input type="datetime-local" id="recoveryTime_input" name="recoveryTime" required
                                     v-model="data.faultSolution.recoveryTime"/>
                             </pf-form-group>
                         </div>
-                                                <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                                                <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
 
                             <pf-form-group label="Service Interruption Time" field-id="interruptionTime" readonly>
                                 <pf-text-input type="time" id="interruptionTime_input" name="interruptionTime" readonly
                                     v-model="data.faultSolution.interruptionTime"/>
                             </pf-form-group>                            
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
             <pf-form-group label="Root Cause Category" field-id="rootCauseCategory" required>
               <div class="pf-c-form__group-control">
                 <select
@@ -287,7 +287,7 @@ export default {
             </pf-form-group>
           </div>
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+            class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
           >
               <pf-form-group label="Root Cause Type" field-id="rootCauseType" required>
               <div class="pf-c-form__group-control">
@@ -306,7 +306,7 @@ export default {
             </pf-form-group>
           </div>
            <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+            class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
           >
                       <pf-form-group label="Root Cause Item" field-id="rootCauseItem" required>
 
@@ -325,26 +325,26 @@ export default {
               </div>
             </pf-form-group>
           </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Root Cause Description" field-id="rootCauseDescription">
                                 <pf-text-input id="rootCauseDescription_input" name="rootCauseDescription"
                                     v-model="data.faultSolution.rootCauseDescription"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Fault Reason Description" field-id="faultReasonDescription">
                                 <pf-textarea id="faultReasonDescription_input" name="faultReasonDescription"
                                     v-model="data.faultSolution.faultReasonDescription" />
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Fault Solution Description" field-id="faultSolutionDescription">
                                 <pf-textarea id="faultSolutionDescription_input" name="faultSolutionDescription"
                                     v-model="data.faultSolution.faultSolutionDescription" />
                             </pf-form-group>
                         </div>
                     <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Attachment"
@@ -371,7 +371,7 @@ export default {
                               <template #description>
                             <pf-form @submit.prevent="submitWO" class="pf-l-grid">
                               <div class="pf-l-grid">                                  
-                                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                                             <pf-form-group label="Support Request Description" field-id="processDescription">
                                                 <pf-textarea id="processDescription_input" name="processDescription"
                                                     v-model="data.processDescription" />
@@ -393,7 +393,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>

@@ -112,7 +112,7 @@ export default {
 
 <template>
       <div class="pf-l-grid pf-m-gutter">
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
       <pf-card>
         <pf-card-body>
            <Stepper />     
@@ -120,7 +120,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Assign Support Engineer</pf-card-title>
@@ -129,7 +129,7 @@ export default {
                 <pf-spinner v-if="$apollo.loading" size="sm" />
             <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.legnth != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Operation Mode" field-id="assignOperationMode" required>
                                 <select class="pf-c-form-control"
                                         v-model="data.assignOperationMode" required >
@@ -138,26 +138,26 @@ export default {
                                     </select>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Description" field-id="assignDescription">
                                 <pf-textarea id="assignDescription_input" name="assignDescription"
                                     v-model="data.assignDescription" />
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="BO Engineer" field-id="processor" required>
                                 <pf-text-input id="processor_input" name="processor" required
                                     v-model="data.processor"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="BO Group" field-id="processors" required>
                                 <pf-text-input id="processors_input" name="processors" required
                                     v-model="data.processors"/>
                             </pf-form-group>
                         </div>
                         <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Attachment"
@@ -185,7 +185,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>

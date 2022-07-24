@@ -1,36 +1,36 @@
 <template>
   <div class="pf-l-grid pf-m-gutter">
-  <div class="pf-l-grid__item pf-m-8-col pf-m-8-col-on-md pf-m-12-col-on-xl">
+  <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
 
   <pf-card>
     <pf-card-body>
         <pf-spinner v-if="$apollo.loading" size="sm" />
       <div class="pf-l-grid pf-m-gutter" v-else>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
           <pf-title size="md">Ticket ID</pf-title>
           <small>{{data.businesskey}}</small>        
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
           <pf-title size="md">Start Time</pf-title>
           <small>{{data.starttime.replace("T"," ").substring(0,16)}}</small>                
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
           <pf-title size="md">Ticket Originator</pf-title>
           <small>{{data.variables}}</small>                
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
           <pf-title size="md">Process Name</pf-title>
           <small>{{data.processname}}</small>                
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
           <pf-title size="md">Current Phase</pf-title>
           <small>{{data.tasks[0]?.referencename || "Closed"}}</small>          
         </div>
-        <div v-if="data.tasks.length !== 0" class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+        <div v-if="data.tasks.length !== 0" class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
           <pf-title size="md">Current Handlers</pf-title>
           <small v-for="handler in data.tasks[0]?.tasks_potential_users">{{handler.user_id || "none"}},</small>                
         </div>
-        <div v-if="data.tasks[0].length !== 0" class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+        <div v-if="data.tasks[0].length !== 0" class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
           <pf-title  size="md">Current Groups</pf-title>
           <small v-for="handler in data.tasks[0]?.tasks_potential_groups">{{handler.group_id}}</small>                
         </div>
@@ -38,7 +38,7 @@
     </pf-card-body>
   </pf-card>
   </div>
-  <!-- <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-4-col-on-xl">
+  <!-- <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl">
       <pf-card>
           <pre v-if="$apollo.loading"></pre>
           <pf-card-body v-else>        

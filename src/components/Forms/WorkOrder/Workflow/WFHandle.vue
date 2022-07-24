@@ -14,7 +14,7 @@ export default {
 <template>
             <pf-form @submit.prevent="submitData" class="pf-l-grid">
                     <div class="pf-l-grid wf-style">
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Operation Mode" field-id="handleOperationMode">
                                 <div class="pf-c-form__group-control">
                                     <select class="pf-c-form-control" readonly
@@ -25,7 +25,7 @@ export default {
                                 </div>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Description" field-id="handleDescription">
                                 <pf-textarea id="handleDescription_input" name="handleDescription" readonly
                                     v-model="data.handleDescription" />

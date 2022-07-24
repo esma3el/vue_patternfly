@@ -18,7 +18,7 @@ export default {
             <pf-form @submit.prevent="submitData" class="pf-l-grid">
               <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl"
                 >
                   <pf-form-group label="Priority" field-id="priority">
                     <pf-text-input
@@ -32,7 +32,7 @@ export default {
               </div>
               <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl"
                 >
                   <pf-form-group label="Work Plan" field-id="workPlan">
                     <pf-textarea
@@ -46,7 +46,7 @@ export default {
               <div class="pf-l-grid">
             <!--  -->
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl"
             >
               <pf-form-group label="Test Result" field-id="testResult">
                 <pf-textarea
@@ -60,7 +60,7 @@ export default {
               <div class="pf-l-grid">
             <!--  -->
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl"
             >
               <pf-form-group label="rollback" field-id="rollback">
                 <pf-textarea

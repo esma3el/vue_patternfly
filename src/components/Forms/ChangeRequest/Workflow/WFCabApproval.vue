@@ -15,12 +15,12 @@ export default {
             <pf-form @submit.prevent="submitData">
               <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                  class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
                 >
                   <label>Operation Mode</label>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
                     <label class="pf-c-radio__label" for="1">Accept</label>
@@ -35,7 +35,7 @@ export default {
                   </div>
                 </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-3-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-3-col-on-xl"
                 >
                   <div class="pf-c-radio">
                     <label class="pf-c-radio__label" for="2">Reject</label>
@@ -53,7 +53,7 @@ export default {
               <div class="pf-l-grid">
                 <!--  -->
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-8-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-8-col-on-xl"
                 >
                   <pf-form-group label="Description" field-id="description">
                     <pf-textarea
@@ -68,7 +68,7 @@ export default {
 
               <div class="pf-l-grid">
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-4-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-4-col-on-xl"
                 >
                   <pf-form-group
                     label="Customer"

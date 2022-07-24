@@ -18,7 +18,7 @@ export default {
         <pf-form @submit.prevent="submitData" class="pf-l-grid">
           <div class="pf-l-grid">
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group
                 label="Implementation Start Time"
@@ -33,7 +33,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group
                 label="Implementation End Time"
@@ -52,7 +52,7 @@ export default {
           <!--  -->
           <div class="pf-l-grid">
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group
                 label="Implementation Quality Approve"
@@ -66,7 +66,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="osTicketForDb" field-id="osTicketForDb">
                 <pf-text-input
@@ -82,7 +82,7 @@ export default {
           <div class="pf-l-grid">
             <!--  -->
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
             >
               <pf-form-group
                 label="Description"
@@ -102,7 +102,7 @@ export default {
           <div class="pf-l-grid">
             <!--  -->
             <div
-              class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
             >
               <pf-form-group
                 label="Implementation Result"

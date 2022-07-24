@@ -146,14 +146,14 @@ if(req.ok){
 
 <template>
   <div class="pf-l-grid pf-m-gutter">
-    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+    <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
       <pf-card>
         <pf-card-body>
            <Stepper />     
           </pf-card-body>
       </pf-card>
     </div>
-    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+    <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
       <div class="phase-action">        
         <pf-card>
           <pf-card-title> Update Ticket Information </pf-card-title>
@@ -167,12 +167,12 @@ if(req.ok){
               :class="tasks.length != 0 ? '' : 'hide_unauthorized'"
             >
               <div
-                class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
               >
                 <pf-switch v-model:checked="checked" />
               </div>
               <div
-                class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Start Time For Impact"
@@ -189,7 +189,7 @@ if(req.ok){
                 </pf-form-group>
               </div>
               <div
-                class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="End Time For Impact"
@@ -206,7 +206,7 @@ if(req.ok){
                 </pf-form-group>
               </div>
               <div
-                class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Planned Start Time"
@@ -223,7 +223,7 @@ if(req.ok){
                 </pf-form-group>
               </div>
               <div
-                class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Planned End Time"
@@ -242,7 +242,7 @@ if(req.ok){
               </div>
 
               <div
-                class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
               >
                 <pf-form-group label="implementer" field-id="implementer">
                   <pf-text-input
@@ -255,7 +255,7 @@ if(req.ok){
                 </pf-form-group>
               </div>
                 <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Attachment"
@@ -274,7 +274,7 @@ if(req.ok){
                   <br />
                 </div>
               <div
-                class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
               >
                 <pf-action-group>
                   <pf-button block type="submit" variant="primary">Submit</pf-button>
@@ -286,7 +286,7 @@ if(req.ok){
         </pf-card>
       </div>
     </div>
-    <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+    <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
       <div class="side">
         <pf-card>
           <pf-card-body>

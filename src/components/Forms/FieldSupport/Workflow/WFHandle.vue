@@ -17,7 +17,7 @@ export default {
       <pf-card-body>
         <div class="pf-l-grid">
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+            class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
           >
             <pf-form-group
               label="Operation Mode"
@@ -33,7 +33,7 @@ export default {
             </pf-form-group>
           </div>
           <div
-            class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
           >
             <pf-form-group label="Description" field-id="handleDescription">
               <pf-textarea

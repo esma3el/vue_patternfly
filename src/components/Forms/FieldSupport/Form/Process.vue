@@ -111,7 +111,7 @@ export default {
 
 <template>
       <div class="pf-l-grid pf-m-gutter">
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-12-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
       <pf-card>
         <pf-card-body>
            <Stepper />     
@@ -119,7 +119,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Process Field Support Request</pf-card-title>
@@ -128,20 +128,20 @@ export default {
                   <pf-spinner v-if="$apollo.loading" size="sm" />
                   <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Complete Time" field-id="processCompleteTime" required>
                                 <pf-text-input type="datetime-local" id="processCompleteTime_input" name="processCompleteTime" required
                                     v-model="data.processCompleteTime"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-12-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Support Description" field-id="processDescription">
                                 <pf-textarea id="processDescription_input" name="processDescription"
                                     v-model="data.processDescription" />
                             </pf-form-group>
                         </div>
                     <div
-                  class="pf-l-grid__item pf-m-4-col pf-m-8-col-on-md pf-m-12-col-on-xl"
+                  class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
                 >
                   <pf-form-group
                     label="Attachment"
@@ -169,7 +169,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>
