@@ -212,11 +212,7 @@ export default {
       </pf-card>
     </div>
         <div
-<<<<<<< HEAD
           class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl"
-=======
-          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
->>>>>>> c018e437ca694c5b642f378023527c7cb6e7a66a
         >
           <div class="phase-action">
             <pf-card>
