@@ -110,6 +110,7 @@ export default {
           task_id: this.$route.params.taskid,
         };
       },
+      fetchPolicy: "cache-and-network"
     },
   },   
   computed: {
@@ -214,31 +215,12 @@ if(req.ok){
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-5-col-on-xl">
           <div class="phase-action">
             <pf-card>
-              <pf-card-title>Process Incident</pf-card-title>
+              <pf-card-title>Process Work Order</pf-card-title>
               <pf-divider />
               <pf-card-body>
                 <pf-spinner v-if="$apollo.loading" size="sm" />
-            <pf-form
-              @submit.prevent="submitData"
-              class="pf-l-grid"
-              v-else
-              :class="tasks ? '' : 'hide_unauthorized'"
-            >
+                <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
-                        <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
-                          <pf-form-group label="Operation Mode" field-id="operationMode" required>
-              <div class="pf-c-form__group-control">
-                <select
-                  class="pf-c-form-control"
-                  v-model="data.processOperationMode"
-                >
-                  <option value="Resolve">Resolve</option>
-                  <option value="Work-Order">Work-Order</option>                
-                </select>
-              </div>
-            </pf-form-group>
-                  </div>
-                  <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl"></div>
                         <div class="pf-l-grid__item pf-m-4-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Service Recovery Time" field-id="recoveryTime" required>
                                 <pf-text-input type="datetime-local" id="recoveryTime_input" name="recoveryTime" required

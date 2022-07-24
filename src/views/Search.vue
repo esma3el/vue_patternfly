@@ -165,7 +165,6 @@ export default {
 <template>
   <pf-card>
     <pf-card-body>
-      <!-- <pf-form @submit.prevent="searchdata" class="pf-l-grid"> -->
       <section class="pf-l-grid">
         <div
           class="pf-l-grid__item pf-m-4-col pf-m-4-col-on-md pf-m-3-col-on-xl"
@@ -224,17 +223,6 @@ export default {
               <pf-select-option :checked="true" value="Completed"/>
               <pf-select-option :checked="true" value="Pending" />
             </pf-select>
-            <!-- <select
-              class="pf-c-form-control"
-              v-model="search.state"
-              name=""
-              id=""
-            >
-              <option value="">All ticket Status</option>
-              <option value="Completed">Completed</option>
-              <option value="Ready">Running</option>
-              <option value="Closed">Closed</option>
-            </select> -->
           </div>
         </div>
         <div
