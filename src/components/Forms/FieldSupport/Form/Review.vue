@@ -102,7 +102,7 @@ export default {
           this.Notification(
             "success",
             `status ${req.status}`,
-            `${req.statusText} ${new Date().toLocaleString()}.`
+            `Saved Successfuly ${new Date().toLocaleString()}.`
           )
         }
         else{          
@@ -144,7 +144,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
+          class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Review Support Request</pf-card-title>
@@ -153,7 +153,7 @@ export default {
                 <pf-spinner v-if="$apollo.loading" size="sm" />
             <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks.length != 0 ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl">
                             <pf-form-group label="Operation Mode" field-id="reviewOperationMode" required>
                                     <select class="pf-c-form-control"
                                         v-model="data.reviewOperationMode" required >
@@ -168,25 +168,25 @@ export default {
                                     v-model="data.reviewDescription" />
                             </pf-form-group>
                         </div>
-                        <div v-if="fieldsupport[0]?.incidentsupportcategory == 'BO-Support'" class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div v-if="fieldsupport[0]?.incidentsupportcategory == 'BO-Support'" class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="FO User" field-id="assigner" required>
                                 <pf-text-input id="assigner_input" name="assigner" required
                                     v-model="data.assigner"/>
                             </pf-form-group>
                         </div>
-                        <div v-else class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div v-else class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="FM User" field-id="processor" required>
                                 <pf-text-input id="processor_input" name="processor" required
                                     v-model="data.processor"/>
                             </pf-form-group>
                         </div>
-                        <div v-if="fieldsupport[0]?.incidentsupportcategory == 'BO-Support'" class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div v-if="fieldsupport[0]?.incidentsupportcategory == 'BO-Support'" class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="FO Group" field-id="assigners" required>
                                 <pf-text-input id="assigners_input" name="assigners" required
                                     v-model="data.assigners"/>
                             </pf-form-group>
                         </div>
-                        <div v-else class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div v-else class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="FM Group" field-id="processors" required>
                                 <pf-text-input id="processors_input" name="processors" required
                                     v-model="data.processors"/>
@@ -221,7 +221,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>

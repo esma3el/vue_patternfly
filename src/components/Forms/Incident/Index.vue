@@ -14,7 +14,7 @@ export default {
 <template>
       <div class="pf-l-grid pf-m-gutter">
         <!-- <div
-          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+          class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
         >
           <div class="phase-action">
             <pf-card>

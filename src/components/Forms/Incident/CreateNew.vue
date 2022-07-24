@@ -221,7 +221,7 @@ if(req.ok){
           this.Notification(
             "success",
             `status ${req.status}`,
-            `${req.statusText} ${new Date().toLocaleString()}.`
+            `Saved Successfuly ${new Date().toLocaleString()}.`
           )
         }
         else{          
@@ -295,13 +295,13 @@ if(req.ok){
                             </pf-form-group>
                         </div>
                         <pf-divider />
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Description" field-id="createDescription">
                                 <pf-textarea id="createDescription_input" name="createDescription"
                                     v-model="data.information.description" />
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Probable Cause" field-id="probableCause">
                                 <pf-textarea id="probableCause_input" name="probableCause"
                                     v-model="data.information.probableCause" />
@@ -424,7 +424,7 @@ if(req.ok){
                                     v-model="data.faultAlarm.faultNumber"/>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                           <pf-form-group label="Fault Summary" field-id="faultSummary">
                             <pf-textarea id="faultSummary_input" name="faultSummary"
                                     v-model="data.faultAlarm.faultSummary" />

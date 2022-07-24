@@ -82,7 +82,7 @@ export default {
           this.Notification(
             "success",
             `status ${req.status}`,
-            `${req.statusText} ${new Date().toLocaleString()}.`
+            `Saved Successfuly ${new Date().toLocaleString()}.`
           )
         }
         else{          
@@ -124,7 +124,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
+          class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Confirm Incident</pf-card-title>
@@ -133,7 +133,7 @@ export default {
                 <pf-spinner v-if="$apollo.loading" size="sm" />
             <pf-form @submit.prevent="submitData" class="pf-l-grid" v-else :class="tasks ? '' : 'hide_unauthorized'" >
                     <div class="pf-l-grid">
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Operation Mode" field-id="confirmOperationMode" required>
                                 <div class="pf-c-form__group-control">
                                     <select class="pf-c-form-control"
@@ -144,7 +144,7 @@ export default {
                                 </div>
                             </pf-form-group>
                         </div>
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Breached SLA?" field-id="slaBreached" required>
                                 <div class="pf-c-form__group-control">
                                     <select class="pf-c-form-control"
@@ -190,7 +190,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>

@@ -400,14 +400,3 @@ export default {
     </pf-card>  
   </pf-form>
 </template>
-
-<style>
-.pf-l-grid {
-  gap: 2em;
-}
-
-/* .wf-style ,.wf-style input{
-  
-  opacity: .8;
-} */
-</style>

@@ -75,7 +75,7 @@ export default {
           <br>
           <div class="pf-l-grid">
             <div
-              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group
                 label="Change Intention"
@@ -89,7 +89,7 @@ export default {
               </pf-form-group>
             </div>
             <div
-              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="Change Type"  field-id="changeType">
                 <pf-text-input
@@ -102,7 +102,7 @@ export default {
             </div>
 
             <div
-              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group
                 label="Change Request Source"
@@ -119,7 +119,7 @@ export default {
             <!--  -->
             
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Change Category"
@@ -136,7 +136,7 @@ export default {
               </div>
               <!--  -->
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Change Type"
@@ -153,7 +153,7 @@ export default {
                 </pf-form-group>
               </div>
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Change Item"
@@ -170,7 +170,7 @@ export default {
               </div>
             
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Source Ticket ID"
@@ -187,7 +187,7 @@ export default {
               <!--  -->
               <!--  -->
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group label="Region"  field-id="region">
                   <pf-text-input id="region_input" readonly name="region" :value="requests[0].region" />
@@ -196,7 +196,7 @@ export default {
               <!--  -->
               <!--  -->
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group label="Priority"  field-id="priority">
                   <pf-text-input
@@ -209,7 +209,7 @@ export default {
               </div>
             
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group label="Vendor" field-id="vendorId">
                   <pf-text-input
@@ -222,7 +222,7 @@ export default {
               <!--  -->
               <!--  -->
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Change Category"
@@ -241,7 +241,7 @@ export default {
               <!--  -->
             
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group label="AffectedNEType" field-id="affectedNEType">
                   <pf-text-input
@@ -254,7 +254,7 @@ export default {
               <!--  -->
               <!--  -->
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group label="AffectedNEId" field-id="affectedNEId">
                   <pf-text-input
@@ -268,7 +268,7 @@ export default {
               <!--  -->
             
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Planned Start Time"
@@ -286,7 +286,7 @@ export default {
               <!--  -->
               <!--  -->
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Planned End Time"
@@ -305,7 +305,7 @@ export default {
               <!--  -->
             
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Start Time For Impact"
@@ -323,7 +323,7 @@ export default {
               <!--  -->
               <!--  -->
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="End Time For Impact"
@@ -387,7 +387,7 @@ export default {
           <div class="pf-l-grid">
             <!-- affectedNEType -->
             <div
-              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="AffectedNEType" field-id="affectedNEType">
                 <pf-text-input
@@ -399,7 +399,7 @@ export default {
             </div>
             <!--  -->
             <div
-              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group
                 label="Affected ServiceId"
@@ -416,7 +416,7 @@ export default {
             </div>
             <!--  -->
             <div
-              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group label="AffectedNEId" field-id="affectedNEId">
                 <pf-text-input
@@ -427,7 +427,7 @@ export default {
               </pf-form-group>
             </div>
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Planned Start Time"
@@ -445,7 +445,7 @@ export default {
               <!--  -->
               <!--  -->
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Planned End Time"
@@ -462,7 +462,7 @@ export default {
               </div>
            
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="Start Time For Impact"
@@ -480,7 +480,7 @@ export default {
               <!--  -->
               <!--  -->
               <div
-                class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+                class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
               >
                 <pf-form-group
                   label="End Time For Impact"
@@ -529,7 +529,7 @@ export default {
           <br>
           <div class="pf-l-grid">
             <div
-              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group
                 label="Planned Start Time"
@@ -547,7 +547,7 @@ export default {
             <!--  -->
             <!--  -->
             <div
-              class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+              class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
             >
               <pf-form-group
                 label="Planned End Time"

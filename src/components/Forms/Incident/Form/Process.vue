@@ -196,7 +196,7 @@ export default {
           this.Notification(
             "success",
             `status ${req.status}`,
-            `${req.statusText} ${new Date().toLocaleString()}.`
+            `Saved Successfuly ${new Date().toLocaleString()}.`
           )
         }
         else{          
@@ -238,7 +238,7 @@ export default {
       </pf-card>
     </div>
         <div
-          class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
+          class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="phase-action">
             <pf-card>
               <pf-card-title>Process Incident</pf-card-title>
@@ -257,20 +257,20 @@ export default {
                                                         
                         </div>
                         <pf-divider />
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Service Recovery Time" field-id="recoveryTime" required>
                                 <pf-text-input type="datetime-local" id="recoveryTime_input" name="recoveryTime" required
                                     v-model="data.faultSolution.recoveryTime"/>
                             </pf-form-group>
                         </div>
-                                                <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                                                <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
 
                             <pf-form-group label="Service Interruption Time" field-id="interruptionTime" readonly>
                                 <pf-text-input type="time" id="interruptionTime_input" name="interruptionTime" readonly
                                     v-model="data.faultSolution.interruptionTime"/>
                             </pf-form-group>                            
                         </div>
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
             <pf-form-group label="Root Cause Category" field-id="rootCauseCategory" required>
               <div class="pf-c-form__group-control">
                 <select
@@ -289,7 +289,7 @@ export default {
             </pf-form-group>
           </div>
           <div
-            class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
           >
               <pf-form-group label="Root Cause Type" field-id="rootCauseType" required>
               <div class="pf-c-form__group-control">
@@ -308,7 +308,7 @@ export default {
             </pf-form-group>
           </div>
            <div
-            class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl"
+            class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl"
           >
                       <pf-form-group label="Root Cause Item" field-id="rootCauseItem" required>
 
@@ -327,7 +327,7 @@ export default {
               </div>
             </pf-form-group>
           </div>
-                        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                        <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                             <pf-form-group label="Root Cause Description" field-id="rootCauseDescription">
                                 <pf-text-input id="rootCauseDescription_input" name="rootCauseDescription"
                                     v-model="data.faultSolution.rootCauseDescription"/>
@@ -373,13 +373,13 @@ export default {
                               <template #description>
                             <pf-form @submit.prevent="submitWO">
                               <div class="pf-l-grid">
-                                <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                                <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                                   <pf-form-group label="Dispacher" field-id="dispatcher" required>
                                     <pf-text-input id="dispatcher_input" name="dispatcher" required
                                               v-model="data.dispatcher"/>
                                       </pf-form-group>
                                   </div>
-                                  <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
+                                  <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-md pf-m-6-col-on-xl">
                                     <pf-form-group label="Dispacher Group" field-id="dispatchers" required>
                                       <pf-text-input id="dispatchers_input" name="dispatchers" required
                                               v-model="data.dispatchers"/>
@@ -407,7 +407,7 @@ export default {
             </pf-card>
           </div>
         </div>
-        <div class="pf-l-grid__item pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
+        <div class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-6-col-on-xl">
           <div class="side">
             <pf-card>
               <pf-card-body>
