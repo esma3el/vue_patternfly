@@ -88,7 +88,7 @@
         </tr>
       </tbody>
     </table>
-    <pf-pagination
+    <pf-pagination      
       v-model:page="page"
       v-model:per-page="perPage"
       :count="tasks_aggregate?.aggregate?.count"
@@ -186,10 +186,27 @@ export default {
   watch: {
     page() {
       this.offset = (this.page - 1) * this.perPage;
+      this.$router
+          .push({ query: { ...this.$route.query, page: this.page } })
+          .catch(() => {});
     },
     // $route(){
     //   alert('working')
     //   }
+  },computed:{
+
+    currentPage: {
+      get() {
+        return this.$route.query.page || 1;
+      },
+      set(newPage) {
+        // You could alternatively call your API here if you have serverside pagination
+
+        this.$router
+          .push({ query: { ...this.$route.query, page: newPage } })
+          .catch(() => {});
+      }
+    }
   },
   apollo: {
     tasks: {

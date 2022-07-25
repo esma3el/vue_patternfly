@@ -1,7 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import ProcessedByMe from "../views/ProcessedByMe.vue";
-import About from "../views/About.vue";
 // import store from "../store/store.js";
 
 // store.commit('set_keycloak')
@@ -15,11 +14,6 @@ const routes = [
     path: "/processed-by-me",
     name: "ProcessedByMe",
     component: ProcessedByMe,
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: About,
   },
   {
     path: "/changeRequests/createNew",

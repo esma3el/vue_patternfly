@@ -149,6 +149,9 @@ export default {
     page() {
       this.offset = (this.page - 1) * this.perPage;
       this.searchdata();
+        this.$router
+          .push({ query: { ...this.$route.query, page: this.page } })
+          .catch(() => {});
     },
     perPage() {
       this.searchdata();
@@ -311,7 +314,6 @@ export default {
       <tr v-for="item in data">
         <td>
           <router-link
-            target="_blank"
             v-if="item.tasks[0]"
             :to="`/${item.processid}/${item.id}/${item.tasks[0]?.name}/${item.tasks[0]?.id}`"
             >{{ item.businesskey }}</router-link
@@ -319,7 +321,6 @@ export default {
           <router-link
             v-else
             :to="`/${item.processid}/${item.id}`"
-            target="_blank"
             >{{ item.businesskey }}</router-link
           >
         </td>
@@ -346,7 +347,7 @@ export default {
                 </template>
                 <pf-dropdown-item>
                   <router-link
-                    target="_blank"
+                    
                     v-if="item.tasks[0]"
                     :to="`/${item.processid}/${item.id}/${item.tasks[0]?.name}/${item.tasks[0]?.id}`"
                     ><i class="fa-solid fa-arrow-right"></i> View Ticket</router-link
@@ -354,7 +355,7 @@ export default {
                   <router-link
                     v-else
                     :to="`/${item.processid}/${item.id}`"
-                    target="_blank"
+                    
                     ><i class="fa-solid fa-arrow-right"></i> View Ticket</router-link>
                 </pf-dropdown-item>
                 <pf-dropdown-item>

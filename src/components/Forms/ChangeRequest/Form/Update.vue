@@ -280,7 +280,7 @@ if(req.ok){
               >
                 <pf-action-group>
                   <pf-button block type="submit" variant="primary">Submit</pf-button>
-                  <pf-button block variant="tertiary">Cancel</pf-button>
+                  <pf-button @click="$router.go(-1)" block variant="tertiary">Cancel</pf-button>
                 </pf-action-group>
               </div>
             </pf-form>

@@ -187,8 +187,8 @@ if(req.ok){
                 class="pf-l-grid__item pf-m-12-col pf-m-12-col-on-md pf-m-12-col-on-xl"
               >
                 <pf-action-group>
-                  <pf-button block type="submit" variant="primary">Submit</pf-button>
-                  <pf-button block variant="tertiary">Cancel</pf-button>
+                  <pf-button block type="submit" variant="primary">Submit</pf-button>                  
+                  <pf-button @click="$router.go(-1)" block variant="tertiary">Cancel</pf-button>
                 </pf-action-group>
               </div>
             </pf-form>

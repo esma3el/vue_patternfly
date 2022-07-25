@@ -1,12 +1,13 @@
 <template>
   <div>
-    <table
+    <table    
       class="pf-c-table pf-m-compact pf-m-grid-md"
       role="grid"
       aria-label="This is a simple table example"
       id="table-basic"
     >
       <caption>
+        <pf-spinner size="sm" />
       </caption>
       <thead>
         <tr role="row">
@@ -20,9 +21,18 @@
         </tr>
       </thead>
 
-      <tbody role="rowgroup" v-if="$apollo.loading">
-        <pf-spinner />
-      </tbody>
+      
+      
+      <div>
+        <pf-skeleton width="50%" />
+          <br>
+          <pf-skeleton width="60%" />
+          <br>
+          <pf-skeleton width="75%" />
+          <br>
+          <pf-skeleton width="100%" />
+      </div>
+      <pf-spinner v-if="$apollo.loading"/>
       <tbody role="rowgroup" v-else>
         <tr role="row" v-for="process in processes">
           <td role="cell" data-label="Ticket ID">
@@ -128,6 +138,9 @@ export default {
   },watch:{
       page(){
         this.offset = (this.page - 1) * this.perPage
+          this.$router
+          .push({ query: { ...this.$route.query, page: this.page } })
+          .catch(() => {});
       }
   },mounted(){
     
@@ -154,4 +167,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+</style>

@@ -45,7 +45,7 @@
           <td role="cell" data-label="Handler">
             {{ task.tasks_potential_groups[0].group_id }}
           </td>
-          <td role="cell" data-label="Process Name">
+          <td v-if="task.proces" role="cell" data-label="Process Name">
             {{ task.process.processname }}
           </td>
           <td role="cell" data-label="Created">{{ task.process.starttime.slice(0,16).replace("T"," ") }}</td>
@@ -141,6 +141,9 @@ export default {
   watch: {
     page() {
       this.offset = (this.page - 1) * this.perPage;
+      this.$router
+          .push({ query: { ...this.$route.query, page: this.page } })
+          .catch(() => {});
     },
   },
   apollo: {
